@@ -15,10 +15,11 @@ namespace TestProject
         {
         }
 
+        #endregion
+
         public GroupConstrutors2(string a)
         {
         }
 
-        #endregion
     }
 }
