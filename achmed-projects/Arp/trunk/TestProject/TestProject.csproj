@@ -36,6 +36,7 @@
     <Compile Include="GroupConstrutors1.cs" />
     <Compile Include="GroupConstrutors2.cs" />
     <Compile Include="GroupMembers1.cs" />
+    <Compile Include="GroupMenebers2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

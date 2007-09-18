@@ -6,6 +6,10 @@ namespace TestProject
 {
     public class GroupConstrutors1
     {
+        private string a;
+        private string b;
+        private int c;
+        
         /// <summary>
         /// blah blah blah
         /// </summary>
@@ -16,5 +20,13 @@ namespace TestProject
         public GroupConstrutors1(int a)
         {
         }
+
+        private event EventHandler h1;
+
+        public string A
+        {
+            get { return a; }
+        }
+
     }
 }
