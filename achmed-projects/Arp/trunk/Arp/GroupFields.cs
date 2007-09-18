@@ -8,9 +8,11 @@ using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Daemon.CSharp.ContextActions.Util;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.TextControl;
+using JetBrains.Shell;
 using JetBrains.Util;
 
 namespace Arp
@@ -36,23 +38,64 @@ namespace Arp
             Assert.CheckNotNull(declaration);
             
             List<IGroupingOption> options = new List<IGroupingOption>();
-            options.Add(new ConstructorsGrouping(declaration));
+
+            options.Add(new PredicateGrouping(declaration, "Delegates", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is IDelegateDeclaration;
+                                                                               }));
+
+
+            options.Add(new PredicateGrouping(declaration, "Types", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is ITypeDeclaration;
+                                                                               }));
+
             
+            options.Add(new PredicateGrouping(declaration, "Fields", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is IFieldDeclaration;
+                                                                               }));
+
+            options.Add(new PredicateGrouping(declaration, "Events", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is IEventDeclaration;
+                                                                               }));            
+
+            options.Add(new PredicateGrouping(declaration, "Constructors", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is IConstructorDeclaration;
+                                                                               }));
+
+            options.Add(new PredicateGrouping(declaration, "Properties", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is IPropertyDeclaration;
+                                                                               }));
+            
+            options.Add(new PredicateGrouping(declaration, "Methods", delegate(ITypeMemberDeclaration obj)
+                                                                               {
+                                                                                   return obj is IMethodDeclaration;
+                                                                               }));
+            
+            // TODO add other groping fore move from regions
+
             RegionDecorator regionDecorator = new RegionDecorator(declaration.ToTreeNode());
 
-            IList<ITypeMemberDeclaration> declarations = declaration.MemberDeclarations;
-            foreach (ITypeMemberDeclaration memberDeclaration in declarations)
+            using (WriteLockCookie cookie = WriteLockCookie.Create())
             {
+                IList<ITypeMemberDeclaration> declarations = declaration.MemberDeclarations;
+                foreach (ITypeMemberDeclaration memberDeclaration in declarations)
+                {
+                    foreach (IGroupingOption option in options)
+                    {
+                        if (option.IsAccept(memberDeclaration))
+                            break;
+                    }
+                }
+
                 foreach (IGroupingOption option in options)
                 {
-                    if(option.IsAccept(memberDeclaration))
-                        break;
-                }
-            }
-
-            foreach (IGroupingOption option in options)
-            {
-                option.Execute();
+                    option.Execute();
+                }                
             }
 
         }

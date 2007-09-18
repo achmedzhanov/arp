@@ -9,12 +9,11 @@ using Arp.Assertions;
 
 namespace Arp
 {
-    public class ConstructorsGrouping : IGroupingOption
+    public abstract class BaseGrouping : IGroupingOption
     {
-        private ITypeDeclaration declaration;
-        private List<IConstructorDeclaration> constructorDeclarations = new List<IConstructorDeclaration>();
+        protected readonly ITypeDeclaration declaration;
 
-        public ConstructorsGrouping(ITypeDeclaration declaration)
+        public BaseGrouping(ITypeDeclaration declaration)
         {
             if (declaration == null)
                 throw new ArgumentNullException("declaration");
@@ -22,36 +21,12 @@ namespace Arp
             this.declaration = declaration;
         }
 
-        public bool IsAccept(ITypeMemberDeclaration memberDeclaration)
-        {
-            IConstructorDeclaration constructorDesclaration = memberDeclaration as IConstructorDeclaration;
-            if (constructorDesclaration == null)
-                return false;
-            constructorDeclarations.Add(constructorDesclaration);
-            return true;
-        }
 
-        public void Execute()
-        {
-            if (constructorDeclarations.Count == 0)
-                return;
+        public abstract bool IsAccept(ITypeMemberDeclaration memberDeclaration);
 
 
-            IClassBodyNode bodyNode = ((IClassLikeDeclarationNode)declaration.ToTreeNode()).Body;
-            //
+        public abstract void Execute();
 
-            using (WriteLockCookie cookie = WriteLockCookie.Create())
-            {
-                ITreeNode after = FindOrCreateRegion("Constructors");
-
-                foreach (IConstructorDeclaration constructorDeclaration in constructorDeclarations)
-                {
-                    IConstructorDeclarationNode cdn = constructorDeclaration.ToTreeNode();
-                    ModificationUtil.DeleteChild(cdn);
-                    after = ModificationUtil.AddChildAfter<ITreeNode>(after, cdn);
-                }
-            }
-        }
 
         protected IStartRegionNode FindOrCreateRegion(string regionType)
         {

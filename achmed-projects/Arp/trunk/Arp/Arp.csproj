@@ -90,9 +90,10 @@
   <ItemGroup>
     <Compile Include="Assertions\Assert.cs" />
     <Compile Include="Assertions\AssertException.cs" />
-    <Compile Include="ConstructorsGrouping.cs" />
+    <Compile Include="BaseGrouping.cs" />
     <Compile Include="GroupFields.cs" />
     <Compile Include="IGroupingOption.cs" />
+    <Compile Include="PredicateGrouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
