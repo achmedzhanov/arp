@@ -4,16 +4,16 @@ using System.Text;
 
 namespace TestProject
 {
-    public class Class1
+    public class GroupConstrutors1
     {
         /// <summary>
         /// blah blah blah
         /// </summary>
-        public Class1()
+        public GroupConstrutors1()
         {
         }
 
-        public Class1(int a)
+        public GroupConstrutors1(int a)
         {
         }
     }
