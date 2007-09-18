@@ -42,14 +42,7 @@ namespace Arp
 
             using (WriteLockCookie cookie = WriteLockCookie.Create())
             {
-                ITreeNode after = null;
-                
-                using (WriteLockCookie cookie1 = WriteLockCookie.Create())
-                {
-                    IStartRegionNode start = CreateStartRegion("Constructors");
-                    Assert.CheckNotNull(start);
-                    after = ModificationUtil.AddChildAfter<ITreeNode>(bodyNode.FirstChild, start);
-                }
+                ITreeNode after = FindOrCreateRegion("Constructors");
 
                 foreach (IConstructorDeclaration constructorDeclaration in constructorDeclarations)
                 {
@@ -57,15 +50,43 @@ namespace Arp
                     ModificationUtil.DeleteChild(cdn);
                     after = ModificationUtil.AddChildAfter<ITreeNode>(after, cdn);
                 }
+            }
+        }
 
-                using (WriteLockCookie cookie2 = WriteLockCookie.Create())
+        protected IStartRegionNode FindOrCreateRegion(string regionType)
+        {
+            IClassBodyNode body = ((IClassLikeDeclarationNode)declaration.ToTreeNode()).Body;
+            IStartRegionNode startRegionNode = (IStartRegionNode)body.FindNextNode(                
+                delegate(ITreeNode treeNode)
+                    {
+                        IStartRegionNode node = treeNode as IStartRegionNode;
+                        if(node != null && node.Name == regionType)
+                            return TreeNodeActionType.ACCEPT;
+                        else
+                            return TreeNodeActionType.CONTINUE;
+                    });
+
+            
+            if(startRegionNode == null)
+            {
+                startRegionNode = CreateStartRegion(regionType);
+                startRegionNode = (IStartRegionNode)ModificationUtil.AddChildAfter<ITreeNode>(body.FirstChild, startRegionNode);
+            }
+
+            if(startRegionNode.EndRegion == null)
+            {
+                using (WriteLockCookie cookie = WriteLockCookie.Create())
                 {
                     IEndRegionNode end = CreateEndRegion();
                     Assert.CheckNotNull(end);
-                    ModificationUtil.AddChildAfter<ITreeNode>(after, end);
-                }
-
+                    ModificationUtil.AddChildAfter<ITreeNode>(startRegionNode, end);
+                }                    
             }
+
+            Assert.CheckNotNull(startRegionNode.EndRegion);
+
+            return startRegionNode;
+           
         }
 
         protected IStartRegionNode CreateStartRegion(string regionType)
