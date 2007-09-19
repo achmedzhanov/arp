@@ -11,9 +11,16 @@ namespace TestProject
             
         }
         
+
         private string a;
+
+        #region Fields
+        sdfsdfsf
         private string b;
         private int c;
+
+        #endregion
+
 
 
         public GroupMembers2()

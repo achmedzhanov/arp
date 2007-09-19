@@ -8,7 +8,7 @@ using JetBrains.Shell;
 
 namespace Arp
 {
-    public class PredicateGrouping : BaseGrouping
+    public class PredicateGrouping : BaseRegionsModifier, IGroupingOption
     {
         private List<ITypeMemberDeclaration> filedDeclarations = new List<ITypeMemberDeclaration>();
         private string regionType;
@@ -28,7 +28,7 @@ namespace Arp
 
         }
 
-        public override bool IsAccept(ITypeMemberDeclaration memberDeclaration)
+        public virtual bool IsAccept(ITypeMemberDeclaration memberDeclaration)
         {
             
             if(!predicate(memberDeclaration))
@@ -38,7 +38,7 @@ namespace Arp
             return true;
         }
 
-        public override void Execute()
+        public virtual void Execute()
         {
             if (filedDeclarations.Count == 0)
                 return;
