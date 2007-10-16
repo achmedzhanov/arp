@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Arp.Grouping;
 using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Shell;
 
-namespace Arp
+namespace Arp.Grouping
 {
     public class PredicateGrouping : BaseRegionsModifier, IGroupingOption
     {
@@ -56,7 +57,7 @@ namespace Arp
 
                         MultipleDeclarationUtil.SplitDeclarationBefore((IMultipleDeclarationMemberNode)cdn);
                         cdn = 
-                           ((IMultipleDeclarationMemberNode)cdn).MultipleDeclaration;
+                            ((IMultipleDeclarationMemberNode)cdn).MultipleDeclaration;
                     }
 
                     after = ModificationUtil.AddChildAfter<ITreeNode>(after, cdn);

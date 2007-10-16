@@ -9,6 +9,8 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Arp</RootNamespace>
     <AssemblyName>Arp</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>Arp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,74 +30,121 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JetBrains.ActionManagement, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ActionManagement.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.ReSharper.CodeInsight.Services.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.CSharp.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.Daemon, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Daemon.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.Daemon.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Daemon.CSharp.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.DocumentManager, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.DocumentManager.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.DocumentModel, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.DocumentModel.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.IDECore, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.IDECore.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.NewRefactorings, Version=3.0.535.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.NewRefactorings.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.ReSharper.ProjectModel, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.ProjectModel.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.Psi, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Psi.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.ReSharper.Psi.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Psi.CSharp.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Shell, Version=2.0.270.28, Culture=neutral">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\dotTrace 3.0\JetBrains.ReSharper.Shell.dll</HintPath>
+    </Reference>
+    <Reference Include="jetbrains.resharper.solutionbuildtool, Version=3.0.535.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\jetbrains.resharper.solutionbuildtool.exe</HintPath>
     </Reference>
     <Reference Include="jetbrains.resharper.textcontrol, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\jetbrains.resharper.textcontrol.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Shell, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.Shell.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="jetbrains.ui, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\jetbrains.ui.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Util, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.Util.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="jetbrains.vsintegration, Version=3.0.535.11, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\jetbrains.vsintegration.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assertions\Assert.cs" />
     <Compile Include="Assertions\AssertException.cs" />
-    <Compile Include="BaseRegionsModifier.cs" />
-    <Compile Include="GroupMembers.cs" />
-    <Compile Include="IGroupingOption.cs" />
-    <Compile Include="PredicateGrouping.cs" />
+    <Compile Include="UnusedReferences\DeleteUnusedReferencesAction.cs" />
+    <Compile Include="UnusedReferences\DeleteUnusedReferencesWorkflow.cs" />
+    <Compile Include="Grouping\BaseRegionsModifier.cs" />
+    <Compile Include="Grouping\GroupMembers.cs" />
+    <Compile Include="Grouping\IGroupingOption.cs" />
+    <Compile Include="Grouping\PredicateGrouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReorderRegions.cs" />
+    <Compile Include="Grouping\ReorderRegions.cs" />
+    <Compile Include="UnusedReferences\UnusedModulesProcessor.cs" />
+    <Compile Include="Tests\UnusedModulesProcessorTests.cs" />
+    <Compile Include="UnusedReferences\UnusedModulesProjectVisitor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Actions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Arp.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tests\TestShellConfig.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

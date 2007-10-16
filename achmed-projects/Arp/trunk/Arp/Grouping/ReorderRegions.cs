@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using Arp.Assertions;
+using Arp.Grouping;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Shell;
 
-namespace Arp
+namespace Arp.Grouping
 {
     public class ReorderRegions : BaseRegionsModifier
     {

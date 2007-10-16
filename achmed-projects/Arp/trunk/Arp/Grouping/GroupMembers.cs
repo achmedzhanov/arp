@@ -15,9 +15,10 @@ using JetBrains.ReSharper.TextControl;
 using JetBrains.Shell;
 using JetBrains.Util;
 
-namespace Arp
+namespace Arp.Grouping
 {
-    [ContextAction(Name = "Group Fileds")]
+//    [ContextAction(Name = "Group Fileds")]
+    [Obsolete]
     public class GroupMembers : OneItemContextActionBase
     {
         private const string DELEGATES = "Delegates";
@@ -49,63 +50,58 @@ namespace Arp
             List<IGroupingOption> options = new List<IGroupingOption>();
 
             options.Add(new PredicateGrouping(declaration, DELEGATES, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is IDelegateDeclaration;
-                                                                               }));
+                                                                          {
+                                                                              return obj is IDelegateDeclaration;
+                                                                          }));
 
 
             options.Add(new PredicateGrouping(declaration, TYPES, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is ITypeDeclaration;
-                                                                               }));
+                                                                      {
+                                                                          return obj is ITypeDeclaration;
+                                                                      }));
 
             
             options.Add(new PredicateGrouping(declaration, FIELDS, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is IFieldDeclaration;
-                                                                               }));
+                                                                       {
+                                                                           return obj is IFieldDeclaration;
+                                                                       }));
 
             options.Add(new PredicateGrouping(declaration, EVENTS, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is IEventDeclaration;
-                                                                               }));            
+                                                                       {
+                                                                           return obj is IEventDeclaration;
+                                                                       }));            
 
             options.Add(new PredicateGrouping(declaration, CONSTRUCTORS, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is IConstructorDeclaration;
-                                                                               }));
+                                                                             {
+                                                                                 return obj is IConstructorDeclaration;
+                                                                             }));
 
             options.Add(new PredicateGrouping(declaration, PROPERTIES, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is IPropertyDeclaration;
-                                                                               }));
-
-            options.Add(new PredicateGrouping(declaration, HANDLERS, delegate(ITypeMemberDeclaration obj)
-                                                                         {
-                                                                             IMethodDeclaration methodDeclaration = obj as IMethodDeclaration;
-                                                                             if (methodDeclaration == null)
-                                                                                 return false;
-
-                                                                             IList<IRegularParameterDeclaration> parameters = methodDeclaration.ParameterDeclarations;
-                                                                             if (parameters == null)
-                                                                                 return false;
-
-                                                                             if (parameters.Count != 2)
-                                                                                 return false;
-
-                                                                             check for typeof object
-                                                                             parameters[0].T
-
-                                                                             check for typeof EventArgs
-                                                                             parameters[1].T
-
-                                                                             return parameters;
-                                                                         }));
+                                                                           {
+                                                                               return obj is IPropertyDeclaration;
+                                                                           }));
+//
+//            options.Add(new PredicateGrouping(declaration, HANDLERS, delegate(ITypeMemberDeclaration obj)
+//                                                                         {
+//                                                                             IMethodDeclaration methodDeclaration = obj as IMethodDeclaration;
+//                                                                             if (methodDeclaration == null)
+//                                                                                 return false;
+//
+//                                                                             IList<IRegularParameterDeclaration> parameters = methodDeclaration.ParameterDeclarations;
+//                                                                             if (parameters == null)
+//                                                                                 return false;
+//
+//                                                                             if (parameters.Count != 2)
+//                                                                                 return false;
+//
+//
+//
+//                                                                        }));
             
             options.Add(new PredicateGrouping(declaration, METHODS, delegate(ITypeMemberDeclaration obj)
-                                                                               {
-                                                                                   return obj is IMethodDeclaration;
-                                                                               }));
+                                                                        {
+                                                                            return obj is IMethodDeclaration;
+                                                                        }));
 
 
             

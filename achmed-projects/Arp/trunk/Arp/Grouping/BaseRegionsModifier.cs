@@ -7,7 +7,7 @@ using JetBrains.Shell;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using Arp.Assertions;
 
-namespace Arp
+namespace Arp.Grouping
 {
     public class BaseRegionsModifier
     {
@@ -34,14 +34,14 @@ namespace Arp
         {
             IClassBodyNode body = ((IClassLikeDeclarationNode)declaration.ToTreeNode()).Body;
             IStartRegionNode startRegionNode = (IStartRegionNode)body.FindNextNode(
-                delegate(ITreeNode treeNode)
-                {
-                    IStartRegionNode node = treeNode as IStartRegionNode;
-                    if (node != null && node.Name == regionType)
-                        return TreeNodeActionType.ACCEPT;
-                    else
-                        return TreeNodeActionType.CONTINUE;
-                });
+                                                                     delegate(ITreeNode treeNode)
+                                                                         {
+                                                                             IStartRegionNode node = treeNode as IStartRegionNode;
+                                                                             if (node != null && node.Name == regionType)
+                                                                                 return TreeNodeActionType.ACCEPT;
+                                                                             else
+                                                                                 return TreeNodeActionType.CONTINUE;
+                                                                         });
             return startRegionNode;
         }
 
@@ -86,11 +86,11 @@ namespace Arp
         {
             CSharpElementFactory factory = CSharpElementFactory.GetInstance(declaration.GetManager().Solution);
             T createdNode = (T)factory.CreateFile(text, new object[0]).ToTreeNode().FindNextNode(
-                delegate(ITreeNode treeNode)
-                {
-                    return (treeNode as T) != null ?
-                        TreeNodeActionType.ACCEPT : TreeNodeActionType.CONTINUE;
-                });
+                                   delegate(ITreeNode treeNode)
+                                       {
+                                           return (treeNode as T) != null ?
+                                                                              TreeNodeActionType.ACCEPT : TreeNodeActionType.CONTINUE;
+                                       });
 
             return createdNode;            
         }
