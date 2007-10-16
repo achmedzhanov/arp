@@ -33,6 +33,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BigFile.cs" />
     <Compile Include="GroupConstrutors1.cs" />
     <Compile Include="GroupConstrutors2.cs" />
     <Compile Include="GroupMembers1.cs" />
