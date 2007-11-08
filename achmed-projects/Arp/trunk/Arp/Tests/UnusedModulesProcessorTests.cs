@@ -14,20 +14,8 @@ using PlatformID=JetBrains.ProjectModel.Platforms.PlatformID;
 namespace Arp.Tests
 {
     [TestFixture]
-    public class UnusedModulesProcessorTests
+    public class UnusedModulesProcessorTests : BaseTest
     {
-        static UnusedModulesProcessorTests()
-        {
-            if (JetBrains.ReSharper.Shell.Shell.Instance == null)
-            {
-                new TestShell(typeof (UnusedModulesProcessorTests).Assembly, "Arp.Tests.TestShellConfig.xml");
-            }
-        }
-
-        private const string testFilesDirectory = "..\\..\\..\\TestFiles";
-        // Debug|Release\
-        //              bin\
-        //                  ProjectName\
 
         [Test]
         public void ShellEnviroment()
@@ -38,31 +26,6 @@ namespace Arp.Tests
         }
 
 
-        private Pair<ISolution, IProjectFile> CreateSingleFileSolution(string relativeProjectDirectory, string fileName)
-        {
-            PlatformInfo platformInfo = PlatformManager.Instance.GetPlatformInfo("Standard", Environment.Version);
-            string projectDirectory = Path.Combine(testFilesDirectory, relativeProjectDirectory);
-
-            FileSystemPath filePath = new FileSystemPath(Path.Combine(projectDirectory, fileName));
-            if(!File.Exists(filePath.ToString()))
-                Assert.Fail("File does not exists {0}", filePath);
-
-            ISolution solution =
-                SolutionManager.Instance.CreateSolution(
-                    new FileSystemPath(Path.Combine(projectDirectory, "TestSolution.sln")));
-            IProject project =
-                solution.CreateProject(new FileSystemPath(Path.Combine(projectDirectory, "TestProject.csproj")),
-                                       ProjectFileType.CSHARP,
-                                       platformInfo.PlatformID);
-
-            Arp.Assertions.Assert.CheckNotNull(platformInfo);
-            project.AddAssemblyReference(platformInfo.MscorlibPath.ToString());
-            
-            IProjectFile file = project.CreateFile(filePath);
-
-            return new Pair<ISolution, IProjectFile>(solution, file);
-        }
-
         [Test]
         public void DeclaredVariable()
         {
@@ -72,7 +35,7 @@ namespace Arp.Tests
             {
                 IProjectFile projectFile = solutionHolder.Second;
                 ICollection<IModuleReference> references = projectFile.GetProject().GetModuleReferences();
-                List<IModule> modules = new List<IModule>();
+                HashSet<IModule> modules = new HashSet<IModule>();
                 foreach (IModuleReference reference in references)
                 {
                     IModule module = reference.ResolveReferencedModule();
@@ -84,9 +47,9 @@ namespace Arp.Tests
 
 //                new AllNonQualifiedReferencesResolver().ProcessFile(file);
                 UnusedModulesProcessor processor = new UnusedModulesProcessor(modules);
-                Assert.AreEqual(1, processor.Candidates.Count);
+                Assert.AreEqual(1, modules.Count);
                 file.ProcessDescendants(processor);
-                Assert.AreEqual(0, processor.Candidates.Count);
+                Assert.AreEqual(0, modules.Count);
             }
             finally
             {

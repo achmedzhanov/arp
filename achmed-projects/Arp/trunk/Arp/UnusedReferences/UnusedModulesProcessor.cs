@@ -13,57 +13,15 @@ namespace Arp
     {
         private readonly HashSet<IModule> candidates;
 
-
-        public ICollection<IModule> Candidates
-        {
-            get
-            {
-                return new List<IModule>(candidates);
-            }
-        }
-
-        public UnusedModulesProcessor(ICollection<IModule> candidates)
+        public UnusedModulesProcessor(HashSet<IModule> candidates)
         {
             if (candidates == null) 
                 throw new ArgumentNullException("candidates");
 
-            this.candidates = new HashSet<IModule>(candidates);
+            this.candidates = candidates;
         }
 
-        class ElementProcessor
-        {
-            private readonly HashSet<IModule> scopeModules;
-//            private readonly HashSet<ITypeElement> processedElements = new HashSet<ITypeElement>();
-
-            public ElementProcessor(HashSet<IModule> scopeModules)
-            {
-                this.scopeModules = scopeModules;
-            }
-
-            public void ProcessElement(IDeclaredElement declaredElement)
-            {
-                // TODO check for mscorlib
-
-                ITypeElement typeElement = declaredElement as ITypeElement;
-
-                if (typeElement != null)
-                {
-//                    IDeclaredType declaredType = TypeFactory.CreateType(typeElement);
-
-                    IModule module = declaredElement.Module;
-                    if (scopeModules.Contains(module))
-                        DropModule(module);                    
-                }
-
-            }
-
-            protected void DropModule(IModule module)
-            {
-                // TODO support for multimodule assemblies
-                scopeModules.Remove(module);
-            }
-        }
-
+        
         public bool InteriorShouldBeProcessed(IElement element)
         {
             if (candidates.Count == 0)
@@ -87,8 +45,20 @@ namespace Arp
                 {
                     resolved = resolved.GetContainingType();
                 }
-                ElementProcessor elementProcessor = new ElementProcessor(candidates);
-                elementProcessor.ProcessElement(resolved);
+
+                {
+                    ITypeElement typeElement = resolved as ITypeElement;
+
+                    if (typeElement != null)
+                    {
+                        //                    IDeclaredType declaredType = TypeFactory.CreateType(typeElement);
+
+                        IModule module = resolved.Module;
+                        if (candidates.Contains(module))
+                            candidates.Remove(module);
+                    }                    
+                }
+
             }
         }
 

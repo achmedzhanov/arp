@@ -1,9 +1,13 @@
 using System.Windows.Forms;
+using Arp.Assertions;
+using Arp.UnusedReferences.UI;
 using JetBrains.ActionManagement;
 using JetBrains.ProjectModel;
 using JetBrains.Shell;
 using JetBrains.UI;
+using JetBrains.UI.PopupWindowManager;
 using JetBrains.UI.Shell;
+using JetBrains.WindowManagement;
 
 namespace Arp
 {
@@ -28,16 +32,6 @@ namespace Arp
             else
                 return false;
 
-//            
-//            
-//            IProjectModelElement modelElement = context.GetData<IProjectModelElement>(JetBrains.ReSharper.DataConstants.PROJECT_MODEL_ELEMENT);
-//
-//            IModuleReference reference = modelElement as IModuleReference;
-//            if (reference != null)
-//            {
-//                return (reference.ResolveReferencedModule() != null);
-//            }
-//            return false;
         }
 
         ///<summary>
@@ -50,9 +44,24 @@ namespace Arp
         ///<param name="nextExecute">delegate to call</param>
         public void Execute(IDataContext context, DelegateExecute nextExecute)
         {
+            ISolution solution = context.GetData<ISolution>(JetBrains.ReSharper.DataConstants.SOLUTION);
+            Assert.CheckNotNull(solution);
+            UnusedModulesProjectVisitor visitor = new UnusedModulesProjectVisitor();
+            solution.Accept(visitor);
+            if (visitor.GetTotalUnusedModules() == 0)
+                WindowUtil.ShowMessageBox("Unsued references not found", UIApplicationShell.Instance.Descriptor.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            else
+            {
+
+                ModulesChooserPanel panel = new ModulesChooserPanel(visitor.GetAllUnusedModules());
+                panel.AutoActivate = true;
+                IPopupWindow window = PopupWindowManager.CreatePopupWindow(panel,
+                                                                           DevenvLayouter.CreateCenteredCorner
+                                                                               (), PopupWindowContext.Empty,
+                                                                           ~HideFlags.None, true);
+                window.ShowWindow();
+            }
             
- 
-            WindowUtil.ShowMessageBox("Unsued references not found", UIApplicationShell.Instance.Descriptor.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
     }
 }
