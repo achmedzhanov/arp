@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Arp.UnusedReferences;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Tree;

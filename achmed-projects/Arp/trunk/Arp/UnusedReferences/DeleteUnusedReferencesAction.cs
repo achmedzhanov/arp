@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using Arp.Assertions;
+using Arp.UnusedReferences;
 using Arp.UnusedReferences.UI;
 using JetBrains.ActionManagement;
 using JetBrains.ProjectModel;
@@ -53,7 +54,7 @@ namespace Arp
             else
             {
 
-                ModulesChooserPanel panel = new ModulesChooserPanel(visitor.GetAllUnusedModules());
+                ModulesChooserPanel panel = new ModulesChooserPanel(visitor.GetSearchResults());
                 panel.AutoActivate = true;
                 IPopupWindow window = PopupWindowManager.CreatePopupWindow(panel,
                                                                            DevenvLayouter.CreateCenteredCorner

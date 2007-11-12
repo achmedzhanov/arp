@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Arp.UnusedReferences;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util;
 
-namespace Arp
+namespace Arp.UnusedReferences
 {
     public class UnusedModulesProjectVisitor : RecursiveProjectVisitor
     {
@@ -21,20 +22,18 @@ namespace Arp
             return results[project];
         }
 
-        
-        /// <summary>
-        /// only for debug
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<IModule> GetAllUnusedModules()
+        public UnusedReferencesSearchResult GetSearchResults()
         {
-            List<IModule> ret = new List<IModule>();
+            UnusedReferencesSearchResult ret = new UnusedReferencesSearchResult();
             foreach (KeyValuePair<IProject, ICollection<IModule>> pair in results)
             {
-                ret.AddRange(pair.Value);
+                if (pair.Value.Count > 0)
+                    ret.Add(pair.Key, new List<IModule>(pair.Value));
             }
-            return ret;            
+            
+            return ret;
         }
+
 
         public int GetTotalUnusedModules()
         {
@@ -61,6 +60,9 @@ namespace Arp
             foreach (IAssemblyReference assemblyReference in assemblyReferences)
             {
                 IModule module = assemblyReference.ResolveReferencedModule();
+                // TODO
+//                IAssembly assembly = assemblyReference.ResolveReferencedAssembly();
+//                assembly.GetFiles()[0].
                 if (module != null)
                     candidates.Add(module);
             }

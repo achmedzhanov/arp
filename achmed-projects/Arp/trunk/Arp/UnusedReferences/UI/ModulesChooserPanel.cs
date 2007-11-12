@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,6 +9,7 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors.Controls;
 using JetBrains.CommonControls;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.Psi;
 using JetBrains.UI;
 using JetBrains.UI.Controls;
 using JetBrains.UI.PopupMenu;
@@ -21,40 +23,42 @@ namespace Arp.UnusedReferences.UI
     public partial class ModulesChooserPanel : Form, IConstrainableControl
     {
         private bool autoActivate;
-        private TreeModelPresentableView treeView;
-        private List<MenuItemDescriptor> descriptors = new List<MenuItemDescriptor>();
+        private TreeModelViewChecked treeView;
+        private readonly UnusedReferencesSearchResult searchResults;
 
-        public ModulesChooserPanel(ICollection<IModule> modules)
+        public ModulesChooserPanel(UnusedReferencesSearchResult searchResults)
         {
-            foreach (IModule module in modules)
-            {
-                MenuItemDescriptor item = new MenuItemDescriptor(module);
-                item.Tag = module;
-                item.Text = module.Name;
-//                item.Icon = TODO
-                descriptors.Add(item);
-            }
+            this.searchResults = searchResults;
 
             base.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Selectable | ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.ContainerControl, true);
             InitializeComponent();
 
-//            this.treeView.Presenter = new StructuredPresenter<TreeModelNode>();
-////            this.treeView.Presenter.Present<IMenuItemDescriptor>(new PresentationCallback<TreeModelNode, IMenuItemDescriptor>(TypeChooserTreePopup.OnTreeViewPresent));
-//
-//            this.treeView.Model = new TreeDemandModel2(delegate(object datavalue)
-//            {
-//                return descriptors;
-//            });
-
             InitTree();
-
+            CheckAll();
         }
+
+
+
+        private void CheckAll()
+        {
+            foreach (TreeModelViewNode viewNode in this.treeView.IterateForward(delegate {
+                                                                                             return true;
+            }))
+            {
+                TreeModelNode node = this.treeView.ViewToModel(viewNode);
+                if (node != null)
+                {
+                    this.treeView.SetNodeState(node, CheckState.Checked);
+                }
+            }
+        }
+
 
         private void InitTree()
         {
             using (LayoutSuspender suspender = new LayoutSuspender(this))
             {
-                this.treeView = new TreeModelPresentableView();
+                this.treeView = new TreeModelViewChecked();
                 this.treeView.BeginInit();
                 this.treeView.Appearance.Empty.BackColor = SystemColors.Window;
                 this.treeView.Appearance.Empty.Options.UseBackColor = true;
@@ -104,14 +108,49 @@ namespace Arp.UnusedReferences.UI
                             }
                         });
                 base.Controls.Add(this.treeView);
-                this.treeView.Model = new TreeDemandModel2(delegate(object datavalue)
-                                                               {
-                                                                   MenuItemDescriptor descriptor = datavalue as MenuItemDescriptor;
-                                                                   if(descriptor != null)
-                                                                       return EmptyArray<object>.Instance;
-                                                                   return descriptors;
-                                                               });
+                this.treeView.Model = new TreeDemandModel2(GetItems);
+
             }
+        }
+
+        private IEnumerable GetItems(object datavalue)
+        {
+           MenuItemDescriptor descriptor = datavalue as MenuItemDescriptor;
+           if(descriptor == null)
+           {
+               List<MenuItemDescriptor> descriptors = new List<MenuItemDescriptor>();
+               foreach (IProject project in searchResults.Projects)
+               {
+                   
+                   MenuItemDescriptor item = new MenuItemDescriptor(project);
+                   item.Tag = project;
+                   item.Text = project.Name;
+                   item.Icon = ProjectModelIconManager.Instance.GetProjectModelElementImage(project);
+                   descriptors.Add(item);
+                   
+               }
+               return descriptors;
+           }
+           else
+           {
+               if (descriptor.Tag is IProject)
+               {
+                   List<MenuItemDescriptor> descriptors = new List<MenuItemDescriptor>();
+                   foreach (IModule module in searchResults[(IProject)descriptor.Tag])
+                   {
+
+                       MenuItemDescriptor item = new MenuItemDescriptor(module);
+                       item.Tag = module;
+                       item.Text = module.Name;
+                       item.Icon = ProjectModelIconManager.Instance.GetProjectModelElementImage(module);
+                       descriptors.Add(item);
+
+                   }
+                   return descriptors;                    
+               }
+               else
+               return EmptyArray<object>.Instance;
+           }
         }
 
         public event EventHandler WantsResize;

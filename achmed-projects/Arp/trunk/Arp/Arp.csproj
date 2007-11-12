@@ -152,6 +152,7 @@
     <Compile Include="Grouping\PredicateGrouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Grouping\ReorderRegions.cs" />
+    <Compile Include="UnusedReferences\UnusedReferencesSearchResult.cs" />
     <Compile Include="UnusedReferences\UI\ModulesChooserPanel.cs">
       <SubType>Form</SubType>
     </Compile>

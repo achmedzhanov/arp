@@ -7,7 +7,7 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util;
 
-namespace Arp
+namespace Arp.UnusedReferences
 {
     public class UnusedModulesProcessor : IRecursiveElementProcessor
     {

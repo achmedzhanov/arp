@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Arp.UnusedReferences;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.Platforms;
 using JetBrains.ReSharper.Psi;
