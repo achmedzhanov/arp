@@ -21,3 +21,31 @@
 - сохранение опций упорядочивания для фалов после запуска упорядочивания
 
 
+
+Другие фичи
+
+- Предупреждения для [Serializable]
+- вытоматическое вычисление желаемых замен
+  Промер
+
+  Код
+            Console.Out.WriteLine(string.Format("# total calls: {0}", this.Count));
+            Console.Out.WriteLine(string.Format("# total time: {0}", this.Total));
+            Console.Out.WriteLine(string.Format("# first time: {0}", this.First));
+            Console.Out.WriteLine(string.Format("# max time: {0}", this.Max));
+            Console.Out.WriteLine(string.Format("# min time: {0}", this.Min));
+            Console.Out.WriteLine(string.Format("# avg time: {0}", this.Avg));            
+
+  Пользователь заменяет первый 	Console.Out на writer, получется код
+
+            writer.WriteLine(string.Format("# total calls: {0}", this.Count));
+            Console.Out.WriteLine(string.Format("# total time: {0}", this.Total));
+            Console.Out.WriteLine(string.Format("# first time: {0}", this.First));
+            Console.Out.WriteLine(string.Format("# max time: {0}", this.Max));
+            Console.Out.WriteLine(string.Format("# min time: {0}", this.Min));
+            Console.Out.WriteLine(string.Format("# avg time: {0}", this.Avg));            
+  Плагин поределяет после первой или второй замены, что пользователь хочет поменять все Console.Out на writer и предлагает провети замену (в текущ методе или во всем классе лтюбо на выбор либо с автоматическим определением)
+- log4net Helper
+-- предлагать заворачивать конструкции log.Debud(...) в оперетор if(log.IsDebugEnabled)
+-- предлагать создавать регионы #region Logging
+-- проверять уровни логирования в if, например, в код if(log.IsDebugEnabled)log.Error(....) надо заменить Error<->Debug
