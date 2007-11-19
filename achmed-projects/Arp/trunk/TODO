@@ -25,8 +25,9 @@
 ƒругие фичи
 
 - ѕредупреждени€ дл€ [Serializable]
-- вытоматическое вычисление желаемых замен
-  ѕромер
+
+- автоматическое вычисление желаемых замен
+  ѕример
 
    од
             Console.Out.WriteLine(string.Format("# total calls: {0}", this.Count));
@@ -49,3 +50,11 @@
 -- предлагать заворачивать конструкции log.Debud(...) в оперетор if(log.IsDebugEnabled)
 -- предлагать создавать регионы #region Logging
 -- провер€ть уровни логировани€ в if, например, в код if(log.IsDebugEnabled)log.Error(....) надо заменить Error<->Debug
+
+- подстановка кода в строковые литералы, например 
+
+Assert.Check(count > 0, "")
+-------------------------^
+ѕодстановка (smart complete)
+Assert.Check(count > 0, "count > 0")
+
