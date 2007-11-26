@@ -3,6 +3,7 @@ using Arp.UnusedReferences;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.Shell.Progress;
 using JetBrains.Util;
 using NUnit.Framework;
 
@@ -20,7 +21,7 @@ namespace Arp.Tests
             {
                 IProjectFile projectFile = solutionHolder.Second;
                 IProject project = projectFile.GetProject();
-                UnusedModulesProjectVisitor visitor = new UnusedModulesProjectVisitor();
+                UnusedModulesProjectVisitor visitor = new UnusedModulesProjectVisitor(NullProgressIndicator.INSTANCE);
                 project.GetSolution().Accept(visitor);
                 ICollection<IModule> modules = visitor.GetUnusedModules(project);
                 Assert.AreEqual(1, modules.Count);

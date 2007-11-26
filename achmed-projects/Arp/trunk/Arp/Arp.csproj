@@ -55,6 +55,10 @@
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeView, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>e:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.CodeView.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.ReSharper.Daemon, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Daemon.dll</HintPath>
@@ -98,9 +102,9 @@
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Psi.CSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JetBrains.ReSharper.Shell, Version=2.0.270.28, Culture=neutral">
+    <Reference Include="JetBrains.ReSharper.Resources, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\programs\JetBrains\dotTrace 3.0\JetBrains.ReSharper.Shell.dll</HintPath>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Resources.dll</HintPath>
     </Reference>
     <Reference Include="jetbrains.resharper.solutionbuildtool, Version=3.0.535.11, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -111,6 +115,10 @@
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\jetbrains.resharper.textcontrol.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JetBrains.ReSharper.TreeModelBrowser, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.TreeModelBrowser.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.Shell, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.Shell.dll</HintPath>
@@ -119,6 +127,7 @@
     <Reference Include="jetbrains.ui, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\jetbrains.ui.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="JetBrains.Util, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -152,6 +161,8 @@
     <Compile Include="Grouping\PredicateGrouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Grouping\ReorderRegions.cs" />
+    <Compile Include="UnusedReferences\UnusedReferencesSearchDescriptor.cs" />
+    <Compile Include="UnusedReferences\UnusedReferencesSearchRequest.cs" />
     <Compile Include="UnusedReferences\UnusedReferencesSearchResult.cs" />
     <Compile Include="UnusedReferences\UI\ModulesChooserPanel.cs">
       <SubType>Form</SubType>

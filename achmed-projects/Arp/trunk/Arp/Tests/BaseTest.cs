@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.Platforms;
 using JetBrains.Shell.Test;
@@ -12,9 +13,17 @@ namespace Arp.Tests
     {
         static BaseTest()
         {
-            if (JetBrains.ReSharper.Shell.Shell.Instance == null)
+            if (JetBrains.Shell.Shell.Instance == null)
             {
-                new TestShell(typeof (UnusedModulesProcessorTests).Assembly, "Arp.Tests.TestShellConfig.xml");
+                try
+                {
+                    new TestShell(typeof (UnusedModulesProcessorTests).Assembly, "Arp.Tests.TestShellConfig.xml");
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    Exception[] exceptions = ex.LoaderExceptions;
+                    throw;
+                }
             }
         }
 

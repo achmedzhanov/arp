@@ -1,9 +1,12 @@
+using System.Threading;
 using System.Windows.Forms;
 using Arp.Assertions;
 using Arp.UnusedReferences;
 using Arp.UnusedReferences.UI;
 using JetBrains.ActionManagement;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.CodeView.Descriptors;
+using JetBrains.ReSharper.Psi;
 using JetBrains.Shell;
 using JetBrains.UI;
 using JetBrains.UI.PopupWindowManager;
@@ -32,7 +35,6 @@ namespace Arp
                 return true;
             else
                 return false;
-
         }
 
         ///<summary>
@@ -47,14 +49,26 @@ namespace Arp
         {
             ISolution solution = context.GetData<ISolution>(JetBrains.ReSharper.DataConstants.SOLUTION);
             Assert.CheckNotNull(solution);
-            UnusedModulesProjectVisitor visitor = new UnusedModulesProjectVisitor();
-            solution.Accept(visitor);
-            if (visitor.GetTotalUnusedModules() == 0)
-                WindowUtil.ShowMessageBox("Unsued references not found", UIApplicationShell.Instance.Descriptor.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+
+            UnusedReferencesSearchResult results = null;
+            bool emptyResult = false;
+
+            UnusedReferencesSearchRequest request = new UnusedReferencesSearchRequest(solution);
+            UnusedReferencesSearchDescriptor searchDescriptor = new UnusedReferencesSearchDescriptor(request);
+            searchDescriptor.Search();
+            emptyResult = request.EmptyResult;
+            results = request.Results;
+
+            if (searchDescriptor.Items == null)
+                return;
+
+            if (emptyResult)
+                WindowUtil.ShowMessageBox("Unsued references not found",
+                                          UIApplicationShell.Instance.Descriptor.ProductName, MessageBoxButtons.OK,
+                                          MessageBoxIcon.Asterisk);
             else
             {
-
-                ModulesChooserPanel panel = new ModulesChooserPanel(visitor.GetSearchResults());
+                ModulesChooserPanel panel = new ModulesChooserPanel(results);
                 panel.AutoActivate = true;
                 IPopupWindow window = PopupWindowManager.CreatePopupWindow(panel,
                                                                            DevenvLayouter.CreateCenteredCorner
@@ -62,7 +76,6 @@ namespace Arp
                                                                            ~HideFlags.None, true);
                 window.ShowWindow();
             }
-            
         }
     }
 }

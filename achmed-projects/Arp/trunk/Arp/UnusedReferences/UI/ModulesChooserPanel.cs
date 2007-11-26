@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Arp.Assertions;
 using DevExpress.XtraEditors.Controls;
 using JetBrains.CommonControls;
 using JetBrains.ProjectModel;
@@ -119,6 +120,8 @@ namespace Arp.UnusedReferences.UI
            if(descriptor == null)
            {
                List<MenuItemDescriptor> descriptors = new List<MenuItemDescriptor>();
+               Assert.CheckNotNull(searchResults, "searchResults");
+               Assert.CheckNotNull(searchResults.Projects, "searchResults.Projects");
                foreach (IProject project in searchResults.Projects)
                {
                    
