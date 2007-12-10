@@ -33,6 +33,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Serialization\InheritClasses.cs" />
+    <Compile Include="Serialization\InheritСlassesOtherFile.cs" />
     <Compile Include="UnusedReferences\DeclaredVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

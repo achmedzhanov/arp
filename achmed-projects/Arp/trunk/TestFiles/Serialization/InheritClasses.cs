@@ -23,4 +23,9 @@ namespace TestFiles.Serialization
 
     }
 
+    public class E : A
+    {
+
+    }
+
 }
