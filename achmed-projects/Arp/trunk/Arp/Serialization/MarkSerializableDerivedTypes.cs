@@ -6,6 +6,7 @@ using JetBrains.ReSharper.CodeView.Occurences;
 using JetBrains.ReSharper.CodeView.Search;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
+using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Tree;
@@ -19,6 +20,8 @@ namespace Arp.Serialization
     [ActionHandler("Arp.Serialization.MarkSerializableDerivedTypes")]
     public class MarkSerializableDerivedTypes : IActionHandler
     {
+        private const string SYSTEM = "System";
+
         ///<summary>
         ///
         ///            Updates action visual presentation. If presentation.Enabled is set to false, Execute
@@ -95,6 +98,8 @@ namespace Arp.Serialization
             if (ExistsSerializableAttribute(@class))
                 return;
 
+            ISolution solution = @class.GetManager().Solution;
+
             IDeclaration declaration = @class.GetDeclarations()[0];
             IMetaInfoTargetDeclarationNode metaInfoTargetDeclarationNode =
                 declaration.ToTreeNode() as IMetaInfoTargetDeclarationNode;
@@ -102,7 +107,21 @@ namespace Arp.Serialization
             CSharpElementFactory elementFactory = CSharpElementFactory.GetInstance(@class.GetManager().Solution);
             IAttribute serializableAttribute =
                 elementFactory.CreateTypeMemberDeclaration("[Serializable]void Foo(){}").Attributes[0];
-            metaInfoTargetDeclarationNode.AddAttributeAfter(serializableAttribute, null);
+            IAttribute added = metaInfoTargetDeclarationNode.AddAttributeAfter(serializableAttribute, null);
+
+            ICSharpTypeAndNamespaceHolderDeclaration scope = declaration.GetContainingElement<ICSharpNamespaceDeclaration>(false);
+            ICSharpFile fileScope = (ICSharpFile)declaration.GetContainingFile();
+            if (scope == null)
+                scope = fileScope;
+
+
+            if(!UsingUtil.CheckAlreadyImported(scope, PsiManager.GetInstance(solution).GetNamespace(SYSTEM)))
+            {
+                IUsingDirective directive = CSharpElementFactory.GetInstance(solution).CreateUsingDirective(SYSTEM, new object[0]);
+
+                // add to header usings list
+                UsingUtil.AddImportTo(fileScope, directive);
+            }
         }
 
         protected bool ExistsSerializableAttribute(IClass @class)
