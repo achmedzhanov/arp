@@ -6,8 +6,7 @@ namespace Arp.UnusedReferences
 {
     public class UnusedReferencesSearchResult
     {
-        readonly Dictionary<IProject, ICollection<IModule>> results = new Dictionary<IProject, ICollection<IModule>>();
-
+        readonly Dictionary<IProject, ICollection<IModuleReference>> results = new Dictionary<IProject, ICollection<IModuleReference>>();
 
         public ICollection<IProject> Projects
         {
@@ -17,7 +16,7 @@ namespace Arp.UnusedReferences
             }
         }
 
-        public ICollection<IModule> this[IProject project]
+        public ICollection<IModuleReference> this[IProject project]
         {
             get
             {
@@ -25,7 +24,7 @@ namespace Arp.UnusedReferences
             }
         }
 
-        public void Add(IProject key, List<IModule> list)
+        public void Add(IProject key, List<IModuleReference> list)
         {
             results.Add(key, list);
         }

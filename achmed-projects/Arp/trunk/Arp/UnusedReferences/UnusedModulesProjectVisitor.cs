@@ -15,7 +15,7 @@ namespace Arp.UnusedReferences
     public class UnusedModulesProjectVisitor : RecursiveProjectVisitor
     {
         private HashSet<IModule> candidates = new HashSet<IModule>();
-        private Dictionary<IProject, ICollection<IModule>> results = new Dictionary<IProject, ICollection<IModule>>();
+        private Dictionary<IProject, ICollection<IModuleReference>> results = new Dictionary<IProject, ICollection<IModuleReference>>();
         private IProgressIndicator progressIndicator;
         private IProgressIndicator currentIndicator;
 
@@ -29,7 +29,7 @@ namespace Arp.UnusedReferences
             this.currentIndicator = NullProgressIndicator.INSTANCE;
         }
 
-        public ICollection<IModule> GetUnusedModules(IProject project)
+        public ICollection<IModuleReference> GetUnusedModules(IProject project)
         {
             return results[project];
         }
@@ -37,20 +37,19 @@ namespace Arp.UnusedReferences
         public UnusedReferencesSearchResult GetSearchResults()
         {
             UnusedReferencesSearchResult ret = new UnusedReferencesSearchResult();
-            foreach (KeyValuePair<IProject, ICollection<IModule>> pair in results)
+            foreach (KeyValuePair<IProject, ICollection<IModuleReference>> pair in results)
             {
                 if (pair.Value.Count > 0)
-                    ret.Add(pair.Key, new List<IModule>(pair.Value));
+                    ret.Add(pair.Key, new List<IModuleReference>(pair.Value));
             }
             
             return ret;
         }
 
-
         public int GetTotalUnusedModules()
         {
             int count = 0;
-            foreach (KeyValuePair<IProject, ICollection<IModule>> pair in results)
+            foreach (KeyValuePair<IProject, ICollection<IModuleReference>> pair in results)
             {
                 count += pair.Value.Count;
             }
@@ -78,34 +77,41 @@ namespace Arp.UnusedReferences
                 int filesCount = ProjectUtil.GetFileCount(project);
                 currentIndicator.Start(filesCount);
                 base.VisitProject(project);
-                results[project] = new List<IModule>(candidates);
-//                currentIndicator.Stop();
+                results[project] = CreateProjectResults(project);
                 currentIndicator = NullProgressIndicator.INSTANCE;
             }
+        }
+
+        private List<IModuleReference> CreateProjectResults(IProject project)
+        {
+            List<IModuleReference> res = new List<IModuleReference>();
+            
+            if(candidates.Count == 0)
+                return res;
+
+            foreach (IModuleReference moduleReference in project.GetModuleReferences())
+            {
+                IModule resolved = moduleReference.ResolveReferencedModule();
+                if(candidates.Contains(resolved))
+                    res.Add(moduleReference);
+            }
+
+            return res;
         }
 
         private void SetupCandidates(IProject project)
         {
             candidates.Clear();
 
-            ICollection<IAssemblyReference> assemblyReferences = project.GetAssemblyReferences();
-            foreach (IAssemblyReference assemblyReference in assemblyReferences)
+            ICollection<IModuleReference> assemblyReferences = project.GetModuleReferences();
+            foreach (IModuleReference moduleReference in assemblyReferences)
             {
-                IModule module = assemblyReference.ResolveReferencedModule();
-                // TODO
-//                IAssembly assembly = assemblyReference.ResolveReferencedAssembly();
-//                assembly.GetFiles()[0].
+                IModule module = moduleReference.ResolveReferencedModule();
+
                 if (module != null)
                     candidates.Add(module);
             }
 
-            ICollection<IProjectReference> projectReferences = project.GetProjectReferences();
-            foreach (IProjectReference projectReference in projectReferences)
-            {
-                IModule module = projectReference.ResolveReferencedModule();
-                if (module != null)
-                    candidates.Add(module);
-            }
         }
 
         public override void VisitProjectFile(IProjectFile projectFile)

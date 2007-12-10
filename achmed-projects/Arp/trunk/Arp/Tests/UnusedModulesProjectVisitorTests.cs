@@ -23,9 +23,9 @@ namespace Arp.Tests
                 IProject project = projectFile.GetProject();
                 UnusedModulesProjectVisitor visitor = new UnusedModulesProjectVisitor(NullProgressIndicator.INSTANCE);
                 project.GetSolution().Accept(visitor);
-                ICollection<IModule> modules = visitor.GetUnusedModules(project);
+                ICollection<IModuleReference> modules = visitor.GetUnusedModules(project);
                 Assert.AreEqual(1, modules.Count);
-                IModule first = CollectionUtil.GetFirst(modules);
+                IModuleReference first = CollectionUtil.GetFirst(modules);
                 Assert.AreEqual("System.Data", first.Name);
             }
             finally

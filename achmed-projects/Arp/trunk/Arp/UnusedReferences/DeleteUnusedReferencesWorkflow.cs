@@ -1,13 +1,31 @@
+using System;
+using System.Windows.Forms;
+using Arp.Assertions;
+using Arp.UnusedReferences;
+using Arp.UnusedReferences.UI;
 using JetBrains.ActionManagement;
+using JetBrains.ProjectModel;
+using JetBrains.ReSharper;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Refactorings.Conflicts;
 using JetBrains.ReSharper.Refactorings.Workflow;
+using JetBrains.Shell;
 using JetBrains.Shell.Progress;
+using JetBrains.UI.PopupWindowManager;
+using JetBrains.UI.Shell;
+using JetBrains.WindowManagement;
 
 namespace Arp
 {
     public class DeleteUnusedReferencesWorkflow : IRefactoringWorkflow
     {
+
+        private PsiLanguageType psiLanguageType =  PsiLanguageType.UNKNOWN;
+        private ISolution solution;
+        private ICustomPage page = null;
+        private IModuleReference[] referencesToDelete = null;
+        private UnusedReferencesSearchResult searchResults = null;
+
         ///<summary>
         ///
         ///            Checks if the refactoring is available in given data context
@@ -16,7 +34,29 @@ namespace Arp
         ///
         public bool IsAvailable(IDataContext context)
         {
-            throw new System.NotImplementedException();
+            ISolution solution = context.GetData<ISolution>(JetBrains.ReSharper.DataConstants.SOLUTION);
+            if (solution != null)
+                return true;
+            else
+                return false;
+        }
+
+        public IModuleReference[] RefrencesToDelete
+        {
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+
+                referencesToDelete = value;
+
+            }
+        }
+
+
+        public UnusedReferencesSearchResult SearchResults
+        {
+            get { return searchResults; }
         }
 
         ///<summary>
@@ -27,7 +67,39 @@ namespace Arp
         ///
         public bool Initialize(IDataContext context, IInitializationContext initializationContext)
         {
-            throw new System.NotImplementedException();
+            solution = context.GetData<ISolution>(JetBrains.ReSharper.DataConstants.SOLUTION);
+
+            psiLanguageType = context.GetData<PsiLanguageType>(DataConstants.PSI_LANGUAGE_TYPE);
+
+            Assert.CheckNotNull(solution);
+
+            bool emptyResult = false;
+
+            UnusedReferencesSearchRequest request = new UnusedReferencesSearchRequest(solution);
+            UnusedReferencesSearchDescriptor searchDescriptor = new UnusedReferencesSearchDescriptor(request);
+            using(ReadLockCookie cookie = ReadLockCookie.Create())
+            {
+                searchDescriptor.Search();
+            }
+            
+            emptyResult = request.EmptyResult;
+            searchResults = request.Results;
+            if (searchDescriptor.Items == null)
+                return false;
+
+            if (emptyResult)
+            {
+                EmptyResultsPane panel = new EmptyResultsPane();
+                page = panel;
+            }
+            else
+            {
+                ModulesChooserPane pane = new ModulesChooserPane(this);
+                pane.AutoActivate = true;
+                page = pane;
+            }
+
+            return true;
         }
 
         ///<summary>
@@ -38,7 +110,8 @@ namespace Arp
         ///
         public bool PreExecute(TaskExecutorCreator taskExecutorCreator)
         {
-            throw new System.NotImplementedException();
+            
+            return true;
         }
 
         ///<summary>
@@ -49,7 +122,7 @@ namespace Arp
         ///
         public void RollbackPreExecute(TaskExecutorCreator taskExecutorCreator)
         {
-            throw new System.NotImplementedException();
+            // do nothing
         }
 
         ///<summary>
@@ -60,7 +133,18 @@ namespace Arp
         ///
         public void Execute(IProgressIndicator progressIndicator)
         {
-            throw new System.NotImplementedException();
+            // do nothing
+            Assert.CheckNotNull(referencesToDelete);
+
+            using(WriteLockCookie cookie = WriteLockCookie.Create(true))
+            {
+                foreach (IModuleReference moduleReference in referencesToDelete)
+                {
+                    IProject project = moduleReference.GetProject();
+                    // TODO dispatch RemoveModuleReference|RemoveProjectReference ?
+                    project.RemoveModuleReference(moduleReference);
+                }            
+            }
         }
 
         ///<summary>
@@ -71,7 +155,7 @@ namespace Arp
         ///
         public void PostExecute(TaskExecutorCreator taskExecutorCreator)
         {
-            throw new System.NotImplementedException();
+            // do nothing
         }
 
         ///<summary>
@@ -82,7 +166,8 @@ namespace Arp
         ///
         public bool RecoverAfterExternalChanges(IProgressIndicator progressIndicator)
         {
-            throw new System.NotImplementedException();
+            // do nothing
+            return true;
         }
 
         ///<summary>
@@ -93,7 +178,9 @@ namespace Arp
         ///
         public bool CheckInternalState(IProgressIndicator progressIndicator)
         {
-            throw new System.NotImplementedException();
+            progressIndicator.Start(1);
+            progressIndicator.Stop();
+            return true;
         }
 
         ///<summary>
@@ -104,7 +191,11 @@ namespace Arp
         ///
         public string Title
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                // todo user resources!
+                return "Delete Unused References";
+            }
         }
 
         ///<summary>
@@ -115,7 +206,10 @@ namespace Arp
         ///
         public IConflictSearcher ConflictSearcher
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                return null;
+            }
         }
 
         ///<summary>
@@ -126,7 +220,10 @@ namespace Arp
         ///
         public ICustomPage FirstPendingCustomPage
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                return page;
+            }
         }
 
         ///<summary>
@@ -137,7 +234,10 @@ namespace Arp
         ///
         public bool MightModifyManyDocuments
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                return true;
+            }
         }
 
         ///<summary>
@@ -148,7 +248,10 @@ namespace Arp
         ///
         public PsiLanguageType InvocationLanguage
         {
-            get { throw new System.NotImplementedException(); }
+            get
+            {
+                return psiLanguageType;
+            }
         }
     }
 }

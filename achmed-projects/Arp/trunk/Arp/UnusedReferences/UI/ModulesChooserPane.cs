@@ -11,6 +11,8 @@ using DevExpress.XtraEditors.Controls;
 using JetBrains.CommonControls;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Refactorings.Workflow;
+using JetBrains.Shell.Progress;
 using JetBrains.UI;
 using JetBrains.UI.Controls;
 using JetBrains.UI.PopupMenu;
@@ -21,24 +23,175 @@ using JetBrains.Util.DataStructures.TreeModel;
 
 namespace Arp.UnusedReferences.UI
 {
-    public partial class ModulesChooserPanel : Form, IConstrainableControl
+    public partial class ModulesChooserPane : UserControl, IConstrainableControl, ICustomPage
     {
         private bool autoActivate;
         private TreeModelViewChecked treeView;
-        private readonly UnusedReferencesSearchResult searchResults;
+        private readonly DeleteUnusedReferencesWorkflow workflow;
 
-        public ModulesChooserPanel(UnusedReferencesSearchResult searchResults)
+        public ModulesChooserPane(DeleteUnusedReferencesWorkflow workflow)
         {
-            this.searchResults = searchResults;
+            this.workflow = workflow;
 
             base.SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.Selectable | ControlStyles.ResizeRedraw | ControlStyles.UserPaint | ControlStyles.ContainerControl, true);
             InitializeComponent();
 
             InitTree();
-            CheckAll();
+           
         }
 
 
+        ///<summary>
+        ///
+        ///            Event which is raised when the <see cref="P:JetBrains.ReSharper.Refactorings.Workflow.ICustomPage.ContinueEnabled" /> flag changes value
+        ///            
+        ///</summary>
+        ///
+        public event EventHandler ContinueEnabledChanged;
+
+        ///<summary>
+        ///
+        ///            Initializes page. Called before each show of the page which is caused by "Continue" button.
+        ///            
+        ///</summary>
+        ///
+        public bool Initialize(IProgressIndicator progressIndicator)
+        {
+            this.treeView.CreateControl();
+            CheckAll();
+            return true;
+        }
+
+        ///<summary>
+        ///
+        ///            Used for handling probable modal stage of confirming that the dialog really needs to be shown
+        ///            
+        ///</summary>
+        ///
+        public bool ConfirmBeforeShow()
+        {
+            return true;
+        }
+
+        ///<summary>
+        ///
+        ///            Refreshes internal page pointers. Returns 
+        ///<c>false</c> if refresh is unsuccessfull and refactoring should be canceled.
+        ///            
+        ///</summary>
+        ///
+        public bool RefreshContents(IProgressIndicator progressIndicator)
+        {
+            return true;
+        }
+
+        ///<summary>
+        ///
+        ///            Commits page
+        ///            
+        ///</summary>
+        ///
+        ///<returns>
+        ///Next page if any
+        ///</returns>
+        ///
+        public ICustomPage Commit(IProgressIndicator progressIndicator, CustomPageCommitFlags flags)
+        {
+            
+            List<IModuleReference> referencesToDelete = GetSelectedReferences();
+
+            workflow.RefrencesToDelete = referencesToDelete.ToArray();
+
+            return null;
+        }
+
+        private List<IModuleReference> GetSelectedReferences()
+        {
+            List<IModuleReference> referencesToDelete = new List<IModuleReference>();
+
+            foreach (TreeModelViewNode viewNode in this.treeView.IterateForward(delegate {
+                                                                                             return true;
+            }))
+            {
+
+                TreeModelNode node = this.treeView.ViewToModel(viewNode);
+                if (node != null && treeView.GetNodeState(node) == CheckState.Checked)
+                {
+
+                    IMenuItemDescriptor descriptor = node.DataValue as IMenuItemDescriptor;
+
+                    if (descriptor == null)
+                        continue;
+
+                    IModuleReference reference = descriptor.Tag as IModuleReference;
+
+                    if(reference != null)
+                        referencesToDelete.Add(reference);
+                }
+            }
+            return referencesToDelete;
+        }
+
+        ///<summary>
+        ///
+        ///            Gets page title
+        ///            
+        ///</summary>
+        ///
+        public string Title
+        {
+            get
+            {
+                // TODO use resources
+                return "Select References";
+            }
+        }
+
+        ///<summary>
+        ///
+        ///            Gets page description
+        ///            
+        ///</summary>
+        ///
+        public string Description
+        {
+            get
+            {
+                // TODO use resources
+                return "Select References";
+            }
+        }
+
+        ///<summary>
+        ///
+        ///            Gets UI control
+        ///            
+        ///</summary>
+        ///
+        public Control UI
+        {
+            get
+            {
+                return this;
+            }
+        }
+
+        ///<summary>
+        ///
+        ///            Gets flag indicating whether the Continue button is enabled.
+        ///            Note that this is ANDed with parent statuses, that include {not running workflow execution} and {validation passes}.
+        ///            This means that you don't have to check the validator. If it's the only thing you can think of — just return 
+        ///<c>True</c>.
+        ///            
+        ///</summary>
+        ///
+        public bool ContinueEnabled
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         private void CheckAll()
         {
@@ -117,7 +270,9 @@ namespace Arp.UnusedReferences.UI
         private IEnumerable GetItems(object datavalue)
         {
            MenuItemDescriptor descriptor = datavalue as MenuItemDescriptor;
-           if(descriptor == null)
+           UnusedReferencesSearchResult searchResults = workflow.SearchResults;
+
+            if(descriptor == null)
            {
                List<MenuItemDescriptor> descriptors = new List<MenuItemDescriptor>();
                Assert.CheckNotNull(searchResults, "searchResults");
@@ -139,13 +294,12 @@ namespace Arp.UnusedReferences.UI
                if (descriptor.Tag is IProject)
                {
                    List<MenuItemDescriptor> descriptors = new List<MenuItemDescriptor>();
-                   foreach (IModule module in searchResults[(IProject)descriptor.Tag])
+                   foreach (IModuleReference moduleReference in searchResults[(IProject)descriptor.Tag])
                    {
-
-                       MenuItemDescriptor item = new MenuItemDescriptor(module);
-                       item.Tag = module;
-                       item.Text = module.Name;
-                       item.Icon = ProjectModelIconManager.Instance.GetProjectModelElementImage(module);
+                       MenuItemDescriptor item = new MenuItemDescriptor(moduleReference);
+                       item.Tag = moduleReference;
+                       item.Text = moduleReference.Name;
+                       item.Icon = ProjectModelIconManager.Instance.GetProjectModelElementImage(moduleReference);
                        descriptors.Add(item);
 
                    }

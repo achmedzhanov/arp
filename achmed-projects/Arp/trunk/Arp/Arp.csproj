@@ -10,7 +10,8 @@
     <RootNamespace>Arp</RootNamespace>
     <AssemblyName>Arp</AssemblyName>
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile>Arp.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -151,6 +152,7 @@
   <ItemGroup>
     <Compile Include="Assertions\Assert.cs" />
     <Compile Include="Assertions\AssertException.cs" />
+    <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\UnusedModulesProjectVisitorTests.cs" />
     <Compile Include="UnusedReferences\DeleteUnusedReferencesAction.cs" />
@@ -161,14 +163,20 @@
     <Compile Include="Grouping\PredicateGrouping.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Grouping\ReorderRegions.cs" />
+    <Compile Include="UnusedReferences\UI\EmptyResultsPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UnusedReferences\UI\EmptyResultsPane.Designer.cs">
+      <DependentUpon>EmptyResultsPane.cs</DependentUpon>
+    </Compile>
     <Compile Include="UnusedReferences\UnusedReferencesSearchDescriptor.cs" />
     <Compile Include="UnusedReferences\UnusedReferencesSearchRequest.cs" />
     <Compile Include="UnusedReferences\UnusedReferencesSearchResult.cs" />
-    <Compile Include="UnusedReferences\UI\ModulesChooserPanel.cs">
-      <SubType>Form</SubType>
+    <Compile Include="UnusedReferences\UI\ModulesChooserPane.cs">
+      <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UnusedReferences\UI\ModulesChooserPanel.Designer.cs">
-      <DependentUpon>ModulesChooserPanel.cs</DependentUpon>
+    <Compile Include="UnusedReferences\UI\ModulesChooserPane.Designer.cs">
+      <DependentUpon>ModulesChooserPane.cs</DependentUpon>
     </Compile>
     <Compile Include="UnusedReferences\UnusedModulesProcessor.cs" />
     <Compile Include="Tests\UnusedModulesProcessorTests.cs" />
@@ -178,13 +186,14 @@
     <EmbeddedResource Include="Actions.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Arp.snk" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Tests\TestShellConfig.xml" />
-    <EmbeddedResource Include="UnusedReferences\UI\ModulesChooserPanel.resx">
+    <EmbeddedResource Include="UnusedReferences\UI\EmptyResultsPane.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>ModulesChooserPanel.cs</DependentUpon>
+      <DependentUpon>EmptyResultsPane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnusedReferences\UI\ModulesChooserPane.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ModulesChooserPane.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
