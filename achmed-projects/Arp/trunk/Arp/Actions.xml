@@ -4,6 +4,10 @@
     <separator/>
     <action id="Arp.DeleteUnusedReferencesAction" text="Delete Unused References"/>
   </insert>
+  <insert group-id="ReSharper" position="last">
+    <separator/>
+    <action id="Arp.Serialization.MarkSerializableDerivedTypes" text="Mark inherit types as Serializable"/>
+  </insert>
   <insert group-id="Refactor" position="last">
     <separator/>
     <action-ref id="Arp.DeleteUnusedReferencesAction"/>
@@ -16,5 +20,18 @@
   <insert group-id="VS#Code Window" position="before" anchor-id="VS#Code Window#({FB87333B-16C8-400E-BC8F-F6B890410582}:10)">
     <separator/>
     <action-ref id="Arp.DeleteUnusedReferencesAction"/>
+  </insert>  
+  <insert group-id="Refactor" position="last">
+    <separator/>
+    <action-ref id="Arp.Serialization.MarkSerializableDerivedTypes"/>
+  </insert>  
+  <insert group-id="VS#Project" position="last">
+    <separator/>
+    <action-ref id="Arp.Serialization.MarkSerializableDerivedTypes"/>
+    <separator/>
+  </insert>
+  <insert group-id="VS#Code Window" position="before" anchor-id="VS#Code Window#({FB87333B-16C8-400E-BC8F-F6B890410582}:10)">
+    <separator/>
+    <action-ref id="Arp.Serialization.MarkSerializableDerivedTypes"/>
   </insert>  
 </actions>
