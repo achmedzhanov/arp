@@ -24,6 +24,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         public override ResolveResult ResolveWithoutCache(out ResolveInfo resolveInfo)
         {
             ISymbolTable table = this.GetReferenceSymbolTable(true);
+            IList<ISymbolInfo> infos = table.GetAllSymbolInfos(GetName());
             ResolveResult result = base.ResolveInTable(table, out resolveInfo);
             return result;
         }

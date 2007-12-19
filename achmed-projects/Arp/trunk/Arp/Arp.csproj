@@ -51,10 +51,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ActionManagement.dll</HintPath>
     </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeInsight.Services, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.dll</HintPath>
+    </Reference>
     <Reference Include="JetBrains.ReSharper.CodeInsight.Services.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.CSharp.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeInsight.Services.Xml, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.Xml.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.ReSharper.CodeView, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -69,6 +77,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Daemon.CSharp.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Daemon.Xml, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Daemon.Xml.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.ReSharper.DocumentManager, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -102,6 +114,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Psi.CSharp.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.Xml, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.0\vs8.0\Bin\JetBrains.ReSharper.Psi.Xml.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.ReSharper.Resources, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -152,6 +168,36 @@
   <ItemGroup>
     <Compile Include="Assertions\Assert.cs" />
     <Compile Include="Assertions\AssertException.cs" />
+    <Compile Include="log4net\Psi\L4NConstants.cs" />
+    <Compile Include="log4net\Psi\L4NSupportedByPSIChecker.cs" />
+    <Compile Include="log4net\Psi\Parsing\L4NtreeBuilder.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppender.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderName.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderTypeName.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderProperty.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderRef.cs" />
+    <Compile Include="log4net\Psi\Tree\IL4NSection.cs" />
+    <Compile Include="log4net\Psi\Tree\ILogger.cs" />
+    <Compile Include="log4net\Psi\Tree\ILoggerProperty.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderClassNameImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderRefImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\BaseL4NTag.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\L4NDeclaredElementPresenter.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\L4NDeclaredElementType.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\L4NSectionImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\LoggerImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
+    <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
+    <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />
+    <Compile Include="log4net\Services\L4NCodeCompletionProvider.cs" />
+    <Compile Include="log4net\Services\L4NDaemonStageProcess.cs" />
+    <Compile Include="log4net\Psi\L4NElementFactory.cs" />
+    <Compile Include="log4net\Psi\L4NLanguageService.cs" />
+    <Compile Include="log4net\Services\L4NProjectFileLanguageService.cs" />
+    <Compile Include="log4net\Services\L4NTagProcessor.cs" />
+    <Compile Include="log4net\Services\StageDaemon.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\UnusedModulesProjectVisitorTests.cs" />
@@ -181,6 +227,8 @@
     <Compile Include="UnusedReferences\UnusedModulesProcessor.cs" />
     <Compile Include="Tests\UnusedModulesProcessorTests.cs" />
     <Compile Include="UnusedReferences\UnusedModulesProjectVisitor.cs" />
+    <Compile Include="Xml\BaseXmlDaemonStage.cs" />
+    <Compile Include="Xml\XmlUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Actions.xml" />

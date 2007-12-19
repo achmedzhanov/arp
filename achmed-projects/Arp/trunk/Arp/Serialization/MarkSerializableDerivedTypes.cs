@@ -126,6 +126,9 @@ namespace Arp.Serialization
 
         protected bool ExistsSerializableAttribute(IClass @class)
         {
+
+//		TODO Check ISerializable end Deserializable constructor		
+
             IList<IAttributeInstance> instances = @class.GetAttributeInstances(false);
             if (instances == null)
                 return false;

@@ -109,13 +109,12 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public ISearchDomain GetAccessibilityDomain()
         {
-            throw new NotImplementedException();
+            return SearchDomainFactory.Instance.CreateSearchDomain(this);
         }
 
         public DeclaredElementType GetElementType()
         {
-            // TODO get logger type
-            return null;
+            return L4NDeclaredElementType.Appender;
         }
 
         public ITypeElement GetContainingType()
