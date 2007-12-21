@@ -169,8 +169,10 @@
     <Compile Include="Assertions\Assert.cs" />
     <Compile Include="Assertions\AssertException.cs" />
     <Compile Include="log4net\Psi\L4NConstants.cs" />
+    <Compile Include="log4net\Psi\Search\L4NSearcherFactory.cs" />
     <Compile Include="log4net\Psi\L4NSupportedByPSIChecker.cs" />
     <Compile Include="log4net\Psi\Parsing\L4NtreeBuilder.cs" />
+    <Compile Include="log4net\Psi\Search\ReferencesSearcher.cs" />
     <Compile Include="log4net\Psi\Tree\IAppender.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderName.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderTypeName.cs" />
@@ -200,6 +202,7 @@
     <Compile Include="log4net\Services\StageDaemon.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
+    <Compile Include="Tests\L4NSearch.cs" />
     <Compile Include="Tests\UnusedModulesProjectVisitorTests.cs" />
     <Compile Include="UnusedReferences\DeleteUnusedReferencesAction.cs" />
     <Compile Include="UnusedReferences\DeleteUnusedReferencesWorkflow.cs" />
@@ -227,6 +230,8 @@
     <Compile Include="UnusedReferences\UnusedModulesProcessor.cs" />
     <Compile Include="Tests\UnusedModulesProcessorTests.cs" />
     <Compile Include="UnusedReferences\UnusedModulesProjectVisitor.cs" />
+    <Compile Include="Utils\ElementUtils.cs" />
+    <Compile Include="Utils\RangeUtils.cs" />
     <Compile Include="Xml\BaseXmlDaemonStage.cs" />
     <Compile Include="Xml\XmlUtils.cs" />
   </ItemGroup>

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using Arp.Utils;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
@@ -14,8 +15,10 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class AppenderImpl : BaseL4NTag, IAppender, IDeclaration, IDeclaredElement
+    public class AppenderImpl : BaseL4NTag, IAppender, IDeclaration, IDeclaredElement, ITypeOwner
     {
+        private IDeclaration[] declarations;
+
         public AppenderImpl()
             : base(L4NElementType.APPENDER_ELEMENT)
         {
@@ -45,6 +48,15 @@ namespace Arp.log4net.Psi.Tree.Impl
             get { return (IL4NSection)base.Parent; }
         }
 
+        #region ITypeOwner
+
+        public IType Type
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
+
         #region IDeclaration
 
         public void SetName(string name)
@@ -54,7 +66,9 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public TextRange GetNameRange()
         {
-            return GetAttributeValueElement(L4NConstants.NAME).ToTreeNode().GetTreeTextRange();
+            TextRange treeTextRange = GetAttributeValueElement(L4NConstants.NAME).ToTreeNode().GetTreeTextRange();
+            TextRange narrowed = RangeUtils.Narrow(treeTextRange, 1);
+            return narrowed;
         }
 
         public DocumentRange GetNameDocumentRange()
@@ -89,11 +103,19 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #endregion
 
+//        IDeclaredElement и IDeclaration не дожны быть оджнин и тем же?
+//
+//        м.б. ideclaration это appender-der ?
+
         #region IDeclaredElement
 
         public IDeclaration[] GetDeclarations()
         {
-            return new IDeclaration[] {this};
+            if (declarations == null)
+            {
+                declarations = new IDeclaration[] { this };
+            }
+            return this.declarations;
         }
 
         public IList<IDeclaration> GetDeclarationsIn(IProjectFile projectFile)
@@ -109,7 +131,11 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public ISearchDomain GetAccessibilityDomain()
         {
-            return SearchDomainFactory.Instance.CreateSearchDomain(this);
+            return SearchDomainFactory.Instance.CreateSearchDomain(this.GetProjectFile());
+            
+//            // TODO change method ?
+//            ISearchDomain domain = SearchDomainFactory.Instance.CreateSearchDomain(this);
+//            return domain;
         }
 
         public DeclaredElementType GetElementType()

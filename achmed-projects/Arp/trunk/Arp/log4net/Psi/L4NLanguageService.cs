@@ -1,5 +1,6 @@
 using System.Drawing;
 using Arp.log4net.Psi.Parsing;
+using Arp.log4net.Psi.Search;
 using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
@@ -221,7 +222,12 @@ namespace Arp.log4net.Psi
 
         public override ILanguageSpecificSearcherFactory LanguageSpecificSearcherFactory
         {
-            get { return base.LanguageSpecificSearcherFactory; }
+            get
+            {
+//                return base.LanguageSpecificSearcherFactory;
+
+                return L4NSearcherFactory.Instance;
+                }
         }
 
         ///<summary>

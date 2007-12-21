@@ -2,6 +2,7 @@ using System;
 using System.Xml;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
@@ -12,7 +13,7 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class AppenderRefImpl : BaseL4NTag, IAppenderRef
+    public class AppenderRefImpl : BaseL4NTag, IAppenderRef, IScope
     {
         public AppenderRefImpl() : base(L4NElementType.APPENDER_REF_ELEMENT)
         {
@@ -34,10 +35,60 @@ namespace Arp.log4net.Psi.Tree.Impl
         }
 
 
+        #region IScope
+
+        public IScope GetParentScope()
+        {
+            return SharedImplUtil.GetParentScopeOnTree(this);
+        }
+
+        public void AddGlobalDeclarations(IWritableSymbolTable table, int level)
+        {
+            // do nothing
+        }
+
+        public void AddDeclarationsBeforeElement(IWritableSymbolTable table, IElement element, int level)
+        {
+            IReference[] references = this.GetReferences();
+
+            if (references == null || references.Length == 0)
+                return;
+
+            foreach (IReference reference in references)
+            {
+                IElement elementFromReference = reference.GetElement();
+                IDeclaredElement declaredElement = elementFromReference as IDeclaredElement;
+
+                if (declaredElement == null)
+                    continue;
+
+                table.AddSymbol(declaredElement, EmptySubstitution.INSTANCE, this, LevelDelta);
+            }
+           
+        }
+
+        public void AddDeclarationsAfterElement(IWritableSymbolTable table, IElement element, int level)
+        {
+            // do nothing
+        }
+
+        public int LevelDelta
+        {
+            get { return 1; }
+        }
+
+        #endregion
+
         protected override ITreeReference[] CreateReferences()
         {
             return new ITreeReference[] { new AppenderReference(this) };
 //            return base.CreateReferences();
+        }
+
+        public override ITreeReference[] GetInternalReferences()
+        {
+            ITreeReference[] baseRet = base.GetInternalReferences();
+            return baseRet;
         }
 
 //        public override ITreeReference[] GetInternalReferences()
