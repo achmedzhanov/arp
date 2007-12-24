@@ -1,6 +1,6 @@
 namespace Arp.log4net.Psi.Tree
 {
-    public interface IAppenderName
+    public interface IAppenderName : IL4NElement
     {
         
     }

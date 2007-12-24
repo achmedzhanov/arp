@@ -54,8 +54,13 @@ namespace Arp.log4net.Psi
                 // TODO other properties
                 //else
             }
-            // TODO appender properties
-            // else if (parentTagName == L4NConstants.APPENDER)
+            else if (parentTagName == L4NConstants.APPENDER)
+            {
+                if (name != L4NConstants.PARAM)
+                {
+                    return new ParamImpl();
+                }                            
+            }
 
 
             return base.CreateTag(header, parentTag);

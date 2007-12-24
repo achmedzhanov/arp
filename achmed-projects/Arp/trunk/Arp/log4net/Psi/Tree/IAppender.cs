@@ -4,7 +4,7 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree
 {
-    public interface IAppender : IXmlTag /*, IDeclaredElement*/
+    public interface IAppender : IXmlTag /*, IDeclaredElement*/, IElementParametersOwner, IL4NElement
     {
         IAppenderTypeName AppenderTypeName
         { get;}
@@ -17,6 +17,8 @@ namespace Arp.log4net.Psi.Tree
 
         IL4NSection Parent
         { get;}
+
+        IType Type { get;}
 
     }
 }

@@ -5,7 +5,9 @@ using Arp.Utils;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Caches;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+using JetBrains.ReSharper.Psi.Impl;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Search;
 using JetBrains.ReSharper.Psi.Tree;
@@ -15,9 +17,12 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class AppenderImpl : BaseL4NTag, IAppender, IDeclaration, IDeclaredElement, ITypeOwner
+    public class AppenderImpl : BaseL4NTag, IAppender, IDeclaration, IDeclaredElement, ITypeOwner, IElementParameterInfoProvider
     {
         private IDeclaration[] declarations;
+        private bool calculatedCLRType = false;
+        private ITypeElement appenderCLRType = null;
+        private ICollection<IElementParametrInfo> elementParametrInfos = null;
 
         public AppenderImpl()
             : base(L4NElementType.APPENDER_ELEMENT)
@@ -48,12 +53,73 @@ namespace Arp.log4net.Psi.Tree.Impl
             get { return (IL4NSection)base.Parent; }
         }
 
+        public ICollection<IParam> GetParams()
+        {
+            return GetTagsByType<IParam>();
+        }
+
         #region ITypeOwner
+
+        #region IElementParameterInfoProvider
+
+        public ICollection<IElementParametrInfo> GetParameterInfos()
+        {
+            if (elementParametrInfos == null)
+            {
+                if (!((IElementParameterInfoProvider)this).IsValid)
+                    elementParametrInfos =  EmptyArray<IElementParametrInfo>.Instance;                
+                else
+                {
+                    elementParametrInfos = ElementParametrInfoImplUtil.GetParameters(appenderCLRType);
+                }
+            }
+
+            return elementParametrInfos;
+        }
+
+        bool IElementParameterInfoProvider.IsValid
+        {
+            get
+            {
+                return ApppenderCLRType != null;
+            }
+        }
+
+        #endregion
 
         public IType Type
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
+
+        public ITypeElement ApppenderCLRType
+        {
+            get
+            {
+                if(!calculatedCLRType)
+                {
+                    string typeValue = GetAttributeValue(L4NConstants.TYPE, null);
+                    
+                    if(!string.IsNullOrEmpty(typeValue))
+                    {
+                        IDeclarationsCache cache = GetManager().GetDeclarationsCache(DeclarationsCacheScope.SolutionScope(this.GetProjectFile().GetSolution(), true), true);
+                        appenderCLRType = cache.GetTypeElementByCLRName( /* TODO trim typeValue */ typeValue);
+                        
+                        // TODO what will wa do when cache return more then one element ?
+                        //appenderCLRType = cache.GetTypeElementsByCLRName()
+                    }
+
+                    calculatedCLRType = true;
+
+                }
+
+                return appenderCLRType;
+            }
+        }
+
 
         #endregion
 

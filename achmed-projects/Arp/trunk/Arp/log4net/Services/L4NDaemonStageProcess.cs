@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using JetBrains.ReSharper.Daemon;
+using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Xml.Tree;
+using JetBrains.Util;
 
 namespace Arp.log4net.Services
 {
@@ -40,14 +42,13 @@ namespace Arp.log4net.Services
         ///
         public DaemonStageProcessResult Execute()
         {
-            IXmlTag l4nTag = file.GetTag(delegate(IXmlTag obj)
-                                             {
-                                                 return obj.TagName == "log4net";
-                                             });
-            
-            L4NTagProcessor processor = new L4NTagProcessor();
-            processor.Process(l4nTag);
+            L4NProcessor processor = new L4NProcessor();
+            file.ProcessDescendants(processor);
             DaemonStageProcessResult result = new DaemonStageProcessResult();
+            result.Highlightings = processor.Highlightings;
+            result.RehighlightedRanges = new TextRange[] { new TextRange(0, file.GetTextLength()) };
+            return result;
+            
             return result;
         }
 

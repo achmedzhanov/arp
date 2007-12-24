@@ -11,6 +11,12 @@ namespace Arp.log4net.Psi
         /// appender tag name
         /// </summary>
         public static string APPENDER = "appender";
+
+
+        /// <summary>
+        /// para, tag
+        /// </summary>
+        public static string PARAM = "param";
         
         /// <summary>
         /// appender-ref tag name

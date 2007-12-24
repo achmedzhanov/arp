@@ -5,6 +5,7 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Services
 {
+    [DaemonStage()]
     public class L4NDaemonStage : BaseXmlDaemonStage
     {
         protected override IDaemonStageProcess CreateProcess(IDaemonProcess process, IXmlFile file)

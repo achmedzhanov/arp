@@ -3,7 +3,7 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree
 {
-    public interface IAppenderRef : IXmlTag
+    public interface IAppenderRef : IXmlTag, IL4NElement
     {
         string Ref { get;}
 

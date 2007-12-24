@@ -4,7 +4,7 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree
 {
-    public interface IL4NSection : IXmlTag
+    public interface IL4NSection : IXmlTag, IL4NElement
     {
         /// <summary>
         /// return all appendres from secion

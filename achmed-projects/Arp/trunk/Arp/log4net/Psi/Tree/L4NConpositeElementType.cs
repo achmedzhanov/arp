@@ -45,6 +45,19 @@ namespace Arp.log4net.Psi.Tree
         }
     }
 
+    public class APPENDER_PARAM_ELEMENT_TYPE : L4NConpositeElementType
+    {
+        public APPENDER_PARAM_ELEMENT_TYPE(string s)
+            : base(s)
+        {
+        }
+
+        public override CompositeElement Create()
+        {
+            return new ParamImpl();
+        }
+    }
+
     public class APPENDER_ELEMENT_REF_TYPE : L4NConpositeElementType
     {
         public APPENDER_ELEMENT_REF_TYPE(string s)
