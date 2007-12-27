@@ -3,7 +3,7 @@ using JetBrains.ReSharper.Psi;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class ElementParametrInfoImpl : IElementParametrInfo
+    public class ElementParametrInfoImpl : IParameterDescriptor
     {
         private readonly IProperty property;
 
@@ -38,6 +38,20 @@ namespace Arp.log4net.Psi.Tree.Impl
             {
                 return property.Type;
             }
+        }
+
+
+        ///<summary>
+        ///Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        ///</summary>
+        ///
+        ///<returns>
+        ///A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        ///</returns>
+        ///<filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return string.Format("[Name:{0},Type:{1}]", Name, Type);
         }
     }
 }

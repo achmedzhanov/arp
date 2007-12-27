@@ -1,4 +1,6 @@
+using Arp.log4net.Psi.Tree;
 using Arp.log4net.Psi.Tree.Impl;
+using JetBrains.ReSharper.CodeInsight.Services.ParameterInfo;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Xml.Parsing;
@@ -54,7 +56,7 @@ namespace Arp.log4net.Psi
                 // TODO other properties
                 //else
             }
-            else if (parentTagName == L4NConstants.APPENDER)
+            else if (parentTag is IElementParametersOwner)
             {
                 if (name != L4NConstants.PARAM)
                 {

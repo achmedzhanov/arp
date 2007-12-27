@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Xml;
+using Arp.Assertions;
 using Arp.Utils;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Editor;
@@ -17,12 +18,10 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class AppenderImpl : BaseL4NTag, IAppender, IDeclaration, IDeclaredElement, ITypeOwner, IElementParameterInfoProvider
+    public class AppenderImpl : TypedParametersOwner, IAppender, IDeclaration, IDeclaredElement, ITypeOwner, IParameterDescriptorProvider
     {
         private IDeclaration[] declarations;
-        private bool calculatedCLRType = false;
-        private ITypeElement appenderCLRType = null;
-        private ICollection<IElementParametrInfo> elementParametrInfos = null;
+        private ICollection<IParameterDescriptor> elementParametrInfos = null;
 
         public AppenderImpl()
             : base(L4NElementType.APPENDER_ELEMENT)
@@ -60,14 +59,14 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region ITypeOwner
 
-        #region IElementParameterInfoProvider
+        #region IParameterDescriptorProvider
 
-        public ICollection<IElementParametrInfo> GetParameterInfos()
+        public ICollection<IParameterDescriptor> GetParameterDescriptors()
         {
             if (elementParametrInfos == null)
             {
-                if (!((IElementParameterInfoProvider)this).IsValid)
-                    elementParametrInfos =  EmptyArray<IElementParametrInfo>.Instance;                
+                if (!((IParameterDescriptorProvider)this).IsAvailable)
+                    elementParametrInfos =  EmptyArray<IParameterDescriptor>.Instance;                
                 else
                 {
                     elementParametrInfos = ElementParametrInfoImplUtil.GetParameters(appenderCLRType);
@@ -77,11 +76,24 @@ namespace Arp.log4net.Psi.Tree.Impl
             return elementParametrInfos;
         }
 
-        bool IElementParameterInfoProvider.IsValid
+
+        public IParameterDescriptor GetElementParametrInfo(string name)
+        {
+            IList<IParameterDescriptor> found = CollectionUtil.FindAll(GetParameterDescriptors(), delegate(IParameterDescriptor obj)
+                                                                                {
+                                                                                    return obj.Name == name;
+                                                                                });
+
+            Assert.Check(found.Count < 2);
+
+            return found.Count == 0 ? null : found[0];
+        }
+
+        bool IParameterDescriptorProvider.IsAvailable
         {
             get
             {
-                return ApppenderCLRType != null;
+                return TypeFromAttribute != null;
             }
         }
 
@@ -94,32 +106,6 @@ namespace Arp.log4net.Psi.Tree.Impl
                 throw new NotImplementedException();
             }
         }
-
-        public ITypeElement ApppenderCLRType
-        {
-            get
-            {
-                if(!calculatedCLRType)
-                {
-                    string typeValue = GetAttributeValue(L4NConstants.TYPE, null);
-                    
-                    if(!string.IsNullOrEmpty(typeValue))
-                    {
-                        IDeclarationsCache cache = GetManager().GetDeclarationsCache(DeclarationsCacheScope.SolutionScope(this.GetProjectFile().GetSolution(), true), true);
-                        appenderCLRType = cache.GetTypeElementByCLRName( /* TODO trim typeValue */ typeValue);
-                        
-                        // TODO what will wa do when cache return more then one element ?
-                        //appenderCLRType = cache.GetTypeElementsByCLRName()
-                    }
-
-                    calculatedCLRType = true;
-
-                }
-
-                return appenderCLRType;
-            }
-        }
-
 
         #endregion
 

@@ -42,19 +42,19 @@ namespace Arp.log4net.Services
 
             if(elementParametersOwner != null)
             {
-                IElementParameterInfoProvider elementParameterInfoProvider = elementParametersOwner as IElementParameterInfoProvider;
+                IParameterDescriptorProvider parameterDescriptorProvider = elementParametersOwner as IParameterDescriptorProvider;
 
-                if (elementParameterInfoProvider == null)
+                if (parameterDescriptorProvider == null)
                     return;
 
-                if(!elementParameterInfoProvider.IsValid)
+                if(!parameterDescriptorProvider.IsAvailable)
                     return;
 
-                ICollection<IElementParametrInfo> infos = elementParameterInfoProvider.GetParameterInfos();
+                ICollection<IParameterDescriptor> infos = parameterDescriptorProvider.GetParameterDescriptors();
 
                 foreach (IParam param in elementParametersOwner.GetParams())
                 {
-                    IList<IElementParametrInfo> filteredInfos = CollectionUtil.FindAll(infos, delegate(IElementParametrInfo obj)
+                    IList<IParameterDescriptor> filteredInfos = CollectionUtil.FindAll(infos, delegate(IParameterDescriptor obj)
                                                                             {
                                                                                 return param.Name == obj.Name;
                                                                             });

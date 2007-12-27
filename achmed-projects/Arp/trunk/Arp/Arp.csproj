@@ -177,6 +177,7 @@
     <Compile Include="log4net\Psi\Tree\IAppenderName.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderTypeName.cs" />
     <Compile Include="log4net\Psi\Tree\IL4NElement.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\TypedParametersOwner.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ElementParametrInfoImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ElementParametrInfoImplUtil.cs" />
     <Compile Include="log4net\Psi\Tree\IParam.cs" />
@@ -194,9 +195,9 @@
     <Compile Include="log4net\Psi\Tree\Impl\L4NDeclaredElementType.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\L4NSectionImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\LoggerImpl.cs" />
-    <Compile Include="log4net\Psi\Tree\IElementParameterInfoProvider.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterDescriptorProvider.cs" />
     <Compile Include="log4net\Psi\Tree\IElementParametersOwner.cs" />
-    <Compile Include="log4net\Psi\Tree\IElementParametrInfo.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterDescriptor.cs" />
     <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
     <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
     <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />

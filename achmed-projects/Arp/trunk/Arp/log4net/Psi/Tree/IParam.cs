@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree
 {
-    public interface IParam : IElement, IElementParametersOwner, IL4NElement
+    public interface IParam : IElement, IElementParametersOwner, IL4NElement, IParameterDescriptorProvider
     {
         string Name { get;}
 
@@ -15,7 +15,7 @@ namespace Arp.log4net.Psi.Tree
 
         IElementParametersOwner Owner { get;}
 
-        IElementParameterInfoProvider ElementParameterInfoProvider {get;}
+        IParameterDescriptorProvider ParameterDescriptorProvider {get;}
 
     }
 }
