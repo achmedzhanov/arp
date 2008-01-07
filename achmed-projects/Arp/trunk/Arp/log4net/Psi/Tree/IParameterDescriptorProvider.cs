@@ -10,7 +10,7 @@ namespace Arp.log4net.Psi.Tree
         /// <returns></returns>
         ICollection<IParameterDescriptor> GetParameterDescriptors();
 
-        IParameterDescriptor GetElementParametrInfo(string name);
+        IParameterDescriptor GetParameterDescriptor(string name);
 
         bool IsAvailable { get;}
 

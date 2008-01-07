@@ -77,7 +77,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         }
 
 
-        public IParameterDescriptor GetElementParametrInfo(string name)
+        public IParameterDescriptor GetParameterDescriptor(string name)
         {
             IList<IParameterDescriptor> found = CollectionUtil.FindAll(GetParameterDescriptors(), delegate(IParameterDescriptor obj)
                                                                                 {
