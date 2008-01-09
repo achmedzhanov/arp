@@ -113,7 +113,7 @@ namespace Arp.log4net.Services
             ICollection<IParameterDescriptor> descriptors = parameterDescriptorProvider.GetParameterDescriptors();
             foreach (IParameterDescriptor descriptor in descriptors)
             {
-                ParameterLookupItem item = new ParameterLookupItem(descriptor);
+                ParameterLookupItem item = new ParameterLookupItem(descriptor, new DeclaredElementLookupItemCreationContext(ProjectFile));
                 item.InsertRange = new TextRange(0);
                 item.ReplaceRange = new TextRange(0,GetPrefix().Length);
                 result.Add(item);

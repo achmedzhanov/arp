@@ -215,6 +215,7 @@
     <Compile Include="log4net\Services\L4NProcessor.cs" />
     <Compile Include="log4net\Services\ParameterLookupItem.cs" />
     <Compile Include="log4net\Services\StageDaemon.cs" />
+    <Compile Include="log4net\Services\DeclaredElementLookupItemCreationContext.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />
