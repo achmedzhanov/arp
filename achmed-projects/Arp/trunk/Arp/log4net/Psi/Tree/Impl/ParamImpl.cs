@@ -2,13 +2,19 @@ using System.Collections.Generic;
 using Arp.Assertions;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Impl;
+using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
+
+    // TODO We need to implement GetReferense to have QuickDoc action (it is work with AppenderRef (!))
+// tip in Lookup TODO see  IdentifierTooltipProvider.GetTooltip,  CSharpIdentifierTooltipProvider, CSharpIdentifierHighlighting
+    // quick doc TODO see ShowQuickDocAction
     public class ParamImpl : TypedParametersOwner, IParam
     {
         private ICollection<IParameterDescriptor> elementParametrInfos;
@@ -27,7 +33,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                return this.Header.GetDocumentRange();
+                return Header.Name.GetDocumentRange();
             }
         }
 
@@ -48,6 +54,12 @@ namespace Arp.log4net.Psi.Tree.Impl
         public IParameterDescriptorProvider ParameterDescriptorProvider
         {
             get { return (IParameterDescriptorProvider)Parent; }
+        }
+
+
+        protected override ITreeReference[] CreateReferences()
+        {
+            return new ITreeReference[] { new ParamPropertyReference(this) };
         }
 
         public ICollection<IParam> GetParams()
@@ -115,10 +127,11 @@ namespace Arp.log4net.Psi.Tree.Impl
 
 
 
-        protected IParameterDescriptor ParameterDescriptor
+        public IParameterDescriptor ParameterDescriptor
         {
             get
             {
+                Assert.Check(ParameterDescriptorProvider.IsAvailable, "ParameterDescriptorProvider.IsAvailable");
                 return ParameterDescriptorProvider.GetParameterDescriptor(this.Name);
             }
         }

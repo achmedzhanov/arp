@@ -2,11 +2,15 @@ using System;
 using System.Drawing;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
+using JetBrains.ReSharper.CodeInsight.Services.ParameterInfo;
 using JetBrains.ReSharper.Psi;
 
 namespace Arp.log4net.Services
 {
-    public class ParameterLookupItem : LookupItemBase
+    // TODO IParameterInfoProvidingLookupItem we need to implement .PreferredDeclaredElement to show Parameter XML Doc (!)
+    // TODO implement GetReferences -> reference to property
+    // TODO see TooltipManager 
+    public class ParameterLookupItem : LookupItemBase 
     {
         private IParameterDescriptor parameterDescriptor;
 

@@ -52,7 +52,7 @@ namespace Arp.log4net.Psi.Tree.Impl
                 foreach (IProperty property in nextElement.Properties)
                 {
                     if (property.IsWritable && !property.IsStatic /* TODO check public accesibility and not index condition*/ )
-                        ret.Add(new ElementParametrInfoImpl(property));
+                        ret.Add(new ParameterDescriptorImpl(property));
                 }                
             }
 

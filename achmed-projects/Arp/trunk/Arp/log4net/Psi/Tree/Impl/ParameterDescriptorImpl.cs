@@ -1,14 +1,15 @@
 using Arp.Assertions;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Tree;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class ElementParametrInfoImpl : IParameterDescriptor
+    public class ParameterDescriptorImpl : IParameterDescriptor
     {
         private readonly IProperty property;
 
 
-        public ElementParametrInfoImpl(IProperty property)
+        public ParameterDescriptorImpl(IProperty property)
         {
             this.property = property;
         }
@@ -40,6 +41,11 @@ namespace Arp.log4net.Psi.Tree.Impl
             }
         }
 
+
+        public IDeclaredElement DecraedElement
+        {
+            get { return property; }
+        }
 
         ///<summary>
         ///Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.

@@ -8,25 +8,11 @@ using JetBrains.Util;
 namespace Arp.log4net.Psi.Tree.Impl
 {
     //TODO use CheckedReferenceBase or TreeReferenceBase?
-    internal class AppenderReference : CheckedReferenceBase<AppenderRefImpl>
+    public class AppenderReference : BaseDeclaredElementReference<AppenderRefImpl>
     {
         public AppenderReference(AppenderRefImpl owner)
             : base(owner)
         {
-        }
-
-        public override ISymbolFilter[] GetSymbolFilters(out int mustRun)
-        {
-            mustRun = 0;
-            return EmptyArray<ISymbolFilter>.Instance;
-        }
-
-        public override ResolveResult ResolveWithoutCache(out ResolveInfo resolveInfo)
-        {
-            ISymbolTable table = this.GetReferenceSymbolTable(true);
-            IList<ISymbolInfo> infos = table.GetAllSymbolInfos(GetName());
-            ResolveResult result = base.ResolveInTable(table, out resolveInfo);
-            return result;
         }
 
         public override string GetName()
@@ -34,42 +20,20 @@ namespace Arp.log4net.Psi.Tree.Impl
             return myOwner.Ref;
         }
 
-        public override ISymbolTable GetReferenceSymbolTable(bool useReferenceName)
+        protected override ICollection<IDeclaredElement> GetDeclaredElements()
         {
             ICollection<IAppender> appenders = myOwner.Parent.Parent.GetAppenders();
 
-            IList<IAppender> candicates =
-                CollectionUtil.FindAll(appenders, delegate(IAppender obj) { return (obj.Name == myOwner.Ref); });
-            if (candicates.Count == 0)
-                return EmptySymbolTable.INSTANCE;
+            IList<IAppender> found = CollectionUtil.FindAll(appenders, delegate(IAppender obj) { return (obj.Name == myOwner.Ref); });
 
+            ICollection<IDeclaredElement> converted = CollectionUtil.Convert<IDeclaredElement, IAppender>(found, delegate(IAppender input)
+                                                                                       {
+                                                                                           return (IDeclaredElement)input;
+                                                                                       });
 
-            WritableSymbolTableBase table = useReferenceName
-                                                ? ((WritableSymbolTableBase) new NameSymbolTable(this.GetName(), true))
-                                                : ((WritableSymbolTableBase) new SymbolTable(true));
-            foreach (IAppender appender in candicates)
-            {
-                table.AddSymbol((IDeclaredElement) appender, EmptySubstitution.INSTANCE, null, 0);
-            }
-
-            return table;
+            return converted;
         }
 
-
-        public override IReference BindTo(IDeclaredElement element)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IReference BindTo(IDeclaredElement element, ISubstitution substitution)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IAccessContext GetAccessContext()
-        {
-            return null;
-        }
 
         public override TextRange GetTreeTextRange()
         {
@@ -79,11 +43,6 @@ namespace Arp.log4net.Psi.Tree.Impl
         public override DocumentRange GetDocumentRange()
         {
             return myOwner.RefValue.GetDocumentRange();
-        }
-
-        public override ReferenceType ReferenceType
-        {
-            get { return ReferenceType.TEXT; }
         }
     }
 }

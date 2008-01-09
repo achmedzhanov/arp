@@ -89,7 +89,7 @@ namespace Arp.log4net.Psi.Tree.Impl
             return found.Count == 0 ? null : found[0];
         }
 
-        bool IParameterDescriptorProvider.IsAvailable
+        public bool IsAvailable
         {
             get
             {
@@ -130,12 +130,18 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public XmlNode GetXMLDoc(bool inherit)
         {
-            return null;
+            if(IsAvailable)
+                return TypeFromAttribute.GetXMLDoc(inherit);
+            else
+                return null;
         }
 
         public XmlNode GetXMLDescriptionSummary(bool inherit)
         {
-            return null;
+            if (IsAvailable)
+                return TypeFromAttribute.GetXMLDoc(inherit);
+            else
+                return null;
         }
 
         public bool IsSynthetic()
@@ -227,7 +233,10 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                return null;
+                if (IsAvailable)
+                    return TypeFromAttribute.XMLDocId;
+                else
+                    return null;
             }
         }
 
@@ -235,8 +244,10 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                // TODO null ??
-                return null;
+                if (IsAvailable)
+                    return TypeFromAttribute.Module;
+                else
+                    return null;
             }
         }
 
