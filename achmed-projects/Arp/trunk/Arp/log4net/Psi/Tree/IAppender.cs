@@ -4,6 +4,10 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree
 {
+    
+    //TODO intriduce IAppenderElement (ranges, nodes) and IAppender (names, parameters)
+    // separete meta info and structure info
+
     public interface IAppender : IXmlTag /*, IDeclaredElement*/, IElementParametersOwner, IL4NElement
     {
         IAppenderTypeName AppenderTypeName

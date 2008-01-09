@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.Daemon;
+using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
@@ -38,7 +40,70 @@ namespace Arp.log4net.Services
 
         public void ProcessAfterInterior(IElement element)
         {
+            ProcessElementParametersOwner(element);
+            ProcessIdentifiers(element);
+        }
+
+        private void ProcessIdentifiers(IElement element)
+        {
+            IReference[] references = element.GetReferences();
+            foreach (IReference reference in references)
+            {
+                if(!reference.IsValid())
+                {
+                    // TODO hightlight "can not resolve symbol 'blahblah' "
+                    //if( reference.CheckResolveResult() == ResolveErrorType. ...)
+                }
+                else if(reference.ReferenceType == ReferenceType.TEXT)
+                {
+                    ResolveResult resolveResult = reference.Resolve();
+                    if(resolveResult.DeclaredElement != null)
+                        Highlight(reference.GetDocumentRange(), resolveResult.DeclaredElement);
+                }
+            }
+
+            if(element is IAppender)
+            {
+                IAppender appender = (IAppender)element;
+                // TODO use IAppenderElement to get geader range
+                Highlight(((IXmlTag)appender).ToTreeNode().Header.Name.GetDocumentRange(), HighlightingAttributeIds.OPERATOR_IDENTIFIER_ATTRIBUTE);
+            }
+        }
+
+        private void Highlight(DocumentRange range, IDeclaredElement declaredElement)
+        {
+            string attribute = GetHighlightAttributeForReference(declaredElement);
+            if (attribute != null)
+            {
+                highlightings.Add(new HighlightingInfo(range, new L4NIdentifierHighlighting(attribute)));
+            }
+        }
+
+        private void Highlight(DocumentRange range, string attribute)
+        {
+            highlightings.Add(new HighlightingInfo(range, new L4NIdentifierHighlighting(attribute)));
+        }
+
+
+        private string GetHighlightAttributeForReference(IDeclaredElement element)
+        {
+            if (element is IProperty)
+                return HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE;
+//                return HighlightingAttributeIds.CONSTANT_IDENTIFIER_ATTRIBUTE;
+            else if(element is IAppender)
+            {
+                return HighlightingAttributeIds.LOCAL_VARIABLE_IDENTIFIER_ATTRIBUTE;
+            }
+            else
+                return null;
+        }
+
+
+        private void ProcessElementParametersOwner(IElement element)
+        {
             IElementParametersOwner elementParametersOwner = element as IElementParametersOwner;
+
+            // TODO use get reference
 
             if(elementParametersOwner != null)
             {
@@ -55,9 +120,9 @@ namespace Arp.log4net.Services
                 foreach (IParam param in elementParametersOwner.GetParams())
                 {
                     IList<IParameterDescriptor> filteredInfos = CollectionUtil.FindAll(infos, delegate(IParameterDescriptor obj)
-                                                                            {
-                                                                                return param.Name == obj.Name;
-                                                                            });
+                                                                                                  {
+                                                                                                      return param.Name == obj.Name;
+                                                                                                  });
 
                     if(filteredInfos.Count == 0)
                     {

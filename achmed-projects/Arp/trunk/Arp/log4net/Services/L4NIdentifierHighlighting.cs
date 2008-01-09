@@ -3,9 +3,16 @@ using JetBrains.ReSharper.Daemon;
 
 namespace Arp.log4net.Services
 {
-    public class InvalidPropertyHighlighting : IHighlighting
+    [DaemonTooltipProvider(typeof(L4NIdentifierTooltipProvider))]
+    public class L4NIdentifierHighlighting : IHighlighting
     {
-        
+        private readonly string attributeId;
+
+        public L4NIdentifierHighlighting(string attributeId)
+        {
+            this.attributeId = attributeId;
+        }
+
         ///<summary>
         ///
         ///            Attribute of this highlighting in the markup model
@@ -14,11 +21,7 @@ namespace Arp.log4net.Services
         ///
         public string AttributeId
         {
-            get
-            {
-                return HighlightingAttributeIds.UNRESOLVED_ERROR_ATTRIBUTE;
-//                return HighlightingAttributeIds.ERROR_ATTRIBUTE;
-            }
+            get { return attributeId; }
         }
 
         ///<summary>
@@ -29,7 +32,7 @@ namespace Arp.log4net.Services
         ///
         public OverlapResolvePolicy OverlapResolvePolicy
         {
-            get { return OverlapResolvePolicy.ERROR; }
+            get { return OverlapResolvePolicy.NONE; }
         }
 
         ///<summary>
@@ -40,7 +43,7 @@ namespace Arp.log4net.Services
         ///
         public Severity Severity
         {
-            get { return Severity.ERROR; }
+            get { return Severity.INFO; }
         }
 
         ///<summary>
@@ -54,7 +57,7 @@ namespace Arp.log4net.Services
         ///
         public string ToolTip
         {
-            get { return "Invalid property name"; }
+            get { throw new System.NotImplementedException(); }
         }
 
         ///<summary>
@@ -66,7 +69,7 @@ namespace Arp.log4net.Services
         ///
         public string ErrorStripeToolTip
         {
-            get { return "Invalid property name"; }
+            get { throw new System.NotImplementedException(); }
         }
 
         ///<summary>
@@ -89,7 +92,7 @@ namespace Arp.log4net.Services
         ///
         public bool ShowToolTipInStatusBar
         {
-            get { return true; }
+            get { return false; }
         }
 
         ///<summary>

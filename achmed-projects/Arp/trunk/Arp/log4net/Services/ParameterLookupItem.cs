@@ -15,7 +15,7 @@ namespace Arp.log4net.Services
     // TODO see TooltipManager 
     public class ParameterLookupItem : DeclaredElementLookupItem 
     {
-        private IParameterDescriptor parameterDescriptor;
+        private readonly IParameterDescriptor parameterDescriptor;
 
 
         public ParameterLookupItem(IParameterDescriptor parameterDescriptor, IElementPointerFactory elementInstancePointer)

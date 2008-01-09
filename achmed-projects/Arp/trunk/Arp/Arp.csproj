@@ -210,6 +210,7 @@
     <Compile Include="log4net\Services\L4NDaemonStageProcess.cs" />
     <Compile Include="log4net\Psi\L4NElementFactory.cs" />
     <Compile Include="log4net\Psi\L4NLanguageService.cs" />
+    <Compile Include="log4net\Services\L4NIdentifierHighlighting.cs" />
     <Compile Include="log4net\Services\L4NIdentifierTooltipProvider.cs" />
     <Compile Include="log4net\Services\L4NProjectFileLanguageService.cs" />
     <Compile Include="log4net\Services\L4NProcessor.cs" />
