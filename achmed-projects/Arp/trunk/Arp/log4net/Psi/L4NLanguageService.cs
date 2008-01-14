@@ -20,8 +20,11 @@ namespace Arp.log4net.Psi
     [ShellComponentImplementation, LanguageService, ShellComponentInterface(ProgramConfigurations.ALL)]
     public class L4NLanguageService : XmlLanguageServiceBase, IShellComponent
     {
-        public static readonly PsiLanguageType L4N = new PsiLanguageType("L4N");
-
+        public const string L4N_STRING = "L4N";
+        
+        public static readonly PsiLanguageType L4N = new PsiLanguageType(L4N_STRING);
+        
+        
         public L4NLanguageService()
             : base(L4N)
         {

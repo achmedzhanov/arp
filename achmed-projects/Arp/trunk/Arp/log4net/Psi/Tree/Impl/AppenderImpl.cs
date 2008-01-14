@@ -18,7 +18,7 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class AppenderImpl : TypedParametersOwner, IAppender, IDeclaration, IDeclaredElement, ITypeOwner, IParameterDescriptorProvider
+    public class AppenderImpl : TypedParametersOwner, IAppender, IDeclaration, IDeclaredElement , /*ITypeOwner,*/ IParameterDescriptorProvider
     {
         private IDeclaration[] declarations;
         private ICollection<IParameterDescriptor> elementParametrInfos = null;
@@ -113,7 +113,8 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public void SetName(string name)
         {
-            throw new NotImplementedException();
+            if (name == null) throw new ArgumentNullException("name");
+            XMLPSIUtils.SetAttributeValiue(GetAttribute(L4NConstants.NAME),name);
         }
 
         public TextRange GetNameRange()

@@ -13,7 +13,7 @@ namespace Arp.log4net.Psi.Tree
         ILogger Parent
         { get;}
 
-
+        void SetRef(string name);
 
     }
 }

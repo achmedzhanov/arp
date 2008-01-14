@@ -48,6 +48,7 @@ namespace Arp.log4net.Services
         public override string GetTooltip(IHighlighter highlighter)
         {
             // method overrided for debug only
+            // TODO static tooltip for predefined elements: appender, looger, root, appender-ref, level
             return base.GetTooltip(highlighter);
         }
 

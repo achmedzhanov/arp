@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
@@ -46,6 +47,17 @@ namespace Arp.log4net.Psi.Tree.Impl
         public override DocumentRange GetDocumentRange()
         {
             return myOwner.NameDocumentRange;
+        }
+
+
+        public override IReference BindTo(IDeclaredElement element)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override IReference BindTo(IDeclaredElement element, ISubstitution substitution)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

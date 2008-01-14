@@ -49,15 +49,6 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         protected abstract ICollection<IDeclaredElement> GetDeclaredElements();
 
-        public override IReference BindTo(IDeclaredElement element)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public override IReference BindTo(IDeclaredElement element, ISubstitution substitution)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public override ReferenceType ReferenceType
         {

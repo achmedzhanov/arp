@@ -42,12 +42,12 @@ namespace Arp.log4net.Psi
                 {
                     return new AppenderImpl();
                 }
-                else if (name == L4NConstants.LOGGER)
+                else if (name == L4NConstants.LOGGER || name == L4NConstants.ROOT_LOGGER)
                 {
                     return new LoggerImpl();
                 }
             }
-            else if (parentTagName == L4NConstants.LOGGER )
+            else if (parentTagName == L4NConstants.LOGGER || parentTagName == L4NConstants.ROOT_LOGGER)
             {
                 if (name == L4NConstants.APPENDER_REF)
                 {

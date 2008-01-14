@@ -13,7 +13,6 @@ using JetBrains.UI.Shell.PluginSupport;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Arp Another Resharper Plugin")]
-[assembly: AssemblyCopyright("Copyright © Achmedzhanov Nail 2007")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -45,8 +44,10 @@ using JetBrains.UI.Shell.PluginSupport;
 [assembly: ImagesBase("Arp.Images")]
 [assembly: ActionsXml("Arp.Actions.xml")]
 [assembly: PluginVendor("Achmezhanov Nail")]
-[assembly: PluginDescription("")]
+[assembly: PluginDescription("Another Resharper Plugin")]
 [assembly: PluginTitle("Another Resharper Plugin")]
+[assembly: AssemblyCopyright("Copyright \x00a9 2007-2008 Achmedzhanov Nail All rights reserved.")]
+
 
 
 

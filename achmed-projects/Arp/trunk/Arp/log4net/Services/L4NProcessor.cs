@@ -41,7 +41,17 @@ namespace Arp.log4net.Services
         public void ProcessAfterInterior(IElement element)
         {
             ProcessElementParametersOwner(element);
+            ProcessBackground(element);
             ProcessIdentifiers(element);
+        }
+
+        private void ProcessBackground(IElement element)
+        {
+            if(element is IL4NSection)
+            {
+//                Highlight(element.GetDocumentRange(), L4NHighlightingAttributeIds.XML_BACKGROUND);
+//                Highlight(element.GetDocumentRange(), "ReSharper Highlight Target");
+            }
         }
 
         private void ProcessIdentifiers(IElement element)
@@ -65,8 +75,9 @@ namespace Arp.log4net.Services
             if(element is IAppender)
             {
                 IAppender appender = (IAppender)element;
-                // TODO use IAppenderElement to get geader range
-                Highlight(((IXmlTag)appender).ToTreeNode().Header.Name.GetDocumentRange(), HighlightingAttributeIds.OPERATOR_IDENTIFIER_ATTRIBUTE);
+                // TODO use IAppenderElement to get header range
+                IXmlTagNode treeNode = ((IXmlTag)appender).ToTreeNode();
+                Highlight(treeNode.Header.Name.GetDocumentRange(), HighlightingAttributeIds.OPERATOR_IDENTIFIER_ATTRIBUTE);
             }
         }
 
@@ -75,6 +86,8 @@ namespace Arp.log4net.Services
             string attribute = GetHighlightAttributeForReference(declaredElement);
             if (attribute != null)
             {
+                // TODO highlight closed tag
+                // if (treeNode.Footer != null && treeNode.Footer.Name != null)
                 highlightings.Add(new HighlightingInfo(range, new L4NIdentifierHighlighting(attribute)));
             }
         }

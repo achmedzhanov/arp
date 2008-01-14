@@ -182,6 +182,7 @@
     <Compile Include="log4net\Psi\Tree\Impl\TypedParametersOwner.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ParameterDescriptorImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ElementParametrInfoImplUtil.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\XMLPSIUtils.cs" />
     <Compile Include="log4net\Psi\Tree\IParam.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderRef.cs" />
     <Compile Include="log4net\Psi\Tree\IL4NSection.cs" />
@@ -203,10 +204,11 @@
     <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
     <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
     <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />
+    <Compile Include="log4net\Services\Highlighters.cs" />
     <Compile Include="log4net\Services\InvalidPropertyHighlighting.cs" />
-    <Compile Include="log4net\Services\CompletionProviderSample.cs" />
-    <Compile Include="log4net\Services\L4NCodeCompletionContext.cs" />
-    <Compile Include="log4net\Services\L4NCodeCompletionProvider.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\CompletionProviderSample.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionProvider.cs" />
     <Compile Include="log4net\Services\L4NDaemonStageProcess.cs" />
     <Compile Include="log4net\Psi\L4NElementFactory.cs" />
     <Compile Include="log4net\Psi\L4NLanguageService.cs" />
@@ -214,9 +216,11 @@
     <Compile Include="log4net\Services\L4NIdentifierTooltipProvider.cs" />
     <Compile Include="log4net\Services\L4NProjectFileLanguageService.cs" />
     <Compile Include="log4net\Services\L4NProcessor.cs" />
-    <Compile Include="log4net\Services\ParameterLookupItem.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\ParameterLookupItem.cs" />
+    <Compile Include="log4net\Services\Refactorings\L4NNamingStyle.cs" />
+    <Compile Include="log4net\Services\Refactorings\L4NRename.cs" />
     <Compile Include="log4net\Services\StageDaemon.cs" />
-    <Compile Include="log4net\Services\DeclaredElementLookupItemCreationContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\DeclaredElementLookupItemCreationContext.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />

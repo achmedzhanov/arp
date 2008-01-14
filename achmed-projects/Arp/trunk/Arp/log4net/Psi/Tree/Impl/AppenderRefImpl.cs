@@ -91,6 +91,12 @@ namespace Arp.log4net.Psi.Tree.Impl
             return baseRet;
         }
 
+
+        public void SetRef(string name)
+        {
+            XMLPSIUtils.SetAttributeValiue(GetAttribute(L4NConstants.REF), name);
+        }
+
 //        public override ITreeReference[] GetInternalReferences()
 //        {
 //            //return base.GetInternalReferences();
