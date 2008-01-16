@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Arp.Assertions;
+using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Editor;
@@ -72,12 +74,39 @@ namespace Arp.log4net.Services
                 }
             }
 
-            if(element is IAppender)
+            if (element is IAppenderRef)
             {
-                IAppender appender = (IAppender)element;
+                Highlight(((IXmlTag)element).ToTreeNode().Header.Name, HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE);
+            }
+
+            // TODO remove double code
+            if(element is ILogger &&  ((ILogger)element).TagName == L4NConstants.ROOT_LOGGER)
+            {
+                IXmlTagNode treeNode = ((IXmlTag)element).ToTreeNode();
+                // TODO use ILoggerElement to get header range
+                Highlight(treeNode.Header.Name, HighlightingAttributeIds.CONSTANT_IDENTIFIER_ATTRIBUTE);                
+            }
+            else if(element is IAppender || element is ILogger)
+            {
                 // TODO use IAppenderElement to get header range
-                IXmlTagNode treeNode = ((IXmlTag)appender).ToTreeNode();
-                Highlight(treeNode.Header.Name.GetDocumentRange(), HighlightingAttributeIds.OPERATOR_IDENTIFIER_ATTRIBUTE);
+                IXmlTagNode treeNode = ((IXmlTag)element).ToTreeNode();
+                Highlight(treeNode.Header.Name, HighlightingAttributeIds.TYPE_IDENTIFIER_ATTRIBUTE);
+            }
+
+            // TODO tooltips for predefined tags appender, appender-ref, logger, level etc
+        }
+
+        private void Highlight(IXmlIdentifierNode node, string attributeId)
+        {
+            Highlight(node.GetDocumentRange(), attributeId);
+
+            IXmlTagHeaderNode header = node.Parent as IXmlTagHeaderNode;
+            if(header != null)
+            {
+                IXmlTagNode tag = header.Parent as IXmlTagNode;
+                Assert.CheckNotNull(tag);
+                if(tag.Footer != null)
+                    Highlight(tag.Footer.Name.GetDocumentRange(), attributeId);
             }
         }
 

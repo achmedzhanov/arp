@@ -12,6 +12,10 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Services
 {
+
+//TODO rename to ParamNameCodcompletion Context
+//TODO add AppenderNameCodcompletion Context
+
     public class L4NCodeCompletionContext : XmlCodeCompletionContextBase<IXmlFile>
     {
         private ITokenNode token;

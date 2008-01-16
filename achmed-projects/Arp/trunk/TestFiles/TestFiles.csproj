@@ -37,6 +37,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="log4net\ClassWithLogger.cs" />
     <Compile Include="Serialization\InheritClasses.cs" />
     <Compile Include="Serialization\InheritСlassesOtherFile.cs" />
     <Compile Include="UnusedReferences\DeclaredVariable.cs" />

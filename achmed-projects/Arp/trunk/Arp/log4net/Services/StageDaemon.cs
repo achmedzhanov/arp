@@ -5,6 +5,12 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Services
 {
+
+//TODO add daemon for C# code
+//
+//- quick fix "add if(log.IsXXXX)"
+//- quick fix "change if(log.IsXXXX)" and "change log.XXX)"
+
     [DaemonStage()]
     public class L4NDaemonStage : BaseXmlDaemonStage
     {

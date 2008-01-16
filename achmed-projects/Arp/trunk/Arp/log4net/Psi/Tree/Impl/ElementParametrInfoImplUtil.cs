@@ -11,6 +11,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             if (type == null) throw new ArgumentNullException("type");
 
+            // TODO see .GetManager().PredefinedType.String
 //            if(is prmiive type)
 //                return EmptyArray<IParameterDescriptor>.Instance;
 
