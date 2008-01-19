@@ -36,7 +36,7 @@ namespace Arp.log4net.Psi
             {
                 return new L4NSectionImpl();
             }
-            else if (parentTagName == L4NConstants.LOG4NET)
+            else if (parentTag is IL4NSection)
             {
                 if (name == L4NConstants.APPENDER)
                 {
@@ -47,7 +47,7 @@ namespace Arp.log4net.Psi
                     return new LoggerImpl();
                 }
             }
-            else if (parentTagName == L4NConstants.LOGGER || parentTagName == L4NConstants.ROOT_LOGGER)
+            else if (parentTag is ILogger)
             {
                 if (name == L4NConstants.APPENDER_REF)
                 {

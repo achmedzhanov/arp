@@ -8,11 +8,8 @@ using JetBrains.ReSharper.CodeInsight.Services.ParameterInfo;
 using JetBrains.ReSharper.Psi;
 using JetBrains.UI.RichText;
 
-namespace Arp.log4net.Services
+namespace Arp.log4net.Services.CodeCompletion
 {
-    // TODO IParameterInfoProvidingLookupItem we need to implement .PreferredDeclaredElement to show Parameter XML Doc (!)
-    // TODO implement GetReferences -> reference to property
-    // TODO see TooltipManager 
     public class ParameterLookupItem : DeclaredElementLookupItem 
     {
         private readonly IParameterDescriptor parameterDescriptor;
@@ -20,9 +17,9 @@ namespace Arp.log4net.Services
 
         public ParameterLookupItem(IParameterDescriptor parameterDescriptor, IElementPointerFactory elementInstancePointer)
             : 
-            base(new DeclaredElementInstance(parameterDescriptor.DecraedElement), 
-            elementInstancePointer, 
-            L4NLanguageService.L4N )
+                base(new DeclaredElementInstance(parameterDescriptor.DecraedElement), 
+                     elementInstancePointer, 
+                     L4NLanguageService.L4N )
         {
             if (parameterDescriptor == null) throw new ArgumentNullException("parameterDescriptor");
             this.parameterDescriptor = parameterDescriptor;

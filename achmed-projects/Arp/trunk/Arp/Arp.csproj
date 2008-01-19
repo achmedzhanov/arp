@@ -204,11 +204,14 @@
     <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
     <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
     <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\AppenderNameCompletionContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\IL4NCodeCompletionContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\L4NTypingHandler.cs" />
     <Compile Include="log4net\Services\CSharp\ContextActions\CheckLogLevel.cs" />
     <Compile Include="log4net\Services\Highlighters.cs" />
     <Compile Include="log4net\Services\InvalidPropertyHighlighting.cs" />
     <Compile Include="log4net\Services\CodeCompletion\CompletionProviderSample.cs" />
-    <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\ParamNameCompletionContext.cs" />
     <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionProvider.cs" />
     <Compile Include="log4net\Services\L4NDaemonStageProcess.cs" />
     <Compile Include="log4net\Psi\L4NElementFactory.cs" />

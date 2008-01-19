@@ -2,7 +2,7 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 using JetBrains.ReSharper.Psi;
 
-namespace Arp.log4net.Services
+namespace Arp.log4net.Services.CodeCompletion
 {
     public class DeclaredElementLookupItemCreationContext : IElementPointerFactory
     {
@@ -22,5 +22,4 @@ namespace Arp.log4net.Services
             return new TrivialElementInstancePointer<T>(instance);
         }
     }
-
 }

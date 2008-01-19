@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Arp.Assertions;
+using Arp.log4net.Services.CodeCompletion;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.CodeCompletion;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
@@ -10,11 +12,12 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.ReSharper.TextControl;
 using JetBrains.Util;
 
-namespace Arp.log4net.Services
+namespace Arp.log4net.Services.CodeCompletion
 {
     [LanguageSpecificImplementation("L4N", typeof(ICodeCompletionServiceProvider))]
     public class L4NCodeCompletionProvider : ICodeCompletionServiceProvider
     {
+        
         ///<summary>
         ///
         ///            Checks if the given code completion is available at this point
@@ -23,16 +26,20 @@ namespace Arp.log4net.Services
         ///
         public bool IsAvailable(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType)
         {
-            L4NCodeCompletionContext context = CreateContext(solution, textControl, codeCompletionType);
-            if (context == null)
-                return false;
-            return context.IsAvailable();
+            // TODO introduce rule completion abstraction
+            IL4NCodeCompletionContext [] contexts = CreateContexts(solution, textControl, codeCompletionType);
+            foreach (IL4NCodeCompletionContext context in contexts)
+            {
+                if (context.IsAvailable())
+                    return true;
+            }
+            return false;
         }
 
-        protected L4NCodeCompletionContext CreateContext(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType)
+        protected IL4NCodeCompletionContext[] CreateContexts(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType)
         {
             if (codeCompletionType == CodeCompletionType.BasicCompletion)
-                return new L4NCodeCompletionContext(solution, textControl);
+                return new IL4NCodeCompletionContext[] { new ParamNameCompletionContext(solution, textControl), new AppenderNameCompletionContext(solution, textControl) };
             return null;
         }
 
@@ -45,8 +52,23 @@ namespace Arp.log4net.Services
         public void Execute(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType,
                             CompletionHandler itemCompleted)
         {
-            L4NCodeCompletionContext context = CreateContext(solution, textControl, codeCompletionType);
+            IL4NCodeCompletionContext [] contexts = CreateContexts(solution, textControl, codeCompletionType);
+            IL4NCodeCompletionContext context = null;
+            // TODO introduce rule completion abstraction
+            foreach (IL4NCodeCompletionContext candidate in contexts)
+            {
+                if(candidate.IsAvailable())
+                {
+                    context = candidate;
+                    continue;
+                }
+            }
+            
+            Assert.CheckNotNull(context, "context");
+
             IList<ILookupItem> items = context.EvaluateLookupItems();
+
+            items = LookupUtil.GetFilteredItems(items, context.GetPrefix(), CodeCompletionSettings.Instance.CaseSensitiveCompletion.Value);
 
             LookupWindowOptions options = new LookupWindowOptions();
             options.PreferencePolicy = null;
@@ -54,9 +76,10 @@ namespace Arp.log4net.Services
             options.ShowParameterInfo = LookupOptions.Instance.ShowSummary.Value;
             options.InitialPrefixIsShortest = true;
             options.AutocompleteCommonPrefix = CodeCompletionSettings.Instance.AutocompleteCommonPrefix.Value;
+            
 
             TextRange prefixRange = context.PrefixRange;
-            ILookup lookup = LookupWindowManager.Instance.CreateLookup(context.TextControl, prefixRange, items, context.Solution, options);
+            ILookup lookup = LookupWindowManager.Instance.CreateLookup(textControl, prefixRange, items, solution, options);
 
             lookup.ShowLookup();
         }

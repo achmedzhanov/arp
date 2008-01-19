@@ -5,7 +5,7 @@ using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.UI.Interop;
 using JetBrains.Util;
 
-namespace Arp.log4net.Services
+namespace Arp.log4net.Services.CodeCompletion
 {
     [XmlCodeCompletionProvider]
     public class CompletionProviderSample : XmlCodeCompletionProvider
