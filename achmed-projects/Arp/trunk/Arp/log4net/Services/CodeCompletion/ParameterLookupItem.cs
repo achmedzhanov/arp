@@ -39,5 +39,9 @@ namespace Arp.log4net.Services.CodeCompletion
         {
             return parameterDescriptor.Name; 
         }
+
+        // TODO CompleteSingleItem
+
+
     }
 }

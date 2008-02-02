@@ -7,7 +7,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 {
     public static class ElementParametrInfoImplUtil
     {
-        public static ICollection<IParameterDescriptor> GetParameters(ITypeElement type)
+        public static ICollection<IParameterDescriptor> GetParameters(ITypeElement type, params string [] skipNames)
         {
             if (type == null) throw new ArgumentNullException("type");
 
@@ -52,12 +52,37 @@ namespace Arp.log4net.Psi.Tree.Impl
             {
                 foreach (IProperty property in nextElement.Properties)
                 {
-                    if (property.IsWritable && !property.IsStatic /* TODO check public accesibility and not index condition*/ )
-                        ret.Add(new ParameterDescriptorImpl(property));
+                    if (skipNames != null && Array.IndexOf(skipNames, property.ShortName) != -1)
+                        continue;
+
+                    IModifiersOwner modifiersOwner = (IModifiersOwner)property;
+                    if (modifiersOwner.IsAbstract)
+                        continue;
+                    if (modifiersOwner.GetAccessRights() != AccessRights.PUBLIC)
+                        continue;
+                    
+                    if (!property.IsWritable)
+                        continue;
+
+                    if (property.IsStatic)
+                        continue;
+
+                    ret.Add(Create(property));
                 }                
             }
 
             return ret;
+        }
+
+        private static IParameterDescriptor Create(IProperty property)
+        {
+            ParameterDescriptorImpl impl = new ParameterDescriptorImpl(property);
+
+            IDeclaredType declaredType = property.Type as IDeclaredType;
+            if (declaredType != null && declaredType.GetCLRName() == "log4net.Core.Level")
+                return new LevelParameterDescriptorDecorator(impl);
+
+            return impl;
         }
     }
 }

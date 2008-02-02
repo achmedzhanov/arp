@@ -1,13 +1,27 @@
+using System;
 using System.Drawing;
+using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.Daemon;
+using JetBrains.ReSharper.Psi.Tree;
 
 namespace Arp.log4net.Services
 {
-    public class InvalidPropertyHighlighting : IHighlighting
+    public class MissedParameterError : IHighlighting
     {
-        public InvalidPropertyHighlighting()
+        private readonly IParameterDescriptor descriptor;
+        private readonly IElement element;
+        private readonly string toolTip;
+
+        public MissedParameterError(IParameterDescriptor descriptor, IElement element)
         {
+            if (descriptor == null) throw new ArgumentNullException("descriptor");
+            if (element == null) throw new ArgumentNullException("element");
+            this.descriptor = descriptor;
+            this.element = element;
+            this.toolTip = string.Format("Missed requred {0} {1}", (descriptor.IsAttribute ? "attribute" : "element" ), descriptor.Name);
         }
+
+        #region IHighlighting Members
 
         ///<summary>
         ///
@@ -17,11 +31,7 @@ namespace Arp.log4net.Services
         ///
         public string AttributeId
         {
-            get
-            {
-                return HighlightingAttributeIds.UNRESOLVED_ERROR_ATTRIBUTE;
-//                return HighlightingAttributeIds.ERROR_ATTRIBUTE;
-            }
+            get { return HighlightingAttributeIds.ERROR_ATTRIBUTE; }
         }
 
         ///<summary>
@@ -32,7 +42,7 @@ namespace Arp.log4net.Services
         ///
         public OverlapResolvePolicy OverlapResolvePolicy
         {
-            get { return OverlapResolvePolicy.ERROR; }
+            get { return OverlapResolvePolicy.NONE; }
         }
 
         ///<summary>
@@ -57,7 +67,7 @@ namespace Arp.log4net.Services
         ///
         public string ToolTip
         {
-            get { return "Invalid property name"; }
+            get { return toolTip; }
         }
 
         ///<summary>
@@ -69,7 +79,7 @@ namespace Arp.log4net.Services
         ///
         public string ErrorStripeToolTip
         {
-            get { return "Invalid property name"; }
+            get { return ToolTip; }
         }
 
         ///<summary>
@@ -92,7 +102,7 @@ namespace Arp.log4net.Services
         ///
         public bool ShowToolTipInStatusBar
         {
-            get { return true; }
+            get { return false; }
         }
 
         ///<summary>
@@ -106,5 +116,17 @@ namespace Arp.log4net.Services
         {
             get { return 0; }
         }
+
+        public IParameterDescriptor Descriptor
+        {
+            get { return descriptor; }
+        }
+
+        public IElement Element
+        {
+            get { return element; }
+        }
+
+        #endregion
     }
 }

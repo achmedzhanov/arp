@@ -10,5 +10,7 @@ namespace Arp.log4net.Psi.Tree
         IL4NSection Parent
         { get;}
 
+        bool IsRoot { get;}
+
     }
 }

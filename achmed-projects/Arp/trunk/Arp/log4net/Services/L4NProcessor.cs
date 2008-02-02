@@ -13,6 +13,23 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Services
 {
+
+
+//TODO required attributes - static and dynamics aka name, vale, type . We need quick fix 'add attribute|element <name>', highlithihg 'required attribute <name>', autocompletion with attribute <name>, insert requred attribute after autocompletion list closed
+//TODO requred element
+//TODO element order (requred after, requred before)
+//TODO required zero or one, zero or more
+//
+//TODO interface oriented model (backends: cuctom implementation, xsd based implementation)
+//
+//
+//TODO add to IParamDescriptor properties Description, requred Before, CountRestriction, Required, TextValueRestriction
+//TODO introduce interface IParamDescriptorXmlType Element or Attribute
+//TODO IEnumerableParamValueDescription
+//
+//NOTE do we need to use DTD instead XSD ? 
+//XSD is better! Try to implement only part
+
     public class L4NProcessor : IRecursiveElementProcessor
     {
         
@@ -45,6 +62,9 @@ namespace Arp.log4net.Services
             ProcessElementParametersOwner(element);
             ProcessBackground(element);
             ProcessIdentifiers(element);
+
+//            TODO  use for paratemetrs values OptionConverter
+
         }
 
         private void ProcessBackground(IElement element)
@@ -143,13 +163,13 @@ namespace Arp.log4net.Services
 
         private void ProcessElementParametersOwner(IElement element)
         {
-            IElementParametersOwner elementParametersOwner = element as IElementParametersOwner;
+            IDeclaredParametersOwner declaredParametersOwner = element as IDeclaredParametersOwner;
 
             // TODO use get reference
 
-            if(elementParametersOwner != null)
+            if(declaredParametersOwner != null)
             {
-                IParameterDescriptorProvider parameterDescriptorProvider = elementParametersOwner as IParameterDescriptorProvider;
+                IParameterDescriptorProvider parameterDescriptorProvider = declaredParametersOwner as IParameterDescriptorProvider;
 
                 if (parameterDescriptorProvider == null)
                     return;
@@ -159,16 +179,36 @@ namespace Arp.log4net.Services
 
                 ICollection<IParameterDescriptor> infos = parameterDescriptorProvider.GetParameterDescriptors();
 
-                foreach (IParam param in elementParametersOwner.GetParams())
-                {
-                    IList<IParameterDescriptor> filteredInfos = CollectionUtil.FindAll(infos, delegate(IParameterDescriptor obj)
-                                                                                                  {
-                                                                                                      return param.Name == obj.Name;
-                                                                                                  });
+                ICollection<IDeclaredParameter> declaredParameters = declaredParametersOwner.GetParams();
 
-                    if(filteredInfos.Count == 0)
+                // Highlight invalid names
+                foreach (IDeclaredParameter param in declaredParameters)
+                {
+                    if(ParametersUtil.GetByName(infos, param.Name) == null)
                     {
                         highlightings.Add(new HighlightingInfo(param.NameDocumentRange, new InvalidPropertyHighlighting()));
+                    }
+                }
+
+                // Highlight requred attributes
+                IXmlTag tag = element as IXmlTag;
+                foreach (IParameterDescriptor descriptor in infos)
+                {
+                    if(descriptor.IsRequired)
+                    {
+                        if(ParametersUtil.GetByName(declaredParameters, descriptor.Name) != null
+                            // it is conxeption hak, TODO fix parameters conception
+                            || (tag != null && tag.GetAttribute(descriptor.Name) != null))
+                            continue;
+
+                        DocumentRange range;
+                        if (tag != null)
+                            range = tag.ToTreeNode().Header.GetDocumentRange();
+                        else
+                            range = element.ToTreeNode().GetDocumentRange();
+
+                        highlightings.Add(new HighlightingInfo(range, new MissedParameterError(descriptor, element)));
+
                     }
                 }
             }

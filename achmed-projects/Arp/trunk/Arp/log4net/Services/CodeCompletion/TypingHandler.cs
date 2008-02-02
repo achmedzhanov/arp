@@ -18,7 +18,7 @@ using JetBrains.UI.Interop;
 
 namespace Arp.log4net.Services.CodeCompletion
 {
-    [SolutionComponentInterface(ProgramConfigurations.ALL), SolutionComponentImplementation]
+//    [SolutionComponentInterface(ProgramConfigurations.ALL), SolutionComponentImplementation]
     public class TypingHandler : ITypingHandler, ISolutionComponent
     {
         private readonly ISolution solution;
@@ -33,6 +33,7 @@ namespace Arp.log4net.Services.CodeCompletion
 
         public void Type(ITextControl textControl, char c, NextHandler nextHandler)
         {
+            // если не вызвать nextHandler то в редакторе не появляется новый символ
             nextHandler();
 
             if (!IsSupported(textControl))
@@ -87,7 +88,7 @@ namespace Arp.log4net.Services.CodeCompletion
                                             );
 
                                     };
-                CommandProcessor.Instance.BeforeCommandFinished  += action;
+                CommandProcessor.Instance.BeforeCommandFinished += action;
             }
         }
 
@@ -105,8 +106,7 @@ namespace Arp.log4net.Services.CodeCompletion
             #region user messages
 
             int sres = Win32Declarations.SendMessage(focusHandle, Win32Declarations.WM_USER + 42, IntPtr.Zero, IntPtr.Zero);
-
-            bool pres = Win32Declarations.PostMessage(focusHandle, Win32Declarations.WM_USER + 46, IntPtr.Zero, IntPtr.Zero);
+            Win32Declarations.PostMessage(focusHandle, Win32Declarations.WM_USER + 46, IntPtr.Zero, IntPtr.Zero);
 
             #endregion
 

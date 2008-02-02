@@ -5,15 +5,13 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree
 {
-    public interface IParam : IElement, IElementParametersOwner, IL4NElement, IParameterDescriptorProvider
+    public interface IDeclaredParameter /*: IElement, IDeclaredParametersOwner, IL4NElement, IParameterDescriptorProvider*/ : IL4NElement
     {
         string Name { get;}
 
         DocumentRange NameDocumentRange { get;}
 
         string StringValue { get;}
-
-        IElementParametersOwner Owner { get;}
 
         IParameterDescriptorProvider ParameterDescriptorProvider {get;}
 

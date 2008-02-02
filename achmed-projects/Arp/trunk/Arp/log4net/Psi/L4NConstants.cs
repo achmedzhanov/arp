@@ -1,51 +1,60 @@
 namespace Arp.log4net.Psi
 {
-    public class L4NConstants
+    public static class L4NConstants
     {
+        public const string VALUE = "value";
+
         /// <summary>
         /// log4net section name
         /// </summary>
-        public static string LOG4NET = "log4net";
+        public const string LOG4NET = "log4net";
 
         /// <summary>
         /// appender tag name
         /// </summary>
-        public static string APPENDER = "appender";
+        public const string APPENDER = "appender";
 
 
         /// <summary>
         /// para, tag
         /// </summary>
-        public static string PARAM = "param";
+        public const string PARAM = "param";
         
         /// <summary>
         /// appender-ref tag name
         /// </summary>
-        public static string APPENDER_REF = "appender-ref";
+        public const string APPENDER_REF = "appender-ref";
         
         /// <summary>
         /// appender name attribute
         /// </summary>
-        public static string NAME = "name";
+        public const string NAME = "name";
         
         /// <summary>
         /// appender type attribute
         /// </summary>
-        public static string TYPE = "type";
+        public const string TYPE = "type";
 
         /// <summary>
         /// logger tag name
         /// </summary>
-        public static string LOGGER = "logger";
+        public const string LOGGER = "logger";
         
         /// <summary>
         /// root logger tag name
         /// </summary>
-        public static string ROOT_LOGGER = "root";
+        public const string ROOT_LOGGER = "root";
 
         /// <summary>
         /// ref attribute
         /// </summary>
-        public static string REF = "ref";
+        public const string REF = "ref";
+
+
+        public static class log4net
+        {
+            public const string IAppender = "log4net.Appender.IAppender";
+        }
+
     }
 }

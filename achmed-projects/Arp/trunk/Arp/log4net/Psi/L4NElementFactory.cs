@@ -56,11 +56,11 @@ namespace Arp.log4net.Psi
                 // TODO other properties
                 //else
             }
-            else if (parentTag is IElementParametersOwner)
+            else if (parentTag is IDeclaredParametersOwner)
             {
                 if (name != L4NConstants.PARAM)
                 {
-                    return new ParamImpl();
+                    return new PropertyParamImpl();
                 }                            
             }
 

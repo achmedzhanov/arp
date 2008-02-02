@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using Arp.Assertions;
+using Arp.log4net.Psi.Tree.Impl.StatisParameters;
 using Arp.Utils;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Editor;
@@ -22,6 +23,15 @@ namespace Arp.log4net.Psi.Tree.Impl
     {
         private IDeclaration[] declarations;
         private ICollection<IParameterDescriptor> elementParametrInfos = null;
+        static readonly StatisParameterDescriptorProvider staticParameters;
+
+        static AppenderImpl()
+        {
+            staticParameters = new StatisParameterDescriptorProvider();
+            staticParameters.Add(new StatisParameterDescriptor(L4NConstants.NAME , true, true));
+            staticParameters.Add(new StatisParameterDescriptor(L4NConstants.TYPE, true, true));
+            staticParameters.Add(new StatisParameterDescriptor(L4NConstants.PARAM, false, false));            
+        }
 
         public AppenderImpl()
             : base(L4NElementType.APPENDER_ELEMENT)
@@ -47,14 +57,17 @@ namespace Arp.log4net.Psi.Tree.Impl
             get { return GetAttributeValueElement(L4NConstants.NAME); }
         }
 
+//        TODO add Type reverence, TypeValue, completion FormatException Type NamedAutoResetEvent;
+//        reuse code for logger@name
+
         public new IL4NSection Parent
         {
             get { return (IL4NSection)base.Parent; }
         }
 
-        public ICollection<IParam> GetParams()
+        public ICollection<IDeclaredParameter> GetParams()
         {
-            return GetTagsByType<IParam>();
+            return GetTagsByType<IDeclaredParameter>();
         }
 
         #region ITypeOwner
@@ -65,15 +78,22 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             if (elementParametrInfos == null)
             {
-                if (!((IParameterDescriptorProvider)this).IsAvailable)
-                    elementParametrInfos =  EmptyArray<IParameterDescriptor>.Instance;                
-                else
-                {
-                    elementParametrInfos = ElementParametrInfoImplUtil.GetParameters(appenderCLRType);
-                }
+                ICollection<IParameterDescriptor> parametersFromType = GetParametersFromType();
+                List<IParameterDescriptor> complex = new List<IParameterDescriptor>(parametersFromType);
+                complex.AddRange(staticParameters.GetParameterDescriptors());
+                elementParametrInfos = complex;
             }
-
             return elementParametrInfos;
+        }
+
+        private ICollection<IParameterDescriptor> GetParametersFromType()
+        {
+            ICollection<IParameterDescriptor> parametersFromType =
+                elementParametrInfos = EmptyArray<IParameterDescriptor>.Instance;
+
+            if (((IParameterDescriptorProvider)this).IsAvailable)
+                parametersFromType = ElementParametrInfoImplUtil.GetParameters(appenderCLRType, "Name", "ErrorHandler");
+            return parametersFromType;
         }
 
 

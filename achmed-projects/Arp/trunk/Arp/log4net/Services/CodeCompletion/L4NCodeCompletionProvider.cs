@@ -1,3 +1,4 @@
+
 using System.Collections.Generic;
 using Arp.Assertions;
 using Arp.log4net.Services.CodeCompletion;
@@ -27,19 +28,21 @@ namespace Arp.log4net.Services.CodeCompletion
         public bool IsAvailable(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType)
         {
             // TODO introduce rule completion abstraction
-            IL4NCodeCompletionContext [] contexts = CreateContexts(solution, textControl, codeCompletionType);
-            foreach (IL4NCodeCompletionContext context in contexts)
-            {
-                if (context.IsAvailable())
+            IL4NCodeCompletionContext  context = CreateContexts(solution, textControl, codeCompletionType);
+
+            if (context == null)
+                return false;
+   
+            if (context.IsAvailable())
                     return true;
-            }
+
             return false;
         }
 
-        protected IL4NCodeCompletionContext[] CreateContexts(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType)
+        protected IL4NCodeCompletionContext CreateContexts(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType)
         {
             if (codeCompletionType == CodeCompletionType.BasicCompletion)
-                return new IL4NCodeCompletionContext[] { new ParamNameCompletionContext(solution, textControl), new AppenderNameCompletionContext(solution, textControl) };
+                return new CodeCompletionContext(solution, textControl);
             return null;
         }
 
@@ -52,17 +55,7 @@ namespace Arp.log4net.Services.CodeCompletion
         public void Execute(ISolution solution, ITextControl textControl, CodeCompletionType codeCompletionType,
                             CompletionHandler itemCompleted)
         {
-            IL4NCodeCompletionContext [] contexts = CreateContexts(solution, textControl, codeCompletionType);
-            IL4NCodeCompletionContext context = null;
-            // TODO introduce rule completion abstraction
-            foreach (IL4NCodeCompletionContext candidate in contexts)
-            {
-                if(candidate.IsAvailable())
-                {
-                    context = candidate;
-                    continue;
-                }
-            }
+            IL4NCodeCompletionContext context = CreateContexts(solution, textControl, codeCompletionType);
             
             Assert.CheckNotNull(context, "context");
 

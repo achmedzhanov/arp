@@ -6,9 +6,9 @@ using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class ParamPropertyReference : BaseDeclaredElementReference<ParamImpl>
+    public class ParamPropertyReference : BaseDeclaredElementReference<PropertyParamImpl>
     {
-        public ParamPropertyReference(ParamImpl owner) : base(owner)
+        public ParamPropertyReference(PropertyParamImpl owner) : base(owner)
         {
         }
 

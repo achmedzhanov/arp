@@ -54,7 +54,7 @@ namespace Arp.log4net.Psi.Tree
 
         public override CompositeElement Create()
         {
-            return new ParamImpl();
+            return new PropertyParamImpl();
         }
     }
 
