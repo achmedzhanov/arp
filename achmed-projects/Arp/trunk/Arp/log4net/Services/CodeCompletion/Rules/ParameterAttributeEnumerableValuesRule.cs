@@ -14,7 +14,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
 
         public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
         {
-            IXmlTag tag = context.Token.GetContainingElement<IXmlTag>(false);
+            IXmlTag tag = context.GetAttributeTag();
             Assert.CheckNotNull(tag);
             IXmlAttribute attribute = context.Token.GetContainingElement<IXmlAttribute>(false);
             Assert.CheckNotNull(attribute);

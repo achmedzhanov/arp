@@ -1,5 +1,6 @@
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Xml.Parsing;
+using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Shell;
 
 namespace Arp.log4net.Psi.Parsing
@@ -12,6 +13,9 @@ namespace Arp.log4net.Psi.Parsing
         }
 
 
-
+        protected override void AppendNewChild(IXmlAttribute parent, IXmlAttributeValue child)
+        {
+            base.AppendNewChild(parent, child);
+        }
     }
 }

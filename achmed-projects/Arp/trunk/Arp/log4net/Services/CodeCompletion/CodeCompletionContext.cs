@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Arp.Assertions;
 using Arp.log4net.Psi.Tree;
@@ -50,7 +51,7 @@ namespace Arp.log4net.Services.CodeCompletion
             rules.Add(new ParameterAttributeEnumerableValuesRule());
             rules.Add(new DeclaredParameterAttributesRule());
             rules.Add(new DeclaredParameterTypeNameRule());
-            //rules.Add(new LoggerNameRule());
+            rules.Add(new LoggerNameRule());
 //            rules.Add(new TagBasedParameterNameRule());
         }
 
@@ -82,6 +83,17 @@ namespace Arp.log4net.Services.CodeCompletion
         public bool IsAvalilableAttributeNameCompletion
         {
             get { return isAvalilableAttributeNameCompletion; }
+        }
+
+        public IXmlTag GetAttributeTag()
+        {
+            if (!IsAvalilableAttributeNameCompletion && !IsAvalilableAttributeValueCompletion)
+                throw new InvalidOperationException();
+            
+            IXmlTag tag = Token.PrevSibling as IXmlTag;
+            if (tag == null)
+                tag = Token.GetContainingElement<IXmlTag>(false);
+            return tag;
         }
 
         private bool CheckAttributeNameCompletion(ITokenNode currentToken)

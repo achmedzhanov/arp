@@ -3,7 +3,7 @@ using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 
 namespace Arp.log4net.Services.CodeCompletion.Rules
 {
-    public class NamespaceorTypeNameRule : ICodeCompletionRule
+    public class NamespaceOrTypeNameRule : ICodeCompletionRule
     {
         #region ICodeCompletionRule Members
 

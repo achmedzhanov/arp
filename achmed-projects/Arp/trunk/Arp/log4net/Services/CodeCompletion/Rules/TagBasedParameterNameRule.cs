@@ -46,7 +46,9 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
         private IParameterDescriptorProvider GetParameterDescriptorProvider(CodeCompletionContext context)
         {
             ITokenNode token = context.Token;
-            if (token.GetTokenType() == context.GetTokenTypes().SPACE && token.GetPrevToken().GetTokenType() == context.GetTokenTypes().TAG_START)
+            if (token.GetTokenType() == context.GetTokenTypes().SPACE && 
+                (token.GetPrevToken().GetTokenType() == context.GetTokenTypes().TAG_START
+                || token.GetPrevToken().GetTokenType() == context.GetTokenTypes().IDENTIFIER))
                 return token.Parent as IParameterDescriptorProvider;
             else
                 return token.Parent.Parent as IParameterDescriptorProvider;

@@ -18,7 +18,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             ICollection<IParameterDescriptor> descriptors = provider.GetParameterDescriptors();
 
             // it's parameters conception hak, TODO fix conception
-            IXmlTag tag = context.Token.GetContainingElement<IXmlTag>(false);
+            IXmlTag tag = context.GetAttributeTag();
             Assert.CheckNotNull(tag);
 
             foreach (IParameterDescriptor descriptor in descriptors)
@@ -55,7 +55,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
 
         private IParameterDescriptorProvider GetParameterDescriptorProvider(CodeCompletionContext context)
         {
-            return context.Token.GetContainingElement<IXmlTag>(false) as IParameterDescriptorProvider;
+            return context.GetAttributeTag() as IParameterDescriptorProvider;
         }
 
         #endregion

@@ -46,10 +46,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
 
         private IDeclaredParameter GetDeclaredParameter(CodeCompletionContext context)
         {
-            IXmlTag tag = context.Token.PrevSibling as IXmlTag;
-            if(tag == null)
-               tag = context.Token.GetContainingElement<IXmlTag>(false);
-            return tag as IDeclaredParameter;
+            return context.GetAttributeTag() as IDeclaredParameter;
         }
 
         #endregion
