@@ -5,8 +5,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arp", "Arp.csproj", "{B52B0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFiles", "..\TestFiles\TestFiles.csproj", "{EE375EC6-CA7D-47C3-A3A7-807262FA493F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeInputSender", "..\EscapeInputSender\EscapeInputSender.csproj", "{A4258DE4-7870-4CF6-AC08-B93C00875F05}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,10 +19,6 @@ Global
 		{EE375EC6-CA7D-47C3-A3A7-807262FA493F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE375EC6-CA7D-47C3-A3A7-807262FA493F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE375EC6-CA7D-47C3-A3A7-807262FA493F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4258DE4-7870-4CF6-AC08-B93C00875F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4258DE4-7870-4CF6-AC08-B93C00875F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4258DE4-7870-4CF6-AC08-B93C00875F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4258DE4-7870-4CF6-AC08-B93C00875F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

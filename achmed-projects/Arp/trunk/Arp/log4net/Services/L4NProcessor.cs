@@ -88,7 +88,8 @@ namespace Arp.log4net.Services
                     // TODO hightlight "can not resolve symbol 'blahblah' "
                     //if( reference.CheckResolveResult() == ResolveErrorType. ...)
                 }
-                else if(reference.ReferenceType == ReferenceType.TEXT)
+                else if(reference.ReferenceType == ReferenceType.TEXT
+                    || reference.ReferenceType == ReferenceType.REFERENCE_NAME)
                 {
                     ResolveResult resolveResult = reference.Resolve();
                     if(resolveResult.DeclaredElement != null)
@@ -158,11 +159,11 @@ namespace Arp.log4net.Services
             {
                 return HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE;
             }
-            else if(element is ITypeDeclaration)
+            else if(element is ITypeElement)
             {
                 return HighlightingAttributeIds.TYPE_IDENTIFIER_ATTRIBUTE;
             }
-            else if (element is INamespaceDeclaration)
+            else if (element is INamespace)
             {
                 return HighlightingAttributeIds.NAMESPACE_IDENTIFIER_ATTRIBUTE;
             }
