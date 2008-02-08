@@ -227,8 +227,9 @@ namespace Arp.log4net.Services.CodeCompletion
 
         private ICompleteableReference GetComplatebleReference()
         {
-            ICompleteableReference reference = FindCompleteableReference(XmlFile.FindReferencesAt(PrefixRange));
-            if (reference != null)
+//            ICompleteableReference reference = FindCompleteableReference(XmlFile.FindReferencesAt(PrefixRange));
+            ICompleteableReference reference = FindCompleteableReference(XmlFile.FindReferencesAt(new TextRange(TextControl.CaretModel.Offset)));
+            if (reference != null && reference.GetDocumentRange().IsValid)
                 return reference;
 
             if (!TextControl.SelectionModel.Range.IsEmpty)
@@ -259,6 +260,9 @@ namespace Arp.log4net.Services.CodeCompletion
             ICompleteableReference reference = GetComplatebleReference();
 
             if (reference == null)
+                return;
+
+            if(!reference.GetDocumentRange().IsValid)
                 return;
 
             TextRange referenceRange = reference.GetDocumentRange().TextRange;

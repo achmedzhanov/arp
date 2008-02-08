@@ -240,6 +240,9 @@ namespace Arp.log4net.Psi.Tree.Impl
             IDeclaredElement element = result.DeclaredElement;
             IProject project = this.GetProject();
 
+            if (element == null)
+                return EmptySymbolTable.INSTANCE;
+
             if (element is INamespace)
             {
                 return ResolveUtil.GetSymbolTableByNamespace((INamespace) element, project, true);
@@ -253,8 +256,8 @@ namespace Arp.log4net.Psi.Tree.Impl
                 }
                 return new SubstitutedSymbolTable(table, result.Substitution);
             }
-            else 
-                throw new AssertException("Fail");
+            else
+                throw new AssertException("Fail " + (element == null ? "'null'" : element.GetType().ToString()) + "");
 
         }
 

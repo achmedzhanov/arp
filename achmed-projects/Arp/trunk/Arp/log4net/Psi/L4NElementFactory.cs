@@ -51,14 +51,37 @@ namespace Arp.log4net.Psi
 
             if (logger != null)
             {
-                if (attribute.XmlName == L4NConstants.NAME && element is ILogger)
+                if (attribute.XmlName == L4NConstants.NAME)
                 {
-                    CreateLoggerTypeAttribute(element, attribute);
+                    CreateReferenceAttributeValue(element, attribute);
                 }
+
+                return;
             }
+
+            IDeclaredParameter declaredParameter = element as IDeclaredParameter;
+            if(declaredParameter != null)
+            {
+                if (attribute.XmlName == L4NConstants.TYPE)
+                {
+                    CreateReferenceAttributeValue(element, attribute);
+                }
+                return;
+            }
+
+            IAppender appender = element as IAppender;
+            if (appender != null)
+            {
+                if (attribute.XmlName == L4NConstants.TYPE)
+                {
+                    CreateReferenceAttributeValue(element, attribute);
+                }
+                return;
+            }
+
         }
 
-        private void CreateLoggerTypeAttribute(IL4NElement element, IXmlAttribute attribute)
+        private void CreateReferenceAttributeValue(IL4NElement element, IXmlAttribute attribute)
         {
             ReferenceParser parser = new ReferenceParser();
             IXmlAttributeValue newElement = parser.Parse(attribute.Value);

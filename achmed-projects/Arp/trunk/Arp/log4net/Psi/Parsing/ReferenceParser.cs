@@ -21,9 +21,11 @@ namespace Arp.log4net.Psi.Parsing
 
             CompositeElement result = null;
 
+            string rawValue = xmlAttributeValue.UnquotedValue;
+
             try
             {
-                result = ParseTypeNameOrAttributeValue(xmlAttributeValue.UnquotedValue);
+                result = ParseTypeNameOrAttributeValue(rawValue);
             }
             catch (SyntaxError syntaxError)
             {
@@ -33,8 +35,14 @@ namespace Arp.log4net.Psi.Parsing
 
             attributeValue.AddChild(new XmlToken(L4NTokenNodeType.QUOTE, new StringBuffer(new string('\"', 1)), 0, 1));
             attributeValue.AddChild(result);
-            // TODO add parsing error element
-            // TODO add text token
+            int resultLegth = result.GetText().Length;
+            if(resultLegth < rawValue.Length)
+            {
+                string suffix = rawValue.Substring(resultLegth);
+                StringBuffer sb = new StringBuffer(suffix);
+                XmlToken suffixToken = new XmlToken(L4NTokenNodeType.TEXT , sb, 0, suffix.Length);
+                attributeValue.AddChild(suffixToken);
+            }
             attributeValue.AddChild(new XmlToken(L4NTokenNodeType.QUOTE, new StringBuffer(new string('\"', 1)), 0, 1));
 
             return attributeValue;
@@ -78,12 +86,12 @@ namespace Arp.log4net.Psi.Parsing
 
             while (tokenType == CSharpTokenType.DOT)
             {
-                if (LexerUtil.LookaheadToken(lexer, 1) != CSharpTokenType.IDENTIFIER)
-                {
-                    UnexpectedToken ex = new UnexpectedToken("Expected identifier");
-                    ex.ParsingResult = result;
-                    throw ex;
-                }
+//                if (LexerUtil.LookaheadToken(lexer, 1) != CSharpTokenType.IDENTIFIER)
+//                {
+//                    UnexpectedToken ex = new UnexpectedToken("Expected identifier");
+//                    ex.ParsingResult = result;
+//                    throw ex;
+//                }
                 result = ParseReferenceNameInternal(result);
                 tokenType = lexer.TokenType;
             }
