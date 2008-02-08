@@ -48,7 +48,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
                 {
                     foreach (ITypeElement inheritType in inheritTypes)
                     {
-                        if (inheritType.CLRName.StartsWith(@namespace.QualifiedName))
+                        if (inheritType.GetContainingNamespace().QualifiedName.StartsWith(@namespace.QualifiedName))
                         {
                             newResult.Add(item);
                             break;

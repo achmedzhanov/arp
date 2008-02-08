@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Arp.Assertions;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
+using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
@@ -34,8 +35,7 @@ namespace Arp.log4net.Services
 
     public class L4NProcessor : IRecursiveElementProcessor
     {
-        
-        List<HighlightingInfo> highlightings = new List<HighlightingInfo>();
+        readonly List<HighlightingInfo> highlightings = new List<HighlightingInfo>();
 
         public bool InteriorShouldBeProcessed(IElement element)
         {
@@ -93,7 +93,13 @@ namespace Arp.log4net.Services
                 {
                     ResolveResult resolveResult = reference.Resolve();
                     if(resolveResult.DeclaredElement != null)
-                        Highlight(reference.GetDocumentRange(), resolveResult.DeclaredElement);
+                    {
+                        DocumentRange range = reference.GetDocumentRange();
+                        DocumentRange footerRange = GetFooterTagRange(element, range);
+                        Highlight(range, resolveResult.DeclaredElement);
+                        if (footerRange != DocumentRange.InvalidRange)
+                            Highlight(footerRange, resolveResult.DeclaredElement);
+                    }
                 }
             }
 
@@ -119,6 +125,21 @@ namespace Arp.log4net.Services
             // TODO tooltips for predefined tags appender, appender-ref, logger, level etc
         }
 
+        private DocumentRange GetFooterTagRange(IElement element, DocumentRange range)
+        {
+            IXmlTag tag = element as IXmlTag;
+            if (tag == null)
+                return DocumentRange.InvalidRange;
+            if(tag.ToTreeNode().Header.Name.GetDocumentRange().TextRange == range.TextRange)
+            {
+                IXmlTagFooterNode footer = tag.ToTreeNode().Footer;
+                if (footer != null)
+                    return footer.Name.GetDocumentRange();
+            }
+
+            return DocumentRange.InvalidRange;
+        }
+
         private void Highlight(IXmlIdentifierNode node, string attributeId)
         {
             Highlight(node.GetDocumentRange(), attributeId);
@@ -139,7 +160,6 @@ namespace Arp.log4net.Services
             if (attribute != null)
             {
                 // TODO highlight closed tag
-                // if (treeNode.Footer != null && treeNode.Footer.Name != null)
                 highlightings.Add(new HighlightingInfo(range, new L4NIdentifierHighlighting(attribute)));
             }
         }
