@@ -84,5 +84,32 @@ namespace Arp.log4net.Psi.Tree
         }
     }
 
+    public class REFERENCE_NAME : L4NConpositeElementType
+    {
+        public REFERENCE_NAME(string s)
+            : base(s)
+        {
+        }
+
+        public override CompositeElement Create()
+        {
+            return new ReferenceName();
+        }
+    }
+
+    public class REFERENCE_NAME_ATTRIBUTE_VALUE : L4NConpositeElementType
+    {
+        public REFERENCE_NAME_ATTRIBUTE_VALUE(string s)
+            : base(s)
+        {
+        }
+
+        public override CompositeElement Create()
+        {
+            return new ReferenceNameAttributeValue();
+        }
+    }
+
+
 
 }

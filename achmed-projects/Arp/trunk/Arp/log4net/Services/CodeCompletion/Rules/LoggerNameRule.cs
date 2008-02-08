@@ -15,32 +15,21 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
         
         public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
         {
-            IDeclarationsCache cache = PsiManager.GetInstance(context.Solution).GetDeclarationsCache(DeclarationsCacheScope.SolutionScope(context.Solution, true),true);
-            Queue<IDeclaredElement> queue = new Queue<IDeclaredElement>(cache.GetElementsAtQualifiedName(""));
-            
-            while(queue.Count > 0)
+            List<ILookupItem> toRemove = new List<ILookupItem>();
+            foreach (ILookupItem item in result)
             {
-                IDeclaredElement current = queue.Peek();
-
-                INamespace @namespace = current as INamespace;
-                if (@namespace != null)
-                {
-// it's too large
-//                    foreach (IDeclaredElement namespaceElement in @namespace.GetNestedElements(cache))
-//                    {
-//                        queue.Enqueue(namespaceElement); 
-//                    }
-                }
-                else if (!(current is IClass))
+                DeclaredElementLookupItem declaredElementLookupItem = item as DeclaredElementLookupItem;
+                if(declaredElementLookupItem == null)
                     continue;
 
-                DeclaredElementFullNameLookupItem item = new DeclaredElementFullNameLookupItem(new DeclaredElementInstance(current),
-                                                                               new DeclaredElementLookupItemCreationContext(context.ProjectFile),
-                                                                               L4NLanguageService.L4N);
+                IDeclaredElement element = declaredElementLookupItem.PreferredDeclaredElement.Element;
+                if(!(element is IClass) &&!(element is INamespace))
+                    toRemove.Add(declaredElementLookupItem);
+            }
 
-                item.InsertRange = new TextRange(0);
-                item.ReplaceRange = new TextRange(0, context.GetPrefix().Length);
-                result.Add(item);
+            foreach (ILookupItem item in toRemove)
+            {
+                result.Remove(item);
             }
         }
 

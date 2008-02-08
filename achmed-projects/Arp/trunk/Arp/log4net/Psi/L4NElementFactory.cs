@@ -3,9 +3,11 @@ using Arp.log4net.Psi.Tree.Impl;
 using JetBrains.ReSharper.CodeInsight.Services.ParameterInfo;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Parsing;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
+using Arp.log4net.Psi.Parsing;
 
 namespace Arp.log4net.Psi
 {
@@ -27,10 +29,51 @@ namespace Arp.log4net.Psi
 
         public override IXmlTag CreateTag(IXmlTagHeaderNode header, IXmlTagContainer parentTag)
         {
+            IXmlTag tag = CreateTagInternal(parentTag, header);
+            IL4NElement element = tag as IL4NElement;
+            if (element != null)
+                HandleCreateTagElement(element, header, parentTag);
+            return tag;
+        }
+
+        private void HandleCreateTagElement(IL4NElement element, IXmlTagHeaderNode header, IXmlTagContainer tag)
+        {
+            foreach (IXmlAttribute attribute in header.Attributes)
+            {
+                ProcessAttribute(element, attribute);
+            }
+            
+        }
+
+        private void ProcessAttribute(IL4NElement element, IXmlAttribute attribute)
+        {
+            ILogger logger = element as ILogger;
+
+            if (logger != null)
+            {
+                if (attribute.XmlName == L4NConstants.NAME && element is ILogger)
+                {
+                    CreateLoggerTypeAttribute(element, attribute);
+                }
+            }
+        }
+
+        private void CreateLoggerTypeAttribute(IL4NElement element, IXmlAttribute attribute)
+        {
+            ReferenceParser parser = new ReferenceParser();
+            IXmlAttributeValue newElement = parser.Parse(attribute.Value);
+            IXmlAttributeValueNode childNode = attribute.Value.ToTreeNode();
+            ITreeNode parent = attribute.ToTreeNode();
+            ((CompositeElement)parent).AddChildAfter(newElement.ToTreeNode(), childNode);
+            ((CompositeElement)parent).DeleteChildRange(childNode, childNode);
+        }
+
+
+        private IXmlTag CreateTagInternal(IXmlTagContainer parentTag, IXmlTagHeaderNode header)
+        {
             string parentTagName = ((IXmlTag)parentTag).TagName;
 
             string name = header.Name.GetText();
-
 
             if (name == L4NConstants.LOG4NET)
             {
@@ -77,7 +120,9 @@ namespace Arp.log4net.Psi
                                                       IXmlAttributeContainer attributeContainer,
                                                       IXmlTagContainer parentTag)
         {
-            return base.CreateAttribute(nameIdentifier, attributeContainer, parentTag);
+            IXmlAttribute baseRet = base.CreateAttribute(nameIdentifier, attributeContainer, parentTag);
+
+            return baseRet;
         }
 
         public override IXmlAttributeValue CreateAttributeValue(NodeType type, IBuffer buffer, int startOffset,

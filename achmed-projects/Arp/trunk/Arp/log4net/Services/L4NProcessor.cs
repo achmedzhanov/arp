@@ -6,8 +6,10 @@ using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
 
@@ -154,7 +156,15 @@ namespace Arp.log4net.Services
 //                return HighlightingAttributeIds.CONSTANT_IDENTIFIER_ATTRIBUTE;
             else if(element is IAppender)
             {
-                return HighlightingAttributeIds.LOCAL_VARIABLE_IDENTIFIER_ATTRIBUTE;
+                return HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE;
+            }
+            else if(element is ITypeDeclaration)
+            {
+                return HighlightingAttributeIds.TYPE_IDENTIFIER_ATTRIBUTE;
+            }
+            else if (element is INamespaceDeclaration)
+            {
+                return HighlightingAttributeIds.NAMESPACE_IDENTIFIER_ATTRIBUTE;
             }
             else
                 return null;
@@ -203,7 +213,7 @@ namespace Arp.log4net.Services
 
                         DocumentRange range;
                         if (tag != null)
-                            range = tag.ToTreeNode().Header.GetDocumentRange();
+                            range = GetHighlightRange(tag.ToTreeNode().Header);
                         else
                             range = element.ToTreeNode().GetDocumentRange();
 
@@ -212,6 +222,25 @@ namespace Arp.log4net.Services
                     }
                 }
             }
+        }
+
+        private DocumentRange GetHighlightRange(IXmlTagHeaderNode header)
+        {
+            DocumentRange ret = DocumentRange.InvalidRange;
+            XmlToken token = header.FirstChild as XmlToken;
+            if (token == null)
+                return ret;
+
+            XmlTokenTypes types = XmlTokenTypeFactory.GetTokenTypes(L4NLanguageService.L4N);
+            Assert.Check(token.type == types.TAG_START);
+            ret = token.GetDocumentRange();
+            
+            token = token.NextSibling as XmlToken;
+            if(token == null || token.type != types.IDENTIFIER)
+                return ret;
+
+            ret = token.GetDocumentRange();
+            return ret;
         }
 
         public bool ProcessingIsFinished

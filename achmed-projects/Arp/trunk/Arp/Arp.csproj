@@ -169,6 +169,8 @@
     <Compile Include="Assertions\Assert.cs" />
     <Compile Include="Assertions\AssertException.cs" />
     <Compile Include="log4net\Psi\L4NConstants.cs" />
+    <Compile Include="log4net\Psi\L4NTokenNodeType.cs" />
+    <Compile Include="log4net\Psi\Parsing\ReferenceParser.cs" />
     <Compile Include="log4net\Psi\Search\L4NSearcherFactory.cs" />
     <Compile Include="log4net\Psi\L4NSupportedByPSIChecker.cs" />
     <Compile Include="log4net\Psi\Parsing\L4NtreeBuilder.cs" />
@@ -180,6 +182,8 @@
     <Compile Include="log4net\Psi\Tree\Impl\AttributeParamImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\BaseDeclaredElementReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ParamPropertyReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceName.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceNameAttributeValue.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaElementParameterDescriptor.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaParameterDescriptorProvider.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\StatisParameters\SimpleParameterOwner.cs" />
@@ -211,6 +215,7 @@
     <Compile Include="log4net\Psi\Tree\IDeclaredParametersOwner.cs" />
     <Compile Include="log4net\Psi\Tree\IParameterDescriptor.cs" />
     <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
+    <Compile Include="log4net\Psi\Tree\ITypeNameOrNamespace.cs" />
     <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
     <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />
     <Compile Include="log4net\Services\CodeCompletion\CodeCompletionContext.cs" />
@@ -232,6 +237,7 @@
     <Compile Include="log4net\Services\CodeCompletion\TypingHandler.cs" />
     <Compile Include="log4net\Services\CodeCompletion\StaticParameterLookupItem.cs" />
     <Compile Include="log4net\Services\CSharp\ContextActions\CheckLogLevel.cs" />
+    <Compile Include="log4net\Services\CSharp\TestCodeCompletionListTransformationRule.cs" />
     <Compile Include="log4net\Services\L4NCodeInsightService.cs" />
     <Compile Include="log4net\Services\MissedParameterError.cs" />
     <Compile Include="log4net\Services\Highlighters.cs" />

@@ -9,5 +9,7 @@ namespace Arp.log4net.Psi.Tree
         public static readonly CompositeNodeType APPENDER_REF_ELEMENT = new APPENDER_ELEMENT_REF_TYPE("APPENDER_ELEMENT_REF_TYPE");
         public static readonly CompositeNodeType LOGGER_ELEMENT = new LOGGER_ELEMENT_TYPE("LOGGER_ELEMENT_TYPE");
         public static readonly CompositeNodeType L4NSECTION_ELEMENT = new L4NSECTION_ELEMENT_TYPE("L4NSECTION_ELEMENT_TYPE");
+        public static readonly CompositeNodeType REFERENCE_NAME = new REFERENCE_NAME("REFERENCE_NAME");
+        public static readonly CompositeNodeType REFERENCE_NAME_ATTRIBUTE_VALUE = new REFERENCE_NAME_ATTRIBUTE_VALUE("REFERENCE_REFERENCE_NAME_ATTRIBUTE_VALUE");
     }
 }

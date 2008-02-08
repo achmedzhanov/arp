@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using Arp.Assertions;
-using Arp.log4net.Psi.Tree;
+using Arp.log4net.Psi;
 using Arp.log4net.Services.CodeCompletion.Rules;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.ReSharper.Editor;
+using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Parsing;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
@@ -25,15 +27,15 @@ namespace Arp.log4net.Services.CodeCompletion
         private bool isAvalilableAttributeNameCompletion = false;
         private readonly XmlTokenTypes xmlTokenTypes;
         private readonly List<ICodeCompletionRule> rules = new List<ICodeCompletionRule>();
-
+        private const string REFERENCE_SUFFIX = "__";
 
         public CodeCompletionContext(ISolution solution, ITextControl textControl)
             : base(solution, textControl)
         {
-            IXmlFile file = this.XmlFile;
+            IXmlFile file = XmlFile;
             Logger.Assert(file != null, "file != null");
-            int offset = this.CaretOffset;
-            token = (ITokenNode)file.FindTokenAt(offset);
+            int offset = CaretOffset;
+            token = (ITokenNode) file.FindTokenAt(offset);
 
             xmlTokenTypes = XmlTokenTypeFactory.GetTokenTypes(XmlFile.Language);
 
@@ -89,7 +91,7 @@ namespace Arp.log4net.Services.CodeCompletion
         {
             if (!IsAvalilableAttributeNameCompletion && !IsAvalilableAttributeValueCompletion)
                 throw new InvalidOperationException();
-            
+
             IXmlTag tag = Token.PrevSibling as IXmlTag;
             if (tag == null)
                 tag = Token.GetContainingElement<IXmlTag>(false);
@@ -101,9 +103,9 @@ namespace Arp.log4net.Services.CodeCompletion
             if (token == null || !token.Parent.IsValid())
                 return false;
 
-            if (xmlTokenTypes.SPACE == currentToken.GetTokenType() && 
+            if (xmlTokenTypes.SPACE == currentToken.GetTokenType() &&
                 (currentToken.Parent.ToTreeNode() is IXmlTagHeaderNode ||
-                currentToken.Parent.ToTreeNode() is IXmlTagNode))
+                 currentToken.Parent.ToTreeNode() is IXmlTagNode))
             {
                 DocumentRange spaceRange = currentToken.GetDocumentRange();
 
@@ -122,7 +124,7 @@ namespace Arp.log4net.Services.CodeCompletion
                 return false;
 
             TextRange identifierRange = currentToken.GetNextToken().GetDocumentRange().TextRange;
-            prefixRange = new TextRange(identifierRange.StartOffset,identifierRange.EndOffset);
+            prefixRange = new TextRange(identifierRange.StartOffset, identifierRange.EndOffset);
 
             return true;
         }
@@ -135,10 +137,10 @@ namespace Arp.log4net.Services.CodeCompletion
             }
 
             int offset = CaretOffset;
-            token = (ITokenNode)XmlFile.FindTokenAt(offset);
+            token = (ITokenNode) XmlFile.FindTokenAt(offset);
             if ((this.token == null) && (offset > 0))
             {
-                this.token = (ITokenNode)XmlFile.FindTokenAt(offset - 1);
+                this.token = (ITokenNode) XmlFile.FindTokenAt(offset - 1);
             }
 
             if (token == null)
@@ -149,20 +151,18 @@ namespace Arp.log4net.Services.CodeCompletion
             if (attributeValue == null)
                 return false;
 
-            XmlValueToken xmlValueToken = (XmlValueToken)attributeValue;
 
-            Assert.CheckFalse(xmlValueToken.GetDocumentRange().TextRange.IsEmpty);
-            Assert.Check(xmlValueToken.GetText().StartsWith("\""));
-            int startOffset = xmlValueToken.GetDocumentRange().TextRange.StartOffset + 1;
+            Assert.CheckFalse(attributeValue.GetDocumentRange().TextRange.IsEmpty);
+            Assert.Check(attributeValue.GetText().StartsWith("\""));
+            int startOffset = attributeValue.GetDocumentRange().TextRange.StartOffset + 1;
 
-            this.prefixRange = new TextRange(startOffset, CaretOffset);
+            prefixRange = new TextRange(startOffset, CaretOffset);
 
             return true;
         }
 
         private bool CheckTagNameCompletion(ITokenNode currentToken)
         {
-
             if (token == null || !token.Parent.IsValid())
             {
                 return false;
@@ -170,7 +170,7 @@ namespace Arp.log4net.Services.CodeCompletion
 
             if (xmlTokenTypes.SPACE == currentToken.GetTokenType())
             {
-                if (currentToken.GetDocumentRange().TextRange.StartOffset == this.TextControl.CaretModel.Offset)
+                if (currentToken.GetDocumentRange().TextRange.StartOffset == TextControl.CaretModel.Offset)
                     currentToken = currentToken.GetPrevToken();
                 else
                 {
@@ -185,7 +185,9 @@ namespace Arp.log4net.Services.CodeCompletion
 
             if (xmlTokenTypes.TAG_START == currentToken.GetTokenType())
             {
-                prefixRange = new TextRange(currentToken.GetNextToken().GetDocumentRange().TextRange.StartOffset, TextControl.CaretModel.Offset);
+                prefixRange =
+                    new TextRange(currentToken.GetNextToken().GetDocumentRange().TextRange.StartOffset,
+                                  TextControl.CaretModel.Offset);
             }
             else
             {
@@ -210,9 +212,11 @@ namespace Arp.log4net.Services.CodeCompletion
         {
             List<ILookupItem> result = new List<ILookupItem>();
 
+            PreEvaluteItems(result);
+
             foreach (ICodeCompletionRule rule in rules)
             {
-                if(rule.IsApplicable(this))
+                if (rule.IsApplicable(this))
                     rule.Apply(this, result);
             }
 
@@ -220,6 +224,93 @@ namespace Arp.log4net.Services.CodeCompletion
         }
 
         #endregion
+
+        private ICompleteableReference GetComplatebleReference()
+        {
+            ICompleteableReference reference = FindCompleteableReference(XmlFile.FindReferencesAt(PrefixRange));
+            if (reference != null)
+                return reference;
+
+            if (!TextControl.SelectionModel.Range.IsEmpty)
+                return null;
+
+//            создавать в дереве новую ссылку или достать таблицу по qualifier ?
+//            2 ситуации: после "." и после "
+
+            using (
+                TemporaryChangeCookie temporaryChangeCookie =
+                    new TemporaryChangeCookie(PsiManager.GetInstance(this.ProjectFile.GetSolution())))
+            {
+                IDocument document = TextControl.Document;
+                int offset = TextControl.CaretModel.Offset;
+                TextRange reparseRange = new TextRange(offset);
+                TextRange searchRange = new TextRange(reparseRange.StartOffset + 1);
+                IFile unterminatedFile = XmlFile.ReParse(reparseRange, REFERENCE_SUFFIX);
+                IFile terminatedFile = unterminatedFile.ReParse(new TextRange(reparseRange.StartOffset, reparseRange.StartOffset + REFERENCE_SUFFIX.Length), REFERENCE_SUFFIX);
+
+                reference = FindCompleteableReference(terminatedFile.FindReferencesAt(searchRange));
+                PsiManager.GetInstance(this.Solution).UpdateCaches();
+                return reference;
+            }
+        }
+
+        private void PreEvaluteItems(List<ILookupItem> result)
+        {
+            ICompleteableReference reference = GetComplatebleReference();
+
+            if (reference == null)
+                return;
+
+            TextRange referenceRange = reference.GetDocumentRange().TextRange;
+            if (reference.GetName().EndsWith(REFERENCE_SUFFIX))
+            {
+                Assert.Check(referenceRange.Length >= REFERENCE_SUFFIX.Length);
+                referenceRange = new TextRange(referenceRange.StartOffset, referenceRange.EndOffset - REFERENCE_SUFFIX.Length);
+                
+            }
+            prefixRange = referenceRange;
+
+            ISymbolTable table = reference.GetCompletionSymbolTable();
+            //          TODO
+            string[] names = table.Names("", true, delegate { return false; });
+            List<IDeclaredElement> toAdd = new List<IDeclaredElement>();
+            foreach (string name in names)
+            {
+                foreach (ISymbolInfo info in table.GetAllSymbolInfos(name))
+                {
+                    IDeclaredElement declaredElement = info.GetDeclaredElement();
+                    if ((declaredElement != null) && !declaredElement.IsSynthetic() &&
+                        (declaredElement is ITypeElement || declaredElement is INamespace))
+                    {
+                        toAdd.Add(declaredElement);
+                    }
+                }
+            }
+
+            foreach (IDeclaredElement element in toAdd)
+            {
+                DeclaredElementLookupItem item =
+                    new DeclaredElementLookupItem(new DeclaredElementInstance(element),
+                                                  new DeclaredElementLookupItemCreationContext(ProjectFile),
+                                                  L4NLanguageService.L4N);
+                item.InsertRange = new TextRange(0);
+                item.ReplaceRange = new TextRange(0, /* TODO */ GetPrefix().Length);
+                result.Add(item);
+            }
+        }
+
+        private static ICompleteableReference FindCompleteableReference(IEnumerable<IReference> references)
+        {
+            foreach (IReference reference in references)
+            {
+                ICompleteableReference completeableReference = reference as ICompleteableReference;
+                if (completeableReference != null)
+                {
+                    return completeableReference;
+                }
+            }
+            return null;
+        }
 
         public XmlTokenTypes GetTokenTypes()
         {
@@ -233,8 +324,6 @@ namespace Arp.log4net.Services.CodeCompletion
                 return string.Empty;
             }
             return TextControl.Document.GetText(PrefixRange);
-            
         }
-            
     }
 }
