@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using Arp.Assertions;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
-using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
-using JetBrains.Util;
 
 namespace Arp.log4net.Services
 {
@@ -83,8 +82,11 @@ namespace Arp.log4net.Services
             IReference[] references = element.GetReferences();
             foreach (IReference reference in references)
             {
+                CheckForResolveProblems(reference);
+                
                 if(!reference.IsValid())
                 {
+                    //ResolveErrorType result = reference.CheckResolveResult();
                     // TODO hightlight "can not resolve symbol 'blahblah' "
                     //if( reference.CheckResolveResult() == ResolveErrorType. ...)
                 }
@@ -123,6 +125,20 @@ namespace Arp.log4net.Services
             }
 
             // TODO tooltips for predefined tags appender, appender-ref, logger, level etc
+        }
+
+        private void CheckForResolveProblems(IReference reference)
+        {
+            IQualifiableReference qualifiableReference = reference as IQualifiableReference;
+            if (((qualifiableReference == null) || !qualifiableReference.IsQualified) || qualifiableReference.GetQualifier().Resolved)
+            {
+                ResolveErrorType result = reference.CheckResolveResult();
+                if (result != ResolveErrorType.OK)
+                {
+                    NotResolvedError notResolvedError = new NotResolvedError(reference);
+                    highlightings.Add(new HighlightingInfo(notResolvedError.Range, notResolvedError));
+                }
+            }
         }
 
         private DocumentRange GetFooterTagRange(IElement element, DocumentRange range)

@@ -60,5 +60,12 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             return BindTo(element);
         }
+
+
+        public override IAccessContext GetAccessContext()
+        {
+            return null;
+            //return new ElementAccessContext(this.myOwner);
+        }
     }
 }

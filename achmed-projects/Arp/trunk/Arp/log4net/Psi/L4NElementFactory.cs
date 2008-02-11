@@ -83,6 +83,9 @@ namespace Arp.log4net.Psi
 
         private void CreateReferenceAttributeValue(IL4NElement element, IXmlAttribute attribute)
         {
+            if(attribute.Value == null)
+                return;
+            
             ReferenceParser parser = new ReferenceParser();
             IXmlAttributeValue newElement = parser.Parse(attribute.Value);
             IXmlAttributeValueNode childNode = attribute.Value.ToTreeNode();
