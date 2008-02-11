@@ -12,6 +12,8 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
+using JetBrains.Util;
+using SyntaxError=JetBrains.ReSharper.Daemon.Impl.SyntaxError;
 
 namespace Arp.log4net.Services
 {
@@ -60,12 +62,59 @@ namespace Arp.log4net.Services
 
         public void ProcessAfterInterior(IElement element)
         {
+            ProcessSyntaxError(element);
             ProcessElementParametersOwner(element);
             ProcessBackground(element);
             ProcessIdentifiers(element);
 
 //            TODO  use for paratemetrs values OptionConverter
 
+        }
+
+        private void ProcessSyntaxError(IElement element)
+        {
+            IErrorElementNode errorNode = element as IErrorElementNode;
+            if(errorNode == null)
+                return;
+
+            DocumentRange range = errorNode.GetDocumentRange();
+            if(!range.IsValid)
+                return;
+
+            if(range.TextRange.Length == 0)
+            {
+                int start = range.TextRange.StartOffset;
+                int end = range.TextRange.EndOffset + 1;
+                ITreeNode nextNode = errorNode.FindNextNode(delegate(ITreeNode treeNode)
+                                                                {
+                                                                    if(treeNode is ITokenNode)
+                                                                        return TreeNodeActionType.ACCEPT;
+                                                                    return TreeNodeActionType.CONTINUE;
+                                                                });
+                if(nextNode != null)
+                {
+                    XmlToken xmlToken = nextNode as XmlToken;
+                    if (xmlToken != null && xmlToken.type == L4NTokenNodeType.QUOTE)
+                        start--;
+                }
+                else
+                {
+                    start--;
+                    end--;
+                }
+
+                int documentLength = range.Document.GetTextLength();
+
+                start = Math.Max(0, start);
+                start = Math.Min(documentLength, start);
+                end = Math.Max(0, end);
+                end = Math.Min(documentLength, end);
+                range = new DocumentRange(range.Document, new TextRange(start, end));
+
+            }
+
+            SyntaxError errorHighlight = new JetBrains.ReSharper.Daemon.Impl.SyntaxError(errorNode.ErrorDescription);
+            highlightings.Add(new HighlightingInfo(range, errorHighlight));
         }
 
         private void ProcessBackground(IElement element)
