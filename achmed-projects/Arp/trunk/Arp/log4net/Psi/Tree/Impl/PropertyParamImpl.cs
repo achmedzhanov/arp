@@ -15,7 +15,7 @@ namespace Arp.log4net.Psi.Tree.Impl
     // TODO We need to implement GetReferense to have QuickDoc action (it is work with AppenderRef (!))
 // tip in Lookup TODO see  IdentifierTooltipProvider.GetTooltip,  CSharpIdentifierTooltipProvider, CSharpIdentifierHighlighting
     // quick doc TODO see ShowQuickDocAction
-    public class PropertyParamImpl : TypedParametersOwner , IDeclaredParameter  //, ITagNameBasedDeclaredParameter
+    public class PropertyParamImpl : TypedParametersOwner, IDeclaredParameter, IParameterDescriptorProvider, IDeclaredParametersOwner  //, ITagNameBasedDeclaredParameter
     {
         private ICollection<IParameterDescriptor> elementParametrInfos;
 

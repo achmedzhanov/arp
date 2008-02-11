@@ -109,11 +109,26 @@ namespace Arp.log4net.Services.CodeCompletion
             {
                 DocumentRange spaceRange = currentToken.GetDocumentRange();
 
-                if (!(CaretOffset > spaceRange.TextRange.StartOffset &&
-                      CaretOffset < spaceRange.TextRange.EndOffset))
-                    return false;
+                if(CaretOffset == spaceRange.TextRange.StartOffset)
+                {
+                    ITokenNode prevToken = currentToken.GetPrevToken();
+                    XmlToken xmlToken = prevToken as XmlToken;
+                    if(xmlToken.type != xmlTokenTypes.IDENTIFIER)
+                        return false;
 
-                prefixRange = new TextRange(CaretOffset);
+                    TextRange attrIdentifierRange = xmlToken.GetDocumentRange().TextRange;
+                    prefixRange = new TextRange(attrIdentifierRange.StartOffset, attrIdentifierRange.EndOffset);                    
+
+                }
+                else
+                {
+                    if (!(CaretOffset > spaceRange.TextRange.StartOffset &&
+                          CaretOffset < spaceRange.TextRange.EndOffset))
+                        return false;
+
+                    prefixRange = new TextRange(CaretOffset);                    
+                }
+
                 return true;
             }
 
