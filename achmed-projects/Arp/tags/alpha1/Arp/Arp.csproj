@@ -1,0 +1,333 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B52B07D9-4C0B-461C-B420-2E3050204502}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Arp</RootNamespace>
+    <AssemblyName>Arp</AssemblyName>
+    <SignAssembly>false</SignAssembly>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DevExpress.Data.v7.1, Version=7.1.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\DevExpress.Data.v7.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v7.1, Version=7.1.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\DevExpress.Utils.v7.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraEditors.v7.1, Version=7.1.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\DevExpress.XtraEditors.v7.1.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.XtraTreeList.v7.1, Version=7.1.3.0, Culture=neutral, PublicKeyToken=79868b8147b5eae4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\DevExpress.XtraTreeList.v7.1.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ActionManagement, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ActionManagement.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeInsight.Services, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeInsight.Services.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeInsight.Services.Xml, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.CodeInsight.Services.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.CodeView, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>e:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.CodeView.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Daemon, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Daemon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Daemon.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Daemon.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Daemon.Xml, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Daemon.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.DocumentManager, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.DocumentManager.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.DocumentModel, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.DocumentModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.IDECore, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.IDECore.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.NewRefactorings, Version=3.0.535.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.NewRefactorings.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.ProjectModel, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.ProjectModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Psi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.CSharp, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Psi.CSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.Xml, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Psi.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Resources, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Resources.dll</HintPath>
+    </Reference>
+    <Reference Include="jetbrains.resharper.solutionbuildtool, Version=3.0.535.11, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\jetbrains.resharper.solutionbuildtool.exe</HintPath>
+    </Reference>
+    <Reference Include="jetbrains.resharper.textcontrol, Version=3.0.517.8, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\jetbrains.resharper.textcontrol.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.TreeModelBrowser, Version=3.0.562.1, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.TreeModelBrowser.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Shell, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.Shell.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="jetbrains.ui, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\jetbrains.ui.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="JetBrains.Util, Version=3.0.517.8, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.Util.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="jetbrains.vsintegration, Version=3.0.535.11, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\jetbrains.vsintegration.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.2.8.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\libs\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assertions\Assert.cs" />
+    <Compile Include="Assertions\AssertException.cs" />
+    <Compile Include="log4net\Psi\L4NConstants.cs" />
+    <Compile Include="log4net\Psi\L4NTokenNodeType.cs" />
+    <Compile Include="log4net\Psi\Parsing\ReferenceParser.cs" />
+    <Compile Include="log4net\Psi\Search\L4NSearcherFactory.cs" />
+    <Compile Include="log4net\Psi\L4NSupportedByPSIChecker.cs" />
+    <Compile Include="log4net\Psi\Parsing\L4NtreeBuilder.cs" />
+    <Compile Include="log4net\Psi\Search\ReferencesSearcher.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppender.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderName.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderTypeName.cs" />
+    <Compile Include="log4net\Psi\Tree\IL4NElement.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AttributeParamImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\BaseDeclaredElementReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\EncodingParameterDescriptorDecorator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\IPAddressParameterDescriptorDecorator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ParamPropertyReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceName.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceNameAttributeValue.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaElementParameterDescriptor.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaParameterDescriptorProvider.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\StatisParameters\SimpleParameterOwner.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\StatisParameters\StatisParameterDescriptor.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\StatisParameters\StatisParameterDescriptorProvider.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ThresholdParameterDescriptorImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\TypedParametersOwner.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ParameterDescriptorImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ElementParametrInfoImplUtil.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\TypeOrNamespaceReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\BooleanValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\CLRValueTypesValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\EncodingValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\EnumerableValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\IPAddressValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\StringValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\ValidatorsManager.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\XMLPSIUtils.cs" />
+    <Compile Include="log4net\Psi\Tree\IDeclaredParameter.cs" />
+    <Compile Include="log4net\Psi\Tree\IAppenderRef.cs" />
+    <Compile Include="log4net\Psi\Tree\IL4NSection.cs" />
+    <Compile Include="log4net\Psi\Tree\ILogger.cs" />
+    <Compile Include="log4net\Psi\Tree\ILoggerProperty.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderClassNameImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\PropertyParamImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\AppenderRefImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\BaseL4NTag.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\L4NDeclaredElementPresenter.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\L4NDeclaredElementType.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\L4NSectionImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\LoggerImpl.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterDescriptorManager.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterDescriptorProvider.cs" />
+    <Compile Include="log4net\Psi\Tree\IDeclaredParametersOwner.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterDescriptor.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterStringValueValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
+    <Compile Include="log4net\Psi\Tree\ITypeNameOrNamespace.cs" />
+    <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
+    <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\CodeCompletionContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\DeclaredElementFullNameLookupItem.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\ICodeCompletionRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\IL4NCodeCompletionContext.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\AppenderNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\BaseParametersRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\DeclaredParameterAttributesRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\DeclaredParameterTypeNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\LoggerNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\NamespaceorTypeNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\ParameterAttributeEnumerableValuesRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\ParameterAttributeNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\TagBasedParameterAttributeRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\TagBasedParameterNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\AppenderTypeNameRule.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\Rules\TypeNameRuleBase.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\TypingHandler.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\StaticParameterLookupItem.cs" />
+    <Compile Include="log4net\Services\CSharp\ContextActions\CheckLogLevel.cs" />
+    <Compile Include="log4net\Services\CSharp\TestCodeCompletionListTransformationRule.cs" />
+    <Compile Include="log4net\Services\InvalidValue.cs" />
+    <Compile Include="log4net\Services\L4NCodeInsightService.cs" />
+    <Compile Include="log4net\Services\MissedParameterError.cs" />
+    <Compile Include="log4net\Services\Highlighters.cs" />
+    <Compile Include="log4net\Services\InvalidPropertyHighlighting.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionProvider.cs" />
+    <Compile Include="log4net\Services\L4NDaemonStageProcess.cs" />
+    <Compile Include="log4net\Psi\L4NElementFactory.cs" />
+    <Compile Include="log4net\Psi\L4NLanguageService.cs" />
+    <Compile Include="log4net\Services\L4NIdentifierHighlighting.cs" />
+    <Compile Include="log4net\Services\L4NIdentifierTooltipProvider.cs" />
+    <Compile Include="log4net\Services\L4NProjectFileLanguageService.cs" />
+    <Compile Include="log4net\Services\L4NProcessor.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\ParameterLookupItem.cs" />
+    <Compile Include="log4net\Services\NotResolvedError.cs" />
+    <Compile Include="log4net\Services\ParametersUtil.cs" />
+    <Compile Include="log4net\Services\QuickFixes\CreateMissedParameterFix.cs" />
+    <Compile Include="log4net\Services\QuickFixRegistrarComponent.cs" />
+    <Compile Include="log4net\Services\Refactorings\L4NNamingStyle.cs" />
+    <Compile Include="log4net\Services\Refactorings\L4NRename.cs" />
+    <Compile Include="log4net\Services\StageDaemon.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\DeclaredElementLookupItemCreationContext.cs" />
+    <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
+    <Compile Include="Tests\BaseTest.cs" />
+    <Compile Include="Tests\L4NSearch.cs" />
+    <Compile Include="Tests\SchemaParameterDescriptorProviderTests.cs" />
+    <Compile Include="Tests\UnusedModulesProjectVisitorTests.cs" />
+    <Compile Include="Tests\Validation.cs" />
+    <Compile Include="UnusedReferences\DeleteUnusedReferencesAction.cs" />
+    <Compile Include="UnusedReferences\DeleteUnusedReferencesWorkflow.cs" />
+    <Compile Include="Grouping\BaseRegionsModifier.cs" />
+    <Compile Include="Grouping\GroupMembers.cs" />
+    <Compile Include="Grouping\IGroupingOption.cs" />
+    <Compile Include="Grouping\PredicateGrouping.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Grouping\ReorderRegions.cs" />
+    <Compile Include="UnusedReferences\UI\EmptyResultsPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UnusedReferences\UI\EmptyResultsPane.Designer.cs">
+      <DependentUpon>EmptyResultsPane.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnusedReferences\UnusedReferencesSearchDescriptor.cs" />
+    <Compile Include="UnusedReferences\UnusedReferencesSearchRequest.cs" />
+    <Compile Include="UnusedReferences\UnusedReferencesSearchResult.cs" />
+    <Compile Include="UnusedReferences\UI\ModulesChooserPane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UnusedReferences\UI\ModulesChooserPane.Designer.cs">
+      <DependentUpon>ModulesChooserPane.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnusedReferences\UnusedModulesProcessor.cs" />
+    <Compile Include="Tests\UnusedModulesProcessorTests.cs" />
+    <Compile Include="UnusedReferences\UnusedModulesProjectVisitor.cs" />
+    <Compile Include="Utils\ElementUtils.cs" />
+    <Compile Include="Utils\RangeUtils.cs" />
+    <Compile Include="Utils\Win32.cs" />
+    <Compile Include="Xml\BaseXmlDaemonStage.cs" />
+    <Compile Include="Xml\XmlUtils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Actions.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Tests\TestShellConfig.xml" />
+    <EmbeddedResource Include="UnusedReferences\UI\EmptyResultsPane.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>EmptyResultsPane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnusedReferences\UI\ModulesChooserPane.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>ModulesChooserPane.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
