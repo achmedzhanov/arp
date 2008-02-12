@@ -44,6 +44,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="log4net\nh-sample.config" />
     <None Include="log4net\simpleConfigWithInvalidPropertyName.config" />
     <None Include="log4net\simple.l4n" />
     <None Include="log4net\simpleConfig.config" />
