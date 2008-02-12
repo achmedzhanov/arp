@@ -42,8 +42,8 @@ using JetBrains.UI.Shell.PluginSupport;
 //[assembly: PluginVendor("")]
 
 [assembly: ImagesBase("Arp.Images")]
-[assembly: ActionsXml("Arp.Actions.xml")]
-[assembly: PluginVendor("Achmezhanov Nail")]
+//[assembly: ActionsXml("Arp.Actions.xml")]
+[assembly: PluginVendor("Achmedzhanov Nail")]
 [assembly: PluginDescription("Another Resharper Plugin")]
 [assembly: PluginTitle("Another Resharper Plugin")]
 [assembly: AssemblyCopyright("Copyright \x00a9 2007-2008 Achmedzhanov Nail All rights reserved.")]
