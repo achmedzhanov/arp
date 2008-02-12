@@ -41,9 +41,18 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                return base.GetAttributeValue("value", null);
+                return base.GetAttributeStringValue("value", null);
             }
         }
+
+        public IXmlAttributeValue Value
+        {
+            get
+            {
+                return GetAttributeValue("value");
+            }
+        }
+
 
 
         public IDeclaredParametersOwner Owner

@@ -181,6 +181,8 @@
     <Compile Include="log4net\Psi\Tree\IL4NElement.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\AttributeParamImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\BaseDeclaredElementReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\EncodingParameterDescriptorDecorator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\IPAddressParameterDescriptorDecorator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ParamPropertyReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceNameAttributeValue.cs" />
@@ -194,6 +196,13 @@
     <Compile Include="log4net\Psi\Tree\Impl\ParameterDescriptorImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ElementParametrInfoImplUtil.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\TypeOrNamespaceReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\BooleanValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\CLRValueTypesValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\EncodingValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\EnumerableValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\IPAddressValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\StringValidator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\Validators\ValidatorsManager.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\XMLPSIUtils.cs" />
     <Compile Include="log4net\Psi\Tree\IDeclaredParameter.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderRef.cs" />
@@ -214,6 +223,7 @@
     <Compile Include="log4net\Psi\Tree\IParameterDescriptorProvider.cs" />
     <Compile Include="log4net\Psi\Tree\IDeclaredParametersOwner.cs" />
     <Compile Include="log4net\Psi\Tree\IParameterDescriptor.cs" />
+    <Compile Include="log4net\Psi\Tree\IParameterStringValueValidator.cs" />
     <Compile Include="log4net\Psi\Tree\IRootLogger.cs" />
     <Compile Include="log4net\Psi\Tree\ITypeNameOrNamespace.cs" />
     <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
@@ -238,6 +248,7 @@
     <Compile Include="log4net\Services\CodeCompletion\StaticParameterLookupItem.cs" />
     <Compile Include="log4net\Services\CSharp\ContextActions\CheckLogLevel.cs" />
     <Compile Include="log4net\Services\CSharp\TestCodeCompletionListTransformationRule.cs" />
+    <Compile Include="log4net\Services\InvalidValue.cs" />
     <Compile Include="log4net\Services\L4NCodeInsightService.cs" />
     <Compile Include="log4net\Services\MissedParameterError.cs" />
     <Compile Include="log4net\Services\Highlighters.cs" />
@@ -264,6 +275,7 @@
     <Compile Include="Tests\L4NSearch.cs" />
     <Compile Include="Tests\SchemaParameterDescriptorProviderTests.cs" />
     <Compile Include="Tests\UnusedModulesProjectVisitorTests.cs" />
+    <Compile Include="Tests\Validation.cs" />
     <Compile Include="UnusedReferences\DeleteUnusedReferencesAction.cs" />
     <Compile Include="UnusedReferences\DeleteUnusedReferencesWorkflow.cs" />
     <Compile Include="Grouping\BaseRegionsModifier.cs" />

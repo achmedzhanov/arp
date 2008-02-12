@@ -21,7 +21,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public string Ref
         {
-            get { return GetAttributeValue(L4NConstants.REF, string.Empty); }
+            get { return GetAttributeStringValue(L4NConstants.REF, string.Empty); }
         }
 
         public IXmlAttributeValue RefValue

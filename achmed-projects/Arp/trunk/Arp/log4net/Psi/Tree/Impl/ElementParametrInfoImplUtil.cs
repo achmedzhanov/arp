@@ -81,6 +81,10 @@ namespace Arp.log4net.Psi.Tree.Impl
             IDeclaredType declaredType = property.Type as IDeclaredType;
             if (declaredType != null && declaredType.GetCLRName() == "log4net.Core.Level")
                 return new LevelParameterDescriptorDecorator(impl);
+            else if (declaredType != null && declaredType.GetCLRName() == "System.Text.Encoding")
+                return new EncodingParameterDescriptorDecorator(impl);
+            else if (declaredType != null && declaredType.GetCLRName() == "System.Net.IPAddress")
+                return new IPAddressParameterDescriptorDecorator(impl);
 
             return impl;
         }

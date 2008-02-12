@@ -19,7 +19,7 @@ namespace Arp.log4net.Psi.Tree.Impl
             {
                 if(!calculatedCLRType)
                 {
-                    string typeValue = GetAttributeValue(L4NConstants.TYPE, null);
+                    string typeValue = GetAttributeStringValue(L4NConstants.TYPE, null);
                     
                     if(!string.IsNullOrEmpty(typeValue))
                     {

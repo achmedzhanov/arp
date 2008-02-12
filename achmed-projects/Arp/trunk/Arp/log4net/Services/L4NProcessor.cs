@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Arp.Assertions;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
+using Arp.log4net.Psi.Tree.Impl;
+using Arp.log4net.Psi.Tree.Impl.Validators;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
@@ -45,6 +47,8 @@ namespace Arp.log4net.Services
 //                return false;
 //
 //            return true;
+
+            
 
             return true;
         }
@@ -306,6 +310,65 @@ namespace Arp.log4net.Services
                         highlightings.Add(new HighlightingInfo(range, new MissedParameterError(descriptor, element)));
 
                     }
+                }
+
+                // highlight invalid values
+                foreach (IDeclaredParameter param in declaredParameters)
+                {
+                    IParameterDescriptor descriptor = ParametersUtil.GetByName(infos, param.Name);
+                    if (descriptor == null)
+                        continue;
+
+                    IParameterStringValueValidator validator = ValidatorsManager.Instance().GetValidator(descriptor);
+                    if (validator == null)
+                        continue;
+
+                    // TODO introduce interface marker to determine tag pased parameters
+                    PropertyParamImpl propertyParam = param as PropertyParamImpl;
+                    IXmlAttributeValue attributeValue = null;
+                    if (propertyParam != null)
+                    {
+                        attributeValue = propertyParam.Value;
+                    }
+                    else // attribute
+                    {
+                        IXmlAttribute attribute = ((IXmlTag)declaredParametersOwner).GetAttribute(param.Name);
+                        if (attribute != null)
+                            attributeValue = attribute.Value;
+                    }
+
+                    if (attributeValue == null)
+                        continue;
+
+                    string unquotedValue = attributeValue.UnquotedValue;
+                    ValidationResult validateResult = validator.Validate(unquotedValue);
+                    if (validateResult == ValidationResult.Ok)
+                        continue;
+                    
+                    if(validateResult.Range == TextRange.InvalidRange)
+                        continue;
+
+                    int valueStart = attributeValue.ToTreeNode().GetDocumentRange().TextRange.StartOffset + 1;
+                    TextRange valueRange = new TextRange(valueStart, valueStart + unquotedValue.Length);
+                    int errorStart = valueRange.StartOffset + validateResult.Range.StartOffset;
+                    TextRange errorRange = new TextRange(errorStart, errorStart + validateResult.Range.Length);
+                    errorRange = valueRange.Intersect(errorRange);
+
+                    if (errorRange == TextRange.InvalidRange)
+                        continue;
+
+                    if(errorRange.IsEmpty)
+                    {
+                        if (attributeValue.UnquotedValue.Length  == 0)
+                        {
+                            errorRange = new TextRange(errorRange.StartOffset - 1, errorRange.StartOffset + 1);
+                        }
+                        else
+                            continue;
+                    }
+                    
+                    highlightings.Add(new HighlightingInfo( new DocumentRange(element.GetDocumentRange().Document, errorRange),
+                        new InvalidValue(validateResult.Message)));
                 }
             }
         }

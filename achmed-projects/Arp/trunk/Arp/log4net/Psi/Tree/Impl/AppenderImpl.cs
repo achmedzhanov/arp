@@ -47,7 +47,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                return GetAttributeValue(L4NConstants.NAME, string.Empty);
+                return GetAttributeStringValue(L4NConstants.NAME, string.Empty);
             }
         }
 

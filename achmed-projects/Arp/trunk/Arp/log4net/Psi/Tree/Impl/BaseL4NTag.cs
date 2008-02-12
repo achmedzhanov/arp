@@ -12,10 +12,16 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
         }
 
-        protected string GetAttributeValue(string attributeName, string notExistsName)
+        protected string GetAttributeStringValue(string attributeName, string notExistsName)
         {
             IXmlAttribute attribute = this.GetAttribute(attributeName);
             return attribute == null ? string.Empty : attribute.UnquotedValue;
+        }
+
+        protected IXmlAttributeValue GetAttributeValue(string attributeName)
+        {
+            IXmlAttribute attribute = this.GetAttribute(attributeName);
+            return attribute == null ? null : attribute.Value;
         }
 
         protected IXmlAttributeValue GetAttributeValueElement(string attributeName)
