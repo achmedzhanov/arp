@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns="http://www.springframework.net/AOP" xmlns:objects="http://www.springframework.net" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" targetNamespace="http://www.springframework.net/AOP" elementFormDefault="qualified" attributeFormDefault="unqualified" vs:friendlyname="Spring.NET AOP Configuration" vs:ishtmlschema="false" vs:iscasesensitive="true" vs:requireattributequotes="true" vs:defaultnamespacequalifier="" vs:defaultnsprefix="">
+    <xs:annotation>
+        <xs:documentation>
+            Spring AOP XML Schema Definition
+            
+            Author: Aleksandar Seovic
+            
+            This file defines a schema for AOP-specific definitions that can be used
+            to simplify aspect definitions within Spring config file.
+
+            Most of the elements in this schema are function-specific aliases for the
+            standard 'object' element defined in the default Spring.NET schema.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:import namespace="http://www.springframework.net" schemaLocation="spring-objects.xsd"/>
+    
+    <xs:annotation>
+        <xs:documentation>Defines a pointcut.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="pointcut">
+        <xs:sequence>
+            <xs:element name="description" type="objects:description" minOccurs="0" maxOccurs="1"/>
+            <!--
+                 Pointcuts can specify zero or more constructor arguments.
+                 They correspond to either a specific index of the constructor argument list
+                 or are supposed to be matched generically by type.
+            -->
+            <xs:element name="constructor-arg" type="objects:constructorArgument" minOccurs="0" maxOccurs="unbounded"/>
+            <!--
+                 Pointcuts can have zero or more properties.
+                 Spring supports primitives, references to other objects in the same or
+                 related factories, lists, dictionaries and properties.
+            -->
+            <xs:element name="property" type="objects:property" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID" use="optional"/>
+        <xs:attribute name="name" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="type" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="parent" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="abstract" type="xs:boolean" use="optional" default="false"/>
+        <xs:attribute name="singleton" type="xs:boolean" use="optional" default="true"/>
+        <xs:attribute name="types" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="members" type="objects:nonNullString" use="optional"/>
+    </xs:complexType>
+
+    <xs:annotation>
+        <xs:documentation>Defines an aspect.  At least one advice definition is required.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="aspect">
+        <xs:sequence>
+            <xs:element name="description" type="objects:description" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="pointcut" type="pointcut" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="advice" minOccurs="1" maxOccurs="unbounded">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="description" type="objects:description" minOccurs="0" maxOccurs="1"/>
+                        <xs:element name="constructor-arg" type="objects:constructorArgument" minOccurs="0" maxOccurs="unbounded"/>
+                        <xs:element name="property" type="objects:property" minOccurs="0" maxOccurs="unbounded"/>
+                    </xs:sequence>
+                    <xs:attribute name="id" type="xs:ID" use="optional"/>
+                    <xs:attribute name="name" type="objects:nonNullString" use="optional"/>
+                    <xs:attribute name="type" type="objects:nonNullString" use="optional"/>
+                    <xs:attribute name="parent" type="objects:nonNullString" use="optional"/>
+                    <xs:attribute name="abstract" type="xs:boolean" use="optional" default="false"/>
+                    <xs:attribute name="singleton" type="xs:boolean" use="optional" default="true"/>
+                    <xs:attribute name="applies-to" type="objects:nonNullString" use="required"/>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="name" type="objects:nonNullString" use="required"/>
+    </xs:complexType>
+
+    <xs:annotation>
+        <xs:documentation>The document root.  At least one aspect definition is required.</xs:documentation>
+    </xs:annotation>
+    <xs:element name="aspects">
+        <xs:complexType>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element name="description" type="objects:description" minOccurs="0" maxOccurs="1"/>
+                <xs:element name="pointcut" type="pointcut" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="aspect" type="aspect" minOccurs="1" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:element name="pointcut" type="pointcut"/>
+    
+    <xs:element name="aspect" type="aspect"/>
+
+</xs:schema>

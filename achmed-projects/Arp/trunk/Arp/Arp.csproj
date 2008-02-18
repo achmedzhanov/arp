@@ -270,6 +270,9 @@
     <Compile Include="log4net\Services\Refactorings\L4NRename.cs" />
     <Compile Include="log4net\Services\StageDaemon.cs" />
     <Compile Include="log4net\Services\CodeCompletion\DeclaredElementLookupItemCreationContext.cs" />
+    <Compile Include="NH\Psi\NHElementFactory.cs" />
+    <Compile Include="NH\Psi\NHLanguageService.cs" />
+    <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />
@@ -321,6 +324,16 @@
       <SubType>Designer</SubType>
       <DependentUpon>ModulesChooserPane.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Arp.Common\Arp.Common.csproj">
+      <Project>{F6C8C383-15F0-4DB5-8188-2904BA9775DE}</Project>
+      <Name>Arp.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="NH\Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
