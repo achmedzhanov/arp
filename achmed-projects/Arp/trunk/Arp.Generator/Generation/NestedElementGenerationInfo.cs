@@ -7,79 +7,49 @@ namespace Arp.Generator.Generation
     public class NestedElementGenerationInfo
     {
         private readonly bool isCollection;
-        private readonly string xmlName;
-        private readonly IElementGenerationInfoRef type;
-        private readonly ICollection<string> xmlNames;
-        private readonly ICollection<IElementGenerationInfoRef> collectionTypes;
-        
+        private readonly ElementGenerationInfo element;
+        private readonly ICollection<ElementGenerationInfo> elements;
 
 
-        public NestedElementGenerationInfo(IElementGenerationInfoRef type, string xmlName)
+
+        public NestedElementGenerationInfo(ElementGenerationInfo element)
         {
-            if (type == null) throw new ArgumentNullException("type");
-            if (xmlName == null) throw new ArgumentNullException("xmlName");
+            if (element == null) throw new ArgumentNullException("element");
             isCollection = false;
-            this.type = type;
-            this.xmlName = xmlName;
+            this.element = element;
         }
 
 
-        public NestedElementGenerationInfo(ICollection<IElementGenerationInfoRef> collectionTypes, ICollection<string> xmlNames)
+        public NestedElementGenerationInfo(ICollection<ElementGenerationInfo> elements)
         {
-            if (collectionTypes == null) throw new ArgumentNullException("collectionTypes");
-            if (xmlNames == null) throw new ArgumentNullException("xmlNames");
+            if (elements == null) throw new ArgumentNullException("elements");
+            this.elements = elements;
             isCollection = true;
-            this.collectionTypes = collectionTypes;
-            this.xmlNames = xmlNames;
-            Assert.Check(xmlNames.Count == collectionTypes.Count);
         }
-
 
         public bool IsCollection
         {
             get { return isCollection; }
         }
 
-        public IElementGenerationInfoRef Type
-        {
-            get
-            {
-                if (IsCollection)
-                    throw new InvalidOperationException();
 
-                return type;
+        ///<summary>
+        ///Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        ///</summary>
+        ///
+        ///<returns>
+        ///A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        ///</returns>
+        ///<filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            if(isCollection)
+            {
+                return "[collection]";
             }
-        }
-
-        public ICollection<IElementGenerationInfoRef> CollectionTypes
-        {
-            get
+            else
             {
-                if (!IsCollection)
-                    throw new InvalidOperationException();                
-                
-                return collectionTypes;
-            }
-        }
-
-
-        public string XmlName
-        {
-            get
-            {
-                if (IsCollection)
-                    throw new InvalidOperationException();                
-                return xmlName;
-            }
-        }
-
-        public ICollection<string> XmlNames
-        {
-            get
-            {
-                if (!IsCollection)
-                    throw new InvalidOperationException();                
-                return xmlNames;
+                return "[element" + element + "]";
             }
         }
     }

@@ -8,6 +8,6 @@ namespace Arp.Generator.Prototypes.NH.Psi
         IIdMappingElement Id { get;}
         IList<IPropertyMappingElement> Propties { get;}
         IBooleanAttribute Lazy { get;}
-        IRefenceName Name { get;}
+        IReferenceNameAttribute Name { get;}
     }
 }

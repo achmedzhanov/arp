@@ -4,5 +4,6 @@ namespace Arp.Generator.Generation
     {
         EnumGenerationInfo GetEnumInfo(string id);
         ElementGenerationInfo GetElementInfo(string id);
+        TypeGenerationInfo GetTypeGenerationInfo(string xmlName);
     }
 }

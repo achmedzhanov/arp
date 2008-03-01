@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Xml.Schema;
 using Arp.Generator.Generation;
 using Arp.Generator.Names;
@@ -273,16 +274,42 @@ namespace Arp.Generator.Tests
             ElementGenerationInfo objectsElement = generator.ElementGenerationInfos.Find(delegate(ElementGenerationInfo obj)
                                                                                              {
                                                                                                  return
-                                                                                                     obj.TypeName.FullName ==
+                                                                                                     obj.TypeGenerationInfo.TypeName.FullName ==
                                                                                                      (BASE_NAMESPACE + "." + "Class");
                                                                                              });
 
             Assert.IsNotNull(objectsElement);
-            Assert.AreEqual(2, objectsElement.Attributes.Count);
+            Assert.AreEqual(2, objectsElement.TypeGenerationInfo.Attributes.Count);
+            Assert.AreEqual(5, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);
         }
 
 
+        [Test]
+        public void GenerateNH12Live()
+        {
+            string xsd = File.ReadAllText("..\\..\\Tests\\nhibernate-mapping.xsd");
+            
+            XmlSchema schema = base.CreateXmlSchema(xsd);
+            GeneratorVisitor visitor = CreateGeneratorVisitor();
+            visitor.VisitSchema(schema);
+            ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
+            
+            // TODO count
+            //Assert.AreEqual(7, generator.ElementGenerationInfos.Count);
 
+            // polymorphismType
+
+            ElementGenerationInfo objectsElement = generator.ElementGenerationInfos.Find(delegate(ElementGenerationInfo obj)
+                                                                                             {
+                                                                                                 return
+                                                                                                     obj.TypeGenerationInfo.TypeName.FullName ==
+                                                                                                     (BASE_NAMESPACE + "." + "Class");
+                                                                                             });
+
+            Assert.IsNotNull(objectsElement);
+            Assert.AreEqual(2, objectsElement.TypeGenerationInfo.Attributes.Count);
+            Assert.AreEqual(69, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);            
+        }
 
         private GeneratorVisitor CreateGeneratorVisitor()
         {

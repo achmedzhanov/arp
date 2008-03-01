@@ -273,6 +273,7 @@
     <Compile Include="NH\Psi\NHElementFactory.cs" />
     <Compile Include="NH\Psi\NHLanguageService.cs" />
     <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
+    <Compile Include="NH\Services\NHProjectFileLanguageService.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />
@@ -332,8 +333,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\NHLogo.bmp" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Common\" />
-    <Folder Include="NH\Services\" />
+    <Folder Include="NH\Psi\Search\" />
+    <Folder Include="NH\Psi\Tree\Impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

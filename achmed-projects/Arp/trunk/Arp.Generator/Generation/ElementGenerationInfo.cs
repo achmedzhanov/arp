@@ -1,43 +1,48 @@
+using System;
 using System.Collections.Generic;
 
 namespace Arp.Generator.Generation
 {
     public class ElementGenerationInfo
     {
-        private string xmlName;
-        private TypeName typeName;
-        private ICollection<AttributeGenerationInfo> attributes;
-        private ICollection<NestedElementGenerationInfo> flatNestedElements;
+        private readonly string xmlName;
+        private readonly ITypeGenerationInfoRef typeGenerationInfoRef;
 
-
-        public ElementGenerationInfo(string xmlName, TypeName typeName, ICollection<AttributeGenerationInfo> attributes, ICollection<NestedElementGenerationInfo> flatNestedElements)
+        public ElementGenerationInfo(string xmlName, TypeGenerationInfo typeGenerationInfo)
+            : this(xmlName, new TypeGenerationInfoRefStub(typeGenerationInfo))
         {
+        }
+
+
+        public ElementGenerationInfo(string xmlName, ITypeGenerationInfoRef typeGenerationInfoRef)
+        {
+            if (xmlName == null) throw new ArgumentNullException("xmlName");
+            if (typeGenerationInfoRef == null) throw new ArgumentNullException("typeGenerationInfoRef");
             this.xmlName = xmlName;
-            this.typeName = typeName;
-            this.attributes = attributes;
-            this.flatNestedElements = flatNestedElements;
+            this.typeGenerationInfoRef = typeGenerationInfoRef;
         }
-
-        public ICollection<AttributeGenerationInfo> Attributes
-        {
-            get { return attributes; }
-        }
-                
-
-        public ICollection<NestedElementGenerationInfo> FlatNestedElements
-        {
-            get { return flatNestedElements; }
-        }
-
 
         public string XmlName
         {
             get { return xmlName; }
         }
 
-        public TypeName TypeName
+        public TypeGenerationInfo TypeGenerationInfo
         {
-            get { return typeName; }
+            get { return typeGenerationInfoRef.Get(); }
+        }
+
+        ///<summary>
+        ///Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        ///</summary>
+        ///
+        ///<returns>
+        ///A <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.
+        ///</returns>
+        ///<filterpriority>2</filterpriority>
+        public override string ToString()
+        {
+            return string.Format(GetType() + " [" + typeGenerationInfoRef + "]");
         }
     }
 }

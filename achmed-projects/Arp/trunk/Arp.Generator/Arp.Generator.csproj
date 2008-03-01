@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Generation\AttributeGenerationInfo.cs" />
+    <Compile Include="Generation\ITypeGenerationInfoRef.cs" />
+    <Compile Include="Generation\TypeGenerationInfo.cs" />
     <Compile Include="Generation\ElementGenerationInfo.cs" />
     <Compile Include="Generation\ElementGenerationInfoRef.cs" />
     <Compile Include="Generation\Generators\IElementsAcceptor.cs" />
@@ -48,6 +50,7 @@
     <Compile Include="Generation\Generators\IEnumAcceptor.cs" />
     <Compile Include="Generation\IRegistry.cs" />
     <Compile Include="Generation\NestedElementGenerationInfo.cs" />
+    <Compile Include="Generation\TypeGenerationInfoRefStub.cs" />
     <Compile Include="Generation\TypeName.cs" />
     <Compile Include="Names\CamelNameConverter.cs" />
     <Compile Include="Names\INameConverter.cs" />
@@ -65,6 +68,11 @@
       <Project>{F6C8C383-15F0-4DB5-8188-2904BA9775DE}</Project>
       <Name>Arp.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Tests\nhibernate-mapping.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
