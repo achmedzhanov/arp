@@ -1,4 +1,6 @@
-namespace Arp.Generator.Generation
+using Arp.Generator.Acceptors;
+
+namespace Arp.Generator.Preprocessing.Impl
 {
     public interface ITypeGenerationInfoRef
     {

@@ -2,8 +2,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
 using System.Xml.Schema;
-using Arp.Generator.Generation;
+using Arp.Generator.Acceptors;
 using Arp.Generator.Names;
+using Arp.Generator.Preprocessing.Impl;
 using NUnit.Framework;
 
 namespace Arp.Generator.Tests
@@ -111,7 +112,7 @@ namespace Arp.Generator.Tests
             #endregion
 
             XmlSchema schema = base.CreateXmlSchema(xsd);
-            GeneratorVisitor visitor = CreateGeneratorVisitor();
+            PreprocesingVisitor visitor = CreateGeneratorVisitor();
             visitor.VisitSchema(schema);
             EnumGenerator generator = (EnumGenerator)visitor.EnumAcceptor;
             Assert.AreEqual(4, generator.EnumGenerationInfos.Count);
@@ -264,7 +265,7 @@ namespace Arp.Generator.Tests
             #endregion
 
             XmlSchema schema = base.CreateXmlSchema(xsd);
-            GeneratorVisitor visitor = CreateGeneratorVisitor();
+            PreprocesingVisitor visitor = CreateGeneratorVisitor();
             visitor.VisitSchema(schema);
             ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
             Assert.AreEqual(7, generator.ElementGenerationInfos.Count);
@@ -290,7 +291,7 @@ namespace Arp.Generator.Tests
             string xsd = File.ReadAllText("..\\..\\Tests\\nhibernate-mapping.xsd");
             
             XmlSchema schema = base.CreateXmlSchema(xsd);
-            GeneratorVisitor visitor = CreateGeneratorVisitor();
+            PreprocesingVisitor visitor = CreateGeneratorVisitor();
             visitor.VisitSchema(schema);
             ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
             
@@ -311,14 +312,14 @@ namespace Arp.Generator.Tests
             Assert.AreEqual(69, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);            
         }
 
-        private GeneratorVisitor CreateGeneratorVisitor()
+        private PreprocesingVisitor CreateGeneratorVisitor()
         {
-            GeneratorVisitor generatorVisitor = new GeneratorVisitor();
-            generatorVisitor.NameConverter = new CamelNameConverter();
-            generatorVisitor.TargetNamespace = BASE_NAMESPACE;
-            generatorVisitor.EnumAcceptor = new EnumGenerator();
-            generatorVisitor.ElementsAcceptor = new ElementGenerator();
-            return generatorVisitor;
+            PreprocesingVisitor preprocesingVisitor = new PreprocesingVisitor();
+            preprocesingVisitor.NameConverter = new CamelNameConverter();
+            preprocesingVisitor.TargetNamespace = BASE_NAMESPACE;
+            preprocesingVisitor.EnumAcceptor = new EnumGenerator();
+            preprocesingVisitor.ElementsAcceptor = new ElementGenerator();
+            return preprocesingVisitor;
        }
     }
 }

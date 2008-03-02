@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Schema;
+using Arp.Generator.Xsd;
 using NUnit.Framework;
 
 namespace Arp.Generator.Tests

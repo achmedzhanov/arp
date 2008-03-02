@@ -1,4 +1,7 @@
-namespace Arp.Generator.Generation
+using Arp.Generator.Acceptors;
+using Arp.Generator.Preprocessing.Impl;
+
+namespace Arp.Generator.Preprocessing.Impl
 {
     public interface IRegistry
     {

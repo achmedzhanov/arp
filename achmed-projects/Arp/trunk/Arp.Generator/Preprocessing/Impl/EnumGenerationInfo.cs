@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Arp.Common.Assertions;
 
-namespace Arp.Generator.Generation
+namespace Arp.Generator.Preprocessing.Impl
 {
     public class EnumGenerationInfo
     {

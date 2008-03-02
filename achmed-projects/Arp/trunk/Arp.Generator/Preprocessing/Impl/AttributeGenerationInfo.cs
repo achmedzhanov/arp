@@ -1,4 +1,4 @@
-namespace Arp.Generator.Generation
+namespace Arp.Generator.Preprocessing.Impl
 {
     public class AttributeGenerationInfo
     {

@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using Arp.Common.Assertions;
-using Arp.Generator.Generation;
+using Arp.Generator.Acceptors;
 using Arp.Generator.Names;
+using Arp.Generator.Preprocessing.Impl;
+using Arp.Generator.Xsd;
 
-namespace Arp.Generator
+namespace Arp.Generator.Preprocessing.Impl
 {
-    
-    public class GeneratorVisitor : XsdVisitor
+    public class PreprocesingVisitor : XsdVisitor
     {
         private INameConverter nameConverter;
         private string targetNamespace;

@@ -3,7 +3,7 @@ using System.Xml;
 using System.Xml.Schema;
 using Arp.Common.Assertions;
 
-namespace Arp.Generator
+namespace Arp.Generator.Xsd
 {
     public class XsdVisitor
     {

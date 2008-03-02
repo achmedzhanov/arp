@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Arp.Generator.Generation
+namespace Arp.Generator.Preprocessing.Impl
 {
     public class ElementGenerationInfo
     {

@@ -1,6 +1,7 @@
 using System;
+using Arp.Generator.Preprocessing.Impl;
 
-namespace Arp.Generator.Generation
+namespace Arp.Generator.Preprocessing.Impl
 {
     public class ElementGenerationInfoRefRegistry : IElementGenerationInfoRef
     {

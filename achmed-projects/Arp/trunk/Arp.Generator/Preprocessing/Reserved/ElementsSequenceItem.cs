@@ -1,4 +1,4 @@
-namespace Arp.Generator.Generation
+namespace Arp.Generator.Acceptors
 {
     public class ElementsSequenceItem
     {
