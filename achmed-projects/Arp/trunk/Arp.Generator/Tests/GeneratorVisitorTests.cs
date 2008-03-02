@@ -14,50 +14,6 @@ namespace Arp.Generator.Tests
     [TestFixture]
     public class GeneratorVisitorTests : BaseTestFixture
     {
-        private string BASE_NAMESPACE = "Arp.NH.Psi.Tree";
-
-        class EnumGenerator : IEnumAcceptor
-        {
-            
-            List<EnumGenerationInfo> enumGenerationInfos = new List<EnumGenerationInfo>();
-
-            #region IEnumAcceptor Members
-
-            public void Accept(EnumGenerationInfo enumGenerationInfo)
-            {
-                enumGenerationInfos.Add(enumGenerationInfo);
-            }
-
-            #endregion
-
-            public List<EnumGenerationInfo> EnumGenerationInfos
-            {
-                get { return enumGenerationInfos; }
-            }
-        }
-
-        class ElementGenerator : IElementsAcceptor
-        {
-
-            List<ElementGenerationInfo> elementGenerationInfos = new List<ElementGenerationInfo>();
-
-            #region IElementsAcceptor Members
-
-            public void Accept(ElementGenerationInfo elementGenerationInfo)
-            {
-                elementGenerationInfos.Add(elementGenerationInfo);
-            }
-
-            #endregion
-
-            public List<ElementGenerationInfo> ElementGenerationInfos
-            {
-                get { return elementGenerationInfos; }
-            }
-        }
-
-
-
         [Test]
         public void GenerateEnums()
         {
@@ -313,15 +269,5 @@ namespace Arp.Generator.Tests
             Assert.AreEqual(12, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);
             Assert.AreEqual(1, objectsElement.TypeGenerationInfo.Groups.Count);
         }
-
-        private PreprocesingVisitor CreateGeneratorVisitor()
-        {
-            PreprocesingVisitor preprocesingVisitor = new PreprocesingVisitor();
-            preprocesingVisitor.NameConverter = new CamelNameConverter();
-            preprocesingVisitor.TargetNamespace = BASE_NAMESPACE;
-            preprocesingVisitor.EnumAcceptor = new EnumGenerator();
-            preprocesingVisitor.ElementsAcceptor = new ElementGenerator();
-            return preprocesingVisitor;
-       }
     }
 }
