@@ -6,7 +6,10 @@ namespace Arp.Generator.Preprocessing.Impl
     {
         private readonly TypeName typeName;
         private readonly List<AttributeGenerationInfo> attributes = new List<AttributeGenerationInfo>();
+        private readonly List<IInfoRef<AttributesGroupGenerationInfo>> attributeGroups = new List<IInfoRef<AttributesGroupGenerationInfo>>();
+        
         private readonly List<NestedElementGenerationInfo> flatNestedElements = new List<NestedElementGenerationInfo>();
+        private readonly List<IInfoRef<GroupGenerationInfo>> groups = new List<IInfoRef<GroupGenerationInfo>>();
 
 
         public TypeGenerationInfo(TypeName typeName)
@@ -30,6 +33,15 @@ namespace Arp.Generator.Preprocessing.Impl
             get { return flatNestedElements; }
         }
 
+        public List<IInfoRef<AttributesGroupGenerationInfo>> AttributeGroups
+        {
+            get { return attributeGroups; }
+        }
+
+        public List<IInfoRef<GroupGenerationInfo>> Groups
+        {
+            get { return groups; }
+        }
 
         ///<summary>
         ///Returns a <see cref="T:System.String"></see> that represents the current <see cref="T:System.Object"></see>.

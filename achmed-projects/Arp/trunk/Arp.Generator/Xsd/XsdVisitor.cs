@@ -73,7 +73,10 @@ namespace Arp.Generator.Xsd
 //            XmlSchemaParticle particle = xmlSchemaComplexType.ContentTypeParticle;
 //            VisitParticle(particle);
 
-            Dispatch(xmlSchemaComplexType.AttributeUses);
+            foreach (XmlSchemaObject attribute in xmlSchemaComplexType.Attributes)
+            {
+                Dispatch(attribute);
+            }
             Dispatch(xmlSchemaComplexType.Particle);
         }
 
@@ -197,7 +200,10 @@ namespace Arp.Generator.Xsd
 
         protected virtual void VisitXmlSchemaAttributeGroup(XmlSchemaAttributeGroup group)
         {
-            // TODO
+            foreach (XmlSchemaObject attribute in group.Attributes)
+            {
+                Dispatch(attribute);
+            }
         }
     }
 }

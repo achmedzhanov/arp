@@ -38,17 +38,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Preprocessing\Impl\AttributeGenerationInfo.cs" />
-    <Compile Include="Preprocessing\Impl\ITypeGenerationInfoRef.cs" />
+    <Compile Include="Preprocessing\Impl\AttributesGroupGenerationInfo.cs" />
+    <Compile Include="Preprocessing\Impl\GroupGenerationInfo.cs" />
+    <Compile Include="Preprocessing\Impl\InfoRefStub.cs" />
+    <Compile Include="Preprocessing\Impl\IRegistry.cs" />
+    <Compile Include="Preprocessing\Impl\RegistryInfoRef.cs" />
+    <Compile Include="Preprocessing\Impl\RegisttyInfoRef.cs" />
     <Compile Include="Preprocessing\Impl\TypeGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\ElementGenerationInfo.cs" />
-    <Compile Include="Preprocessing\Impl\ElementGenerationInfoRef.cs" />
     <Compile Include="Preprocessing\Acceptors\IElementsAcceptor.cs" />
+    <Compile Include="Preprocessing\Impl\IInfoRef.cs" />
     <Compile Include="Preprocessing\Reserved\ElementsSequenceItem.cs" />
     <Compile Include="Preprocessing\Reserved\ElementsSequenseGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\EnumGenerationInfo.cs" />
-    <Compile Include="Preprocessing\Impl\IElementGenerationInfoRef.cs" />
     <Compile Include="Preprocessing\Acceptors\IEnumAcceptor.cs" />
-    <Compile Include="Preprocessing\Impl\IRegistry.cs" />
     <Compile Include="Preprocessing\Impl\NestedElementGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\TypeGenerationInfoRefStub.cs" />
     <Compile Include="Preprocessing\Impl\TypeName.cs" />

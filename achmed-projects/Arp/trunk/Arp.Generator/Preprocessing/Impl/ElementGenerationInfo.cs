@@ -6,15 +6,14 @@ namespace Arp.Generator.Preprocessing.Impl
     public class ElementGenerationInfo
     {
         private readonly string xmlName;
-        private readonly ITypeGenerationInfoRef typeGenerationInfoRef;
+        private readonly IInfoRef<TypeGenerationInfo> typeGenerationInfoRef;
 
         public ElementGenerationInfo(string xmlName, TypeGenerationInfo typeGenerationInfo)
-            : this(xmlName, new TypeGenerationInfoRefStub(typeGenerationInfo))
+            : this(xmlName, new InfoRefStub<TypeGenerationInfo>(typeGenerationInfo))
         {
         }
 
-
-        public ElementGenerationInfo(string xmlName, ITypeGenerationInfoRef typeGenerationInfoRef)
+        public ElementGenerationInfo(string xmlName, IInfoRef<TypeGenerationInfo> typeGenerationInfoRef)
         {
             if (xmlName == null) throw new ArgumentNullException("xmlName");
             if (typeGenerationInfoRef == null) throw new ArgumentNullException("typeGenerationInfoRef");

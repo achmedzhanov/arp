@@ -204,7 +204,7 @@ namespace Arp.Generator.Tests
 				</xs:choice>
 				<xs:element ref=""filter"" minOccurs=""0"" maxOccurs=""unbounded"" />
 			</xs:sequence>
-			<xs:attribute name=""table"" type=""xs:string"" use=""optional"">
+            <xs:attribute name=""table"" type=""xs:string"" use=""optional"">
 				<xs:annotation>
 					<xs:documentation>default: unqualified classname</xs:documentation>
 				</xs:annotation>
@@ -308,8 +308,10 @@ namespace Arp.Generator.Tests
                                                                                              });
 
             Assert.IsNotNull(objectsElement);
-            Assert.AreEqual(2, objectsElement.TypeGenerationInfo.Attributes.Count);
-            Assert.AreEqual(69, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);            
+            Assert.AreEqual(10, objectsElement.TypeGenerationInfo.Attributes.Count);
+            Assert.AreEqual(1, objectsElement.TypeGenerationInfo.AttributeGroups.Count);
+            Assert.AreEqual(12, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);
+            Assert.AreEqual(1, objectsElement.TypeGenerationInfo.Groups.Count);
         }
 
         private PreprocesingVisitor CreateGeneratorVisitor()

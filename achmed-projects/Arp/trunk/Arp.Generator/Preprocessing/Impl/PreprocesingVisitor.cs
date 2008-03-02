@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Xml.Schema;
 using Arp.Common.Assertions;
+using Arp.Common.Utils;
 using Arp.Generator.Acceptors;
 using Arp.Generator.Names;
 using Arp.Generator.Preprocessing.Impl;
@@ -9,7 +11,7 @@ using Arp.Generator.Xsd;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class PreprocesingVisitor : XsdVisitor
+    public class PreprocesingVisitor : XsdVisitor, IRegistry<GroupGenerationInfo>, IRegistry<AttributesGroupGenerationInfo>
     {
         private INameConverter nameConverter;
         private string targetNamespace;
@@ -17,6 +19,8 @@ namespace Arp.Generator.Preprocessing.Impl
         private IElementsAcceptor elementsAcceptor;
         private readonly Dictionary<XmlSchemaElement,ElementGenerationInfo> elementsMap = new Dictionary<XmlSchemaElement, ElementGenerationInfo>();
         private readonly Dictionary<XmlSchemaComplexType, TypeGenerationInfo> typesMap = new Dictionary<XmlSchemaComplexType, TypeGenerationInfo>();
+        private readonly Dictionary<XmlSchemaGroup, GroupGenerationInfo> groupsMap = new Dictionary<XmlSchemaGroup, GroupGenerationInfo>();
+        private readonly Dictionary<XmlSchemaAttributeGroup, AttributesGroupGenerationInfo> attributeGroupsMap = new Dictionary<XmlSchemaAttributeGroup, AttributesGroupGenerationInfo>();
 
         public INameConverter NameConverter
         {
@@ -73,10 +77,19 @@ namespace Arp.Generator.Preprocessing.Impl
 
         public override void VisitXmlSchemaAttribute(XmlSchemaComplexType complexType, XmlSchemaAttribute attribute)
         {
+            base.VisitXmlSchemaAttribute(complexType, attribute);
             TypeGenerationInfo typeGenerationInfo = Get(complexType);
             Assert.CheckNotNull(typeGenerationInfo);
-            CreateAttributeInfo(typeGenerationInfo, attribute);
-            base.VisitXmlSchemaAttribute(complexType, attribute);
+            CreateAttributeInfo(typeGenerationInfo.Attributes, attribute);
+        }
+
+        public override void VisitXmlSchemaAttribute(XmlSchemaAttributeGroup xmlSchemaAttributeGroup,
+                                                     XmlSchemaAttribute attribute)
+        {
+            base.VisitXmlSchemaAttribute(xmlSchemaAttributeGroup, attribute);
+            AttributesGroupGenerationInfo attributesGroupGenerationInfo = Get(xmlSchemaAttributeGroup);
+            Assert.CheckNotNull(attributesGroupGenerationInfo);
+            CreateAttributeInfo(attributesGroupGenerationInfo.Attributes, attribute);
         }
 
         public override void VisitComplexType(XmlSchemaComplexType xmlSchemaComplexType)
@@ -120,89 +133,138 @@ namespace Arp.Generator.Preprocessing.Impl
                 Assert.Fail(" unexpected base type name: " + restriction.BaseTypeName.Name);
         }
 
-
-        public override void VisitXmlSchemaChoice(XmlSchemaChoice choice)
-        {
-            base.VisitXmlSchemaChoice(choice);
-
-
-
-        }
-
         public override void VisitXmlSchemaSequence(XmlSchemaSequence sequence)
         {
             base.VisitXmlSchemaSequence(sequence);
-            XmlSchemaComplexType xmlSchemaComplexType = sequence.Parent as XmlSchemaComplexType; 
-            if(xmlSchemaComplexType != null)
+            List<NestedElementGenerationInfo> flatElements = null;
+            
+            if(sequence.Parent is XmlSchemaComplexType)
             {
+                XmlSchemaComplexType xmlSchemaComplexType = (XmlSchemaComplexType) sequence.Parent; 
                 TypeGenerationInfo typeGenerationInfo = Get(xmlSchemaComplexType);
-
-                foreach (XmlSchemaObject schemaObject in sequence.Items)
-                {
-                    XmlSchemaParticle particle = null;
-
-                    if(schemaObject is XmlSchemaElement)
-                    {
-                        XmlSchemaElement element = (XmlSchemaElement)schemaObject;
-                        typeGenerationInfo.FlatNestedElements.Add(new NestedElementGenerationInfo(Get(element)));
-                    }
-                    else if (schemaObject is XmlSchemaChoice)
-                    {
-                        XmlSchemaChoice choice = (XmlSchemaChoice)schemaObject;
-                        
-                        if(IsCollection(choice))
-                        {
-                            List<ElementGenerationInfo> elementsInfo = new List<ElementGenerationInfo>();
-
-                            foreach (XmlSchemaObject choiceItem in choice.Items)
-                            {
-                                XmlSchemaElement choiceElement = choiceItem as XmlSchemaElement;
-                                Assert.CheckNotNull(choiceElement, "Unexpected items type "  + choiceItem.GetType());
-                                Assert.CheckFalse(IsCollection(choiceElement), "Unexpected collection");
-                                elementsInfo.Add(Get(choiceElement));
-                            }
-                            Assert.Check(elementsInfo.Count > 0, "Unexpected empty choice");
-
-                            typeGenerationInfo.FlatNestedElements.Add(new NestedElementGenerationInfo(elementsInfo));
-
-                        }
-                        else
-                        {
-                            foreach (XmlSchemaObject choiceItem in choice.Items)
-                            {
-                                XmlSchemaElement choiceElement = choiceItem as XmlSchemaElement;
-                                Assert.CheckNotNull(choiceElement, "Unexpected items type " + choiceItem.GetType());
-                                ElementGenerationInfo info = Get(choiceElement);
-                                if(IsCollection(choiceElement))
-                                {
-                                    List<ElementGenerationInfo> list = new List<ElementGenerationInfo>();
-                                    list.Add(info);
-                                    typeGenerationInfo.FlatNestedElements.Add(new NestedElementGenerationInfo(list));                            
-                                }
-                                else
-                                {
-                                    typeGenerationInfo.FlatNestedElements.Add(new NestedElementGenerationInfo(info));                            
-                                }
-                            }
-                        }
-                    }
-                    else if (schemaObject is XmlSchemaGroupRef)
-                    {
-                        // TODO
-                    }
-                    else if (schemaObject is XmlSchemaAttributeGroupRef)
-                    {
-                        // TODO
-                    }
-                    else
-                        Assert.Fail("Unexpected type element " + schemaObject);
-                }
-
+                flatElements = typeGenerationInfo.FlatNestedElements;                
             }
+            else if(sequence.Parent is XmlSchemaGroup)
+            {
+                XmlSchemaGroup schemaGroup = (XmlSchemaGroup)sequence.Parent; 
+                GroupGenerationInfo groupGenerationInfo = Get(schemaGroup);
+                flatElements = groupGenerationInfo.FlatNestedElements;                
+            }
+            else
+                Assert.Fail("Unexpected type " + sequence.Parent);
+
+            ProcessSequence(sequence, flatElements);
+
+        }
+
+        protected override void VisitXmlSchemaAttributeGroup(XmlSchemaAttributeGroup group)
+        {
+            Set(group, new AttributesGroupGenerationInfo(group.Name));
+            base.VisitXmlSchemaAttributeGroup(group);
+        }
+
+        public override void VisitXmlSchemaGroup(XmlSchemaGroup group)
+        {
+            Set(group, new GroupGenerationInfo(group.Name));
+            base.VisitXmlSchemaGroup(group);
+        }
+
+
+        public override void VisitXmlSchemaGroupRef(XmlSchemaGroupRef groupRef)
+        {
+            base.VisitXmlSchemaGroupRef(groupRef);
+
+            if (groupRef.Parent is XmlSchemaSequence && groupRef.Parent.Parent is XmlSchemaComplexType)
+            {
+                XmlSchemaComplexType complexType = (XmlSchemaComplexType) groupRef.Parent.Parent;
+                TypeGenerationInfo typeGenerationInfo = Get(complexType);
+                typeGenerationInfo.Groups.Add(new RegistryInfoRef<GroupGenerationInfo>(this, groupRef.RefName.Name));
+            }
+            else
+                Assert.Fail("Unexpected element type " + groupRef.Parent + " ; " + groupRef.Parent.Parent);
+
+        }
+
+        protected override void VisitXmlSchemaAttributeGroupRef(XmlSchemaAttributeGroupRef groupRef)
+        {
+            base.VisitXmlSchemaAttributeGroupRef(groupRef);
+
+            if (groupRef.Parent is XmlSchemaComplexType)
+            {
+                XmlSchemaComplexType xmlSchemaComplexType = (XmlSchemaComplexType)groupRef.Parent;
+                TypeGenerationInfo typeGenerationInfo = Get(xmlSchemaComplexType);
+                typeGenerationInfo.AttributeGroups.Add(new RegistryInfoRef<AttributesGroupGenerationInfo>(this, groupRef.RefName.Name));
+            }
+            else
+                    Assert.Fail("Unexpected element type " + groupRef.Parent);
+
         }
 
         #endregion
 
+        private void ProcessSequence(XmlSchemaSequence sequence, List<NestedElementGenerationInfo> flatElements)
+        {
+            foreach (XmlSchemaObject schemaObject in sequence.Items)
+            {
+                XmlSchemaParticle particle = null;
+
+                if (schemaObject is XmlSchemaElement)
+                {
+                    XmlSchemaElement element = (XmlSchemaElement)schemaObject;
+                    flatElements.Add(new NestedElementGenerationInfo(Get(element)));
+                }
+                else if (schemaObject is XmlSchemaChoice)
+                {
+                    XmlSchemaChoice choice = (XmlSchemaChoice)schemaObject;
+
+                    if (IsCollection(choice))
+                    {
+                        List<ElementGenerationInfo> elementsInfo = new List<ElementGenerationInfo>();
+
+                        foreach (XmlSchemaObject choiceItem in choice.Items)
+                        {
+                            XmlSchemaElement choiceElement = choiceItem as XmlSchemaElement;
+                            Assert.CheckNotNull(choiceElement, "Unexpected items type " + choiceItem.GetType());
+                            Assert.CheckFalse(IsCollection(choiceElement), "Unexpected collection");
+                            elementsInfo.Add(Get(choiceElement));
+                        }
+                        Assert.Check(elementsInfo.Count > 0, "Unexpected empty choice");
+
+                        flatElements.Add(new NestedElementGenerationInfo(elementsInfo));
+
+                    }
+                    else
+                    {
+                        foreach (XmlSchemaObject choiceItem in choice.Items)
+                        {
+                            XmlSchemaElement choiceElement = choiceItem as XmlSchemaElement;
+                            Assert.CheckNotNull(choiceElement, "Unexpected items type " + choiceItem.GetType());
+                            ElementGenerationInfo info = Get(choiceElement);
+                            if (IsCollection(choiceElement))
+                            {
+                                List<ElementGenerationInfo> list = new List<ElementGenerationInfo>();
+                                list.Add(info);
+                                flatElements.Add(new NestedElementGenerationInfo(list));
+                            }
+                            else
+                            {
+                                flatElements.Add(new NestedElementGenerationInfo(info));
+                            }
+                        }
+                    }
+                }
+                else if (schemaObject is XmlSchemaGroupRef)
+                {
+                    // TODO
+                }
+                else if (schemaObject is XmlSchemaAttributeGroupRef)
+                {
+                    // TODO
+                }
+                else
+                    Assert.Fail("Unexpected type element " + schemaObject);
+            }
+        }
 
         private bool IsCollection(XmlSchemaParticle particle)
         {
@@ -212,39 +274,113 @@ namespace Arp.Generator.Preprocessing.Impl
                 return true;
         }
 
-        private void CreateAttributeInfo(TypeGenerationInfo typeGenerationInfo, XmlSchemaAttribute attribute)
+        private void CreateAttributeInfo(List<AttributeGenerationInfo> attributes, XmlSchemaAttribute attribute)
         {
             string xmlName = attribute.Name;
-            typeGenerationInfo.Attributes.Add(new AttributeGenerationInfo(xmlName, nameConverter.ConvertAttributeName(xmlName)));
+            attributes.Add(new AttributeGenerationInfo(xmlName, nameConverter.ConvertAttributeName(xmlName)));
         }
+
+        #region Get/Set generics
+
+        private static ET Get<KT,ET>(IDictionary<KT, ET> dictionary, KT element)
+        {
+            Assert.Check(dictionary.ContainsKey(element));
+            ET ret = dictionary[element];
+            Assert.CheckNotNull(ret);
+            return ret;            
+        }
+
+        private static void Set<KT, ET>(IDictionary<KT, ET> dictionary, KT element, ET info)
+        {
+            Assert.CheckFalse(dictionary.ContainsKey(element));
+            dictionary[element] = info;
+        }
+
+        #endregion
+
+        #region Get/Set XmlSchemaElement
 
         private ElementGenerationInfo Get(XmlSchemaElement element)
         {
-            Assert.Check(elementsMap.ContainsKey(element));
-            ElementGenerationInfo ret = elementsMap[element];
-            Assert.CheckNotNull(ret);
-            return ret;
+            return Get(elementsMap, element);
         }
 
         private void Set(XmlSchemaElement element, ElementGenerationInfo info)
         {
-            Assert.CheckFalse(elementsMap.ContainsKey(element));
-            elementsMap[element] = info;
+            Set(elementsMap, element, info);
         }
+
+        #endregion
+
+        #region Get/Set XmlSchemaComplexType
 
         private TypeGenerationInfo Get(XmlSchemaComplexType complexType)
         {
-            Assert.Check(typesMap.ContainsKey(complexType));
-            TypeGenerationInfo ret = typesMap[complexType];
-            Assert.CheckNotNull(ret);
-            return ret;
+            return Get(typesMap, complexType);
         }
 
         private void Set(XmlSchemaComplexType complexType, TypeGenerationInfo typeGenerationInfo)
         {
-            Assert.CheckFalse(typesMap.ContainsKey(complexType));
-            typesMap[complexType] = typeGenerationInfo;
+            Set(typesMap, complexType, typeGenerationInfo);
         }
+
+        #endregion
+
+        #region Get/Set XmlSchemaGroup
+
+        private GroupGenerationInfo Get(XmlSchemaGroup xmlSchemaGroup)
+        {
+            return Get(groupsMap, xmlSchemaGroup);
+        }
+
+        private void Set(XmlSchemaGroup xmlSchemaGroup, GroupGenerationInfo groupGenerationInfo)
+        {
+            Set(groupsMap, xmlSchemaGroup, groupGenerationInfo);
+        }
+
+        #endregion
+
+        #region Get/Set XmlSchemaAttributesGroup
+
+        private AttributesGroupGenerationInfo Get(XmlSchemaAttributeGroup xmlSchemaAttributeGroup)
+        {
+            return Get(attributeGroupsMap, xmlSchemaAttributeGroup);
+        }
+
+        private void Set(XmlSchemaAttributeGroup xmlSchemaAttributeGroup, AttributesGroupGenerationInfo attributesGroupGenerationInfo)
+        {
+            Set(attributeGroupsMap, xmlSchemaAttributeGroup, attributesGroupGenerationInfo);
+        }
+
+        #endregion
+
+        #region IRegistry<GroupGenerationInfo> Members
+
+        public GroupGenerationInfo Get(string name)
+        {
+            GroupGenerationInfo found = CollectionsUtils.Find<GroupGenerationInfo>(groupsMap.Values, delegate(GroupGenerationInfo obj)
+                                                                                                         {
+                                                                                                             return obj.Name == name;
+                                                                                                         });
+            Assert.CheckNotNull(found);
+            return found;
+        }
+
+        #endregion
+
+        #region IRegistry<AttributesGroupGenerationInfo> Members
+
+        AttributesGroupGenerationInfo IRegistry<AttributesGroupGenerationInfo>.Get(string name)
+        {
+            AttributesGroupGenerationInfo found = CollectionsUtils.Find<AttributesGroupGenerationInfo>(attributeGroupsMap.Values, delegate(AttributesGroupGenerationInfo obj)
+                                                                                             {
+                                                                                                 return obj.Name == name;
+                                                                                             });
+            Assert.CheckNotNull(found);
+            return found;
+        }
+
+        #endregion
 
         private TypeName GetElementShortTypeName(XmlSchemaElement element)
         {

@@ -1,23 +1,23 @@
 using System;
-using Arp.Generator.Preprocessing.Impl;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class TypeGenerationInfoRefStub : IInfoRef<TypeGenerationInfo>
+    public class InfoRefStub<T> : IInfoRef<T>
     {
-        private readonly TypeGenerationInfo typeGenerationInfo;
+        private readonly T info;
 
-        public TypeGenerationInfoRefStub(TypeGenerationInfo typeGenerationInfo)
+        public InfoRefStub(T typeGenerationInfo)
         {
-            if (typeGenerationInfo == null) throw new ArgumentNullException("typeGenerationInfo");
-            this.typeGenerationInfo = typeGenerationInfo;
+            if (typeGenerationInfo == null) 
+                throw new ArgumentNullException("typeGenerationInfo");
+            this.info = typeGenerationInfo;
         }
 
-        #region ITypeGenerationInfoRef Members
+        #region InfoRefStub<T> Members
 
-        public TypeGenerationInfo Get()
+        public T Get()
         {
-            return typeGenerationInfo;
+            return info;
         }
 
         #endregion
@@ -32,7 +32,7 @@ namespace Arp.Generator.Preprocessing.Impl
         ///<filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return typeGenerationInfo.ToString();
+            return info.ToString();
         }
     }
 }
