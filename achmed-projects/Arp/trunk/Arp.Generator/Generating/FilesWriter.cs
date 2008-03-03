@@ -24,7 +24,7 @@ namespace Arp.Generator.Generating
             if(!Directory.Exists(directoryPath))
                 throw new InvalidOperationException("directory doesn't exists " + directoryPath);
 
-            File.WriteAllText(fileName, content);
+            File.WriteAllText(combined, content);
         }
 
         #endregion

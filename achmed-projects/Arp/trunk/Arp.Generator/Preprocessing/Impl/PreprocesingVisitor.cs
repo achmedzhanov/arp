@@ -54,7 +54,7 @@ namespace Arp.Generator.Preprocessing.Impl
         public override void VisitXmlSchemaElementNamed(XmlSchemaElement element)
         {
             TypeName typeName = GetElementShortTypeName(element);
-            ElementGenerationInfo elementGenerationInfo = new ElementGenerationInfo(element.Name, new TypeGenerationInfo(typeName));
+            ElementGenerationInfo elementGenerationInfo = new ElementGenerationInfo(element.Name, new TypeGenerationInfo(typeName, element.Name));
             Set(element, elementGenerationInfo);
             base.VisitXmlSchemaElementNamed(element);
             elementsAcceptor.Accept(elementGenerationInfo);
@@ -70,7 +70,7 @@ namespace Arp.Generator.Preprocessing.Impl
                 Assert.CheckFalse(string.IsNullOrEmpty(element.RefName.Name));
                 xmlName = element.RefName.Name;
             }
-            ElementGenerationInfo elementGenerationInfo = new ElementGenerationInfo(xmlName, new TypeGenerationInfo(typeName));
+            ElementGenerationInfo elementGenerationInfo = new ElementGenerationInfo(xmlName, new TypeGenerationInfo(typeName, xmlName   ));
             Set(element, elementGenerationInfo);
             base.VisitXmlSchemaElementNested(element);
         }
@@ -103,7 +103,7 @@ namespace Arp.Generator.Preprocessing.Impl
             {
                 Assert.CheckNotNull(xmlSchemaComplexType.Name);
                 TypeName typeName = new TypeName(nameConverter.ConvertElementName(xmlSchemaComplexType.Name), targetNamespace);
-                Set(xmlSchemaComplexType, new TypeGenerationInfo(typeName));
+                Set(xmlSchemaComplexType, new TypeGenerationInfo(typeName, xmlSchemaComplexType.Name));
             }
 
             base.VisitComplexType(xmlSchemaComplexType);

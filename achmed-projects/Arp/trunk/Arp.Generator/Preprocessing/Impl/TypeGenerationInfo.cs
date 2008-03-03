@@ -11,11 +11,13 @@ namespace Arp.Generator.Preprocessing.Impl
         
         private readonly List<NestedElementGenerationInfo> flatNestedElements = new List<NestedElementGenerationInfo>();
         private readonly List<IInfoRef<GroupGenerationInfo>> groups = new List<IInfoRef<GroupGenerationInfo>>();
+        private string baseName;
 
 
-        public TypeGenerationInfo(TypeName typeName)
+        public TypeGenerationInfo(TypeName typeName, string baseName)
         {
             this.typeName = typeName;
+            this.baseName = baseName;
         }
 
 
@@ -63,8 +65,7 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             get
             {
-                // TODO
-                return "class";
+                return baseName;
             }
         }
 

@@ -14,7 +14,7 @@ namespace Arp.Generator.Tests.Generating
     public class TreeInterfacesTests : BaseTestFixture
     {
         [Test]
-        public void     GenerateInterface()
+        public void GenerateInterface()
         {
             #region schema
 
@@ -127,7 +127,38 @@ namespace Arp.Generator.Tests.Generating
             treeInterfaces.Generate(objectsElement.TypeInfo);
 
             // TODO compare file with expected
+        }
+
+        [Test]
+        public void GenerateInterfaceNH12Live()
+        {
+            string xsd = File.ReadAllText("..\\..\\Tests\\nhibernate-mapping.xsd");
+            
+            XmlSchema schema = base.CreateXmlSchema(xsd);
+            PreprocesingVisitor visitor = CreateGeneratorVisitor();
+            visitor.VisitSchema(schema);
+            ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
+
+            TreeInterfaces treeInterfaces = new TreeInterfaces();
+            string targerDirectory = Path.Combine(Environment.CurrentDirectory, "nh12live");
+            if (Directory.Exists(targerDirectory))
+            {
+                Directory.Delete(targerDirectory, true);
+            }
+            Directory.CreateDirectory(targerDirectory);
+
+            treeInterfaces.FileWriter = new FilesWriter(targerDirectory);
+            treeInterfaces.NameConverter = new CamelNameConverter();
+            treeInterfaces.PluralProvider = new DictionaryPluralProvider();
+
+            foreach (IElementInfo elementInfo in generator.ElementGenerationInfos)
+            {
+                treeInterfaces.Generate(elementInfo.TypeInfo);
+            }
+
+            // TODO compare file with expected
         }        
+
 
         protected string TargetDirectory
         {
