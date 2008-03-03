@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml.Schema;
 using Arp.Generator.Acceptors;
 using Arp.Generator.Names;
+using Arp.Generator.Preprocessing;
 using Arp.Generator.Preprocessing.Impl;
 using NUnit.Framework;
 
@@ -228,10 +229,10 @@ namespace Arp.Generator.Tests
 
             // polymorphismType
 
-            ElementGenerationInfo objectsElement = generator.ElementGenerationInfos.Find(delegate(ElementGenerationInfo obj)
+            ElementGenerationInfo objectsElement = (ElementGenerationInfo)generator.ElementGenerationInfos.Find(delegate(IElementInfo obj)
                                                                                              {
                                                                                                  return
-                                                                                                     obj.TypeGenerationInfo.TypeName.FullName ==
+                                                                                                     ((ElementGenerationInfo)obj).TypeGenerationInfo.TypeName.FullName ==
                                                                                                      (BASE_NAMESPACE + "." + "Class");
                                                                                              });
 
@@ -256,10 +257,10 @@ namespace Arp.Generator.Tests
 
             // polymorphismType
 
-            ElementGenerationInfo objectsElement = generator.ElementGenerationInfos.Find(delegate(ElementGenerationInfo obj)
+            ElementGenerationInfo objectsElement = (ElementGenerationInfo)generator.ElementGenerationInfos.Find(delegate(IElementInfo obj)
                                                                                              {
                                                                                                  return
-                                                                                                     obj.TypeGenerationInfo.TypeName.FullName ==
+                                                                                                     ((ElementGenerationInfo)obj).TypeGenerationInfo.TypeName.FullName ==
                                                                                                      (BASE_NAMESPACE + "." + "Class");
                                                                                              });
 

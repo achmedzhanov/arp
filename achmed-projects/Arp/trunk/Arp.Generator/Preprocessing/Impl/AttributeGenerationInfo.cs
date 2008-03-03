@@ -1,6 +1,6 @@
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class AttributeGenerationInfo
+    public class AttributeGenerationInfo : IAttributeInfo
     {
         private string xmlName;
         private string name;
@@ -39,5 +39,14 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             return "[XmlName:" + XmlName + ", Name:" + Name + "]";
         }
+
+        #region IAttributeInfo Members
+
+        string IAttributeInfo.Name
+        {
+            get { return xmlName; }
+        }
+
+        #endregion
     }
 }

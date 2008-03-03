@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class ElementGenerationInfo
+    public class ElementGenerationInfo : IElementInfo
     {
         private readonly string xmlName;
         private readonly IInfoRef<TypeGenerationInfo> typeGenerationInfoRef;
@@ -43,5 +43,19 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             return string.Format(GetType() + " [" + typeGenerationInfoRef + "]");
         }
+
+        #region IElementInfo Members
+
+        public string Name
+        {
+            get { return xmlName; }
+        }
+
+        public ITypeInfo TypeInfo
+        {
+            get { return TypeGenerationInfo; }
+        }
+
+        #endregion
     }
 }

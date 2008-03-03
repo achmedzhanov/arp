@@ -3,6 +3,8 @@ using System.IO;
 using System.Net.Mime;
 using System.Xml.Schema;
 using Arp.Generator.Generating;
+using Arp.Generator.Names;
+using Arp.Generator.Preprocessing;
 using Arp.Generator.Preprocessing.Impl;
 using NUnit.Framework;
 
@@ -12,7 +14,7 @@ namespace Arp.Generator.Tests.Generating
     public class TreeInterfacesTests : BaseTestFixture
     {
         [Test]
-        public void GenerateElements()
+        public void     GenerateInterface()
         {
             #region schema
 
@@ -110,18 +112,19 @@ namespace Arp.Generator.Tests.Generating
             ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
             Assert.AreEqual(7, generator.ElementGenerationInfos.Count);
 
-            ElementGenerationInfo objectsElement = generator.ElementGenerationInfos.Find(delegate(ElementGenerationInfo obj)
+            IElementInfo objectsElement = generator.ElementGenerationInfos.Find(delegate(IElementInfo obj)
                                                                                              {
                                                                                                  return
-                                                                                                     obj.TypeGenerationInfo.TypeName.FullName ==
-                                                                                                     (BASE_NAMESPACE + "." + "Class");
+                                                                                                     obj.Name ==  "class";
                                                                                              });
-
+                
             Assert.IsNotNull(objectsElement);
             
             TreeInterfaces treeInterfaces = new TreeInterfaces();
             treeInterfaces.FileWriter = new FilesWriter(TargetDirectory);
-            treeInterfaces.Generate(objectsElement.TypeGenerationInfo);
+            treeInterfaces.NameConverter = new CamelNameConverter();
+            treeInterfaces.PluralProvider = new DictionaryPluralProvider(); 
+            treeInterfaces.Generate(objectsElement.TypeInfo);
 
             // TODO compare file with expected
         }        

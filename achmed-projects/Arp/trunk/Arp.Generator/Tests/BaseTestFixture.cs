@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml.Schema;
 using Arp.Generator.Acceptors;
 using Arp.Generator.Names;
+using Arp.Generator.Preprocessing;
 using Arp.Generator.Preprocessing.Impl;
 
 namespace Arp.Generator.Tests
@@ -48,18 +49,18 @@ namespace Arp.Generator.Tests
         protected class ElementGenerator : IElementsAcceptor
         {
 
-            List<ElementGenerationInfo> elementGenerationInfos = new List<ElementGenerationInfo>();
+            List<IElementInfo> elementGenerationInfos = new List<IElementInfo>();
 
             #region IElementsAcceptor Members
 
-            public void Accept(ElementGenerationInfo elementGenerationInfo)
+            public void Accept(IElementInfo elementGenerationInfo)
             {
                 elementGenerationInfos.Add(elementGenerationInfo);
             }
 
             #endregion
 
-            public List<ElementGenerationInfo> ElementGenerationInfos
+            public List<IElementInfo> ElementGenerationInfos
             {
                 get { return elementGenerationInfos; }
             }

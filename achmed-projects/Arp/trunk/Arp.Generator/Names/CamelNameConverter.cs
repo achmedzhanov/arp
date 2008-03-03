@@ -9,7 +9,12 @@ namespace Arp.Generator.Names
 
         public string ConvertElementName(string name)
         {
-            return RemoveMinus(name) + "Elelment";
+            return RemoveMinus(name) + "Element";
+        }
+
+        public string ConvertTypeName(string name)
+        {
+            return RemoveMinus(name) + "Element";
         }
 
         public string ConvertAttributeName(string name)

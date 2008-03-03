@@ -429,7 +429,7 @@ namespace Arp.Generator.Preprocessing.Impl
                 }
             }
             
-            nameParts.Add("Type");
+            nameParts.Add("TypeInfo");
 
             return new TypeName(nameConverter.CreateComplexName(nameParts.ToArray()), targetNamespace); 
         }

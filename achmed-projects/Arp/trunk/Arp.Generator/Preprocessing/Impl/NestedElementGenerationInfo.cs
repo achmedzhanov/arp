@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Arp.Common.Assertions;
+using Arp.Common.Utils;
 using Arp.Generator.Preprocessing.Impl;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class NestedElementGenerationInfo
+    public class NestedElementGenerationInfo : INestedElementInfo
     {
         private readonly bool isCollection;
         private readonly ElementGenerationInfo element;
@@ -53,5 +54,28 @@ namespace Arp.Generator.Preprocessing.Impl
                 return "[element" + element + "]";
             }
         }
+
+        #region INestedElementInfo Members
+
+        public IElementInfo Element
+        {
+            get { return this.element; }
+        }
+
+        public ICollection<IElementInfo> Elements
+        {
+            get
+            {
+                return CollectionsUtils.Transform<ElementGenerationInfo, IElementInfo>(this.elements,
+                                                                                    delegate(
+                                                                                        ElementGenerationInfo source)
+                                                                                    {
+                                                                                        return
+                                                                                            source;
+                                                                                    });
+            }
+        }
+
+        #endregion
     }
 }

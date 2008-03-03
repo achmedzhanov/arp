@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Arp.Common.Utils;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class TypeGenerationInfo
+    public class TypeGenerationInfo : ITypeInfo
     {
         private readonly TypeName typeName;
         private readonly List<AttributeGenerationInfo> attributes = new List<AttributeGenerationInfo>();
@@ -55,5 +56,50 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             return string.Format(GetType() + " [" + TypeName + "]");
         }
+
+        #region ITypeInfo Members
+
+        public string BaseName
+        {
+            get
+            {
+                // TODO
+                return "class";
+            }
+        }
+
+        public ICollection<IAttributeInfo> AttributesInfo
+        {
+            get
+            {
+                // TODO collect attributes from groups
+                return CollectionsUtils.Transform<AttributeGenerationInfo, IAttributeInfo>(this.attributes,
+                                                                                    delegate(
+                                                                                        AttributeGenerationInfo source)
+                                                                                        {
+                                                                                            return
+                                                                                                source;
+                                                                                        });
+            }
+        }
+
+        public ICollection<INestedElementInfo> NestedElementsInfo
+        {
+            get
+            {
+                // TODO collect elements from groups
+
+                return CollectionsUtils.Transform<NestedElementGenerationInfo, INestedElementInfo>(this.flatNestedElements,
+                                                                                                    delegate(
+                                                                                                        NestedElementGenerationInfo source)
+                                                                                                    {
+                                                                                                        return
+                                                                                                            source;
+                                                                                                    });
+
+            }
+        }
+
+        #endregion
     }
 }

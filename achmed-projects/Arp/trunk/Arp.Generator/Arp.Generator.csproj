@@ -48,6 +48,10 @@
     <Compile Include="Generating\FilesWriter.cs" />
     <Compile Include="Generating\IFilesWriter.cs" />
     <Compile Include="Generating\TreeInterfaces.cs" />
+    <Compile Include="Names\DictionaryPluralProvider.cs" />
+    <Compile Include="Names\IPluralProvider.cs" />
+    <Compile Include="Preprocessing\IAttributeInfo.cs" />
+    <Compile Include="Preprocessing\IElementInfo.cs" />
     <Compile Include="Preprocessing\Impl\AttributeGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\AttributesGroupGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\GroupGenerationInfo.cs" />
@@ -59,6 +63,8 @@
     <Compile Include="Preprocessing\Impl\ElementGenerationInfo.cs" />
     <Compile Include="Preprocessing\Acceptors\IElementsAcceptor.cs" />
     <Compile Include="Preprocessing\Impl\IInfoRef.cs" />
+    <Compile Include="Preprocessing\INestedElementInfo.cs" />
+    <Compile Include="Preprocessing\ITypeInfo.cs" />
     <Compile Include="Preprocessing\Reserved\ElementsSequenceItem.cs" />
     <Compile Include="Preprocessing\Reserved\ElementsSequenseGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\EnumGenerationInfo.cs" />
