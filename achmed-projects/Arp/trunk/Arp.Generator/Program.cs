@@ -8,6 +8,27 @@ namespace Arp.Generator
     {
         static void Main(string[] args)
         {
+
+            if(args.Length != 3)
+            {
+                PrintUsage();
+                return;
+            }
+
+            Runner runner = new Runner();
+
+            runner.OutputDirectory = args[0];
+            runner.XsdFile = args[1];
+            runner.BaseNamespace = args[2];
+
+            runner.Run();
         }
+
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage:");
+            Console.WriteLine("Arp.Generator <output directory> <xsd file> <base namepsace>");    
+        }
+
     }
 }

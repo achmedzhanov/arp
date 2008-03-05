@@ -22,11 +22,27 @@ namespace Arp.Generator.Generating
             string combined = Path.Combine(targetDirectory, fileName);
             string directoryPath = Path.GetDirectoryName(combined);
             if(!Directory.Exists(directoryPath))
-                throw new InvalidOperationException("directory doesn't exists " + directoryPath);
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
 
             File.WriteAllText(combined, content);
         }
 
+
+        public bool Exists(string fileName)
+        {
+            if (Path.IsPathRooted(fileName))
+                throw new ArgumentException("expected relative file name");
+
+            string combined = Path.Combine(targetDirectory, fileName);
+
+            return File.Exists(combined);
+        }
+
         #endregion
+
+
+
     }
 }

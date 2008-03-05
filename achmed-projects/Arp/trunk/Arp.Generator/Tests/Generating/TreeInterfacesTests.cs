@@ -120,11 +120,11 @@ namespace Arp.Generator.Tests.Generating
                 
             Assert.IsNotNull(objectsElement);
             
-            TreeInterfaces treeInterfaces = new TreeInterfaces();
-            treeInterfaces.FileWriter = new FilesWriter(TargetDirectory);
-            treeInterfaces.NameConverter = new CamelNameConverter();
-            treeInterfaces.PluralProvider = new DictionaryPluralProvider(); 
-            treeInterfaces.Generate(objectsElement.TypeInfo);
+            TreeElements treeElements = new TreeElements();
+            treeElements.FileWriter = new FilesWriter(TargetDirectory);
+            treeElements.NameConverter = new CamelNameConverter();
+            treeElements.PluralProvider = new DictionaryPluralProvider(); 
+            treeElements.GenerateElementInterface(objectsElement.TypeInfo);
 
             // TODO compare file with expected
         }
@@ -139,21 +139,23 @@ namespace Arp.Generator.Tests.Generating
             visitor.VisitSchema(schema);
             ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
 
-            TreeInterfaces treeInterfaces = new TreeInterfaces();
+            TreeElements treeElements = new TreeElements();
             string targerDirectory = Path.Combine(Environment.CurrentDirectory, "nh12live");
             if (Directory.Exists(targerDirectory))
             {
                 Directory.Delete(targerDirectory, true);
             }
             Directory.CreateDirectory(targerDirectory);
+            Directory.CreateDirectory(Path.Combine(targerDirectory,"Impl"));
 
-            treeInterfaces.FileWriter = new FilesWriter(targerDirectory);
-            treeInterfaces.NameConverter = new CamelNameConverter();
-            treeInterfaces.PluralProvider = new DictionaryPluralProvider();
+            treeElements.FileWriter = new FilesWriter(targerDirectory);
+            treeElements.NameConverter = new CamelNameConverter();
+            treeElements.PluralProvider = new DictionaryPluralProvider();
 
             foreach (IElementInfo elementInfo in generator.ElementGenerationInfos)
             {
-                treeInterfaces.Generate(elementInfo.TypeInfo);
+                treeElements.GenerateElementInterface(elementInfo.TypeInfo);
+                treeElements.GenerateElementImpl(elementInfo.TypeInfo);
             }
 
             // TODO compare file with expected
