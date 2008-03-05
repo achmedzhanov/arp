@@ -144,6 +144,22 @@ namespace Arp.Generator.Tests
 			<xs:enumeration value=""explicit"" />
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:attributeGroup name=""baseClassAttributes"">
+		<xs:attribute name=""name"" type=""xs:string"" use=""required"" />
+		<xs:attribute name=""proxy"" type=""xs:string"" use=""optional"">
+			<xs:annotation>
+				<xs:documentation>default: no proxy interface</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name=""lazy"" type=""xs:boolean"" use=""optional"">
+			<xs:annotation>
+				<xs:documentation>Enable the lazy loading of this class in associations</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name=""dynamic-update"" type=""xs:boolean"" use=""optional"" default=""false"" />
+		<xs:attribute name=""dynamic-insert"" type=""xs:boolean"" use=""optional"" default=""false"" />
+		<xs:attribute name=""select-before-update"" type=""xs:boolean"" use=""optional"" default=""false"" />
+	</xs:attributeGroup>
 	<xs:element name=""class"">
 		<xs:annotation>
 			<xs:documentation>Root of an entity class hierarchy. Entities have their own tables</xs:documentation>
@@ -161,6 +177,7 @@ namespace Arp.Generator.Tests
 				</xs:choice>
 				<xs:element ref=""filter"" minOccurs=""0"" maxOccurs=""unbounded"" />
 			</xs:sequence>
+            <xs:attributeGroup ref=""baseClassAttributes"" />            
             <xs:attribute name=""table"" type=""xs:string"" use=""optional"">
 				<xs:annotation>
 					<xs:documentation>default: unqualified classname</xs:documentation>
@@ -238,6 +255,7 @@ namespace Arp.Generator.Tests
 
             Assert.IsNotNull(objectsElement);
             Assert.AreEqual(2, objectsElement.TypeGenerationInfo.Attributes.Count);
+            Assert.AreEqual(8, objectsElement.TypeGenerationInfo.AttributesInfo.Count);
             Assert.AreEqual(5, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);
         }
 
@@ -266,6 +284,7 @@ namespace Arp.Generator.Tests
 
             Assert.IsNotNull(objectsElement);
             Assert.AreEqual(10, objectsElement.TypeGenerationInfo.Attributes.Count);
+            Assert.AreEqual(16, objectsElement.TypeGenerationInfo.AttributesInfo.Count);
             Assert.AreEqual(1, objectsElement.TypeGenerationInfo.AttributeGroups.Count);
             Assert.AreEqual(12, objectsElement.TypeGenerationInfo.FlatNestedElements.Count);
             Assert.AreEqual(1, objectsElement.TypeGenerationInfo.Groups.Count);

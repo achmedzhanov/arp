@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class AttributesGroupGenerationInfo
+    public class AttributesGroupGenerationInfo : IInfoRef<ICollection<AttributeGenerationInfo>>
     {
-        private string name;
+        private readonly string name;
         private readonly List<AttributeGenerationInfo> attributes = new List<AttributeGenerationInfo>();
 
 
@@ -26,5 +26,14 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             get { return attributes; }
         }
+
+        #region IInfoRef<ICollection<AttributeGenerationInfo>> Members
+
+        public ICollection<AttributeGenerationInfo> Get()
+        {
+            return Attributes;
+        }
+
+        #endregion
     }
 }

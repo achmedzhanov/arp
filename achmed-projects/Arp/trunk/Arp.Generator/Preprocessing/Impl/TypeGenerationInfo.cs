@@ -13,11 +13,18 @@ namespace Arp.Generator.Preprocessing.Impl
         private readonly List<IInfoRef<GroupGenerationInfo>> groups = new List<IInfoRef<GroupGenerationInfo>>();
         private string baseName;
 
+        new InfoCollector<NestedElementGenerationInfo, GroupGenerationInfo> nestedElementsCollector = null;
+        new InfoCollector<AttributeGenerationInfo, AttributesGroupGenerationInfo> attributesCollector = null;
 
         public TypeGenerationInfo(TypeName typeName, string baseName)
         {
             this.typeName = typeName;
             this.baseName = baseName;
+
+            nestedElementsCollector = new InfoCollector<NestedElementGenerationInfo, GroupGenerationInfo>(flatNestedElements, groups);
+
+            attributesCollector = new InfoCollector<AttributeGenerationInfo, AttributesGroupGenerationInfo>(attributes, attributeGroups);
+
         }
 
 
@@ -73,14 +80,7 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             get
             {
-                // TODO collect attributes from groups
-                return CollectionsUtils.Transform<AttributeGenerationInfo, IAttributeInfo>(this.attributes,
-                                                                                    delegate(
-                                                                                        AttributeGenerationInfo source)
-                                                                                        {
-                                                                                            return
-                                                                                                source;
-                                                                                        });
+                return CollectionsUtils.ImplicitCast<AttributeGenerationInfo, IAttributeInfo>(attributesCollector.Get());
             }
         }
 
@@ -88,16 +88,7 @@ namespace Arp.Generator.Preprocessing.Impl
         {
             get
             {
-                // TODO collect elements from groups
-
-                return CollectionsUtils.Transform<NestedElementGenerationInfo, INestedElementInfo>(this.flatNestedElements,
-                                                                                                    delegate(
-                                                                                                        NestedElementGenerationInfo source)
-                                                                                                    {
-                                                                                                        return
-                                                                                                            source;
-                                                                                                    });
-
+                return CollectionsUtils.ImplicitCast<NestedElementGenerationInfo, INestedElementInfo>(nestedElementsCollector.Get());
             }
         }
 

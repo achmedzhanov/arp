@@ -132,31 +132,20 @@ namespace Arp.Generator.Tests.Generating
         [Test]
         public void GenerateInterfaceNH12Live()
         {
-            string xsd = File.ReadAllText("..\\..\\Tests\\nhibernate-mapping.xsd");
-            
-            XmlSchema schema = base.CreateXmlSchema(xsd);
-            PreprocesingVisitor visitor = CreateGeneratorVisitor();
-            visitor.VisitSchema(schema);
-            ElementGenerator generator = (ElementGenerator)visitor.ElementsAcceptor;
+            string xsdPath = "..\\..\\Tests\\nhibernate-mapping.xsd";
 
-            TreeElements treeElements = new TreeElements();
             string targerDirectory = Path.Combine(Environment.CurrentDirectory, "nh12live");
             if (Directory.Exists(targerDirectory))
             {
                 Directory.Delete(targerDirectory, true);
             }
-            Directory.CreateDirectory(targerDirectory);
-            Directory.CreateDirectory(Path.Combine(targerDirectory,"Impl"));
 
-            treeElements.FileWriter = new FilesWriter(targerDirectory);
-            treeElements.NameConverter = new CamelNameConverter();
-            treeElements.PluralProvider = new DictionaryPluralProvider();
+            Runner runner = new Runner();
+            runner.BaseNamespace = "Arp.NH.Psi.Tree";
+            runner.OutputDirectory = targerDirectory;
+            runner.XsdFile = xsdPath;
 
-            foreach (IElementInfo elementInfo in generator.ElementGenerationInfos)
-            {
-                treeElements.GenerateElementInterface(elementInfo.TypeInfo);
-                treeElements.GenerateElementImpl(elementInfo.TypeInfo);
-            }
+            runner.Run();
 
             // TODO compare file with expected
         }        

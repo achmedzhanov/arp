@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Arp.Common.Utils;
 
 namespace Arp.Generator.Preprocessing.Impl
 {
-    public class GroupGenerationInfo
+    public class GroupGenerationInfo : IInfoRef<ICollection<NestedElementGenerationInfo>>
     {
-        private string name;
+        private readonly string name;
         private readonly List<NestedElementGenerationInfo> flatNestedElements = new List<NestedElementGenerationInfo>();
 
 
@@ -26,7 +27,13 @@ namespace Arp.Generator.Preprocessing.Impl
             get { return flatNestedElements; }
         }
 
+        #region IInfoRef<ICollection<INestedElementInfo>> Members
 
+        public ICollection<NestedElementGenerationInfo> Get()
+        {
+            return FlatNestedElements;
+        }
 
+        #endregion
     }
 }

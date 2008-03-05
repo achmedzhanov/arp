@@ -57,6 +57,7 @@
     <Compile Include="Preprocessing\Impl\GroupGenerationInfo.cs" />
     <Compile Include="Preprocessing\Impl\InfoRefStub.cs" />
     <Compile Include="Preprocessing\Impl\IRegistry.cs" />
+    <Compile Include="Preprocessing\Impl\RefsCollector.cs" />
     <Compile Include="Preprocessing\Impl\RegistryInfoRef.cs" />
     <Compile Include="Preprocessing\Impl\RegisttyInfoRef.cs" />
     <Compile Include="Preprocessing\Impl\TypeGenerationInfo.cs" />
@@ -94,6 +95,9 @@
   <ItemGroup>
     <None Include="Tests\nhibernate-mapping.xsd">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Tests\nhibernate-mapping.xsx">
+      <DependentUpon>nhibernate-mapping.xsd</DependentUpon>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -178,6 +178,15 @@ namespace Arp.Common.Utils
         }
 
 
+        public static List<T> ImplicitCast<F, T>(ICollection<F> source)
+            where F : T
+        {
+            return Transform<F, T>(source, delegate(F s)
+                                               {
+                                                   T t = s;
+                                                   return t;
+                                               });
+        }
 
         public static List<T> Transform<F, T>(ICollection<F> source, Transformer<F, T> transformer)
         {
