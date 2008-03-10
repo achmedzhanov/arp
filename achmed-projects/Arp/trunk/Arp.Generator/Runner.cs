@@ -49,13 +49,19 @@ namespace Arp.Generator
             treeElements.NameConverter = new CamelNameConverter();
             treeElements.PluralProvider = new DictionaryPluralProvider();
 
+            // TODO get types froim nested elements!
 
+            List<ITypeInfo> types = new List<ITypeInfo>();
             foreach (IElementInfo elementInfo in elementAcceptor.Elements)
             {
                 treeElements.GenerateElementInterface(elementInfo.TypeInfo);
                 treeElements.GenerateElementImpl(elementInfo.TypeInfo);
+                if(!types.Contains(elementInfo.TypeInfo))
+                    types.Add(elementInfo.TypeInfo);
             }
 
+            treeElements.GenerateCompositeElementTypes(types);
+            treeElements.GenerateCompositeElementTypeInstrances(types);
         }
 
         private XmlSchema CreateXmlSchema(string file)

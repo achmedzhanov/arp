@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using log4net.Config;
 
 namespace Arp.Generator
 {
@@ -14,6 +15,8 @@ namespace Arp.Generator
                 PrintUsage();
                 return;
             }
+
+            BasicConfigurator.Configure();
 
             Runner runner = new Runner();
 

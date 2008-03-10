@@ -12,7 +12,7 @@ using JetBrains.Util;
 namespace Arp.NH.Services
 {
     [XmlLanguage, ProjectFileLanguageService(new string[] { ".hbm.xml" }, IsDefault = true)]
-    public class NHProjectFileLanguageServiceL4NProjectFileLanguageService : IProjectFileLanguageService
+    public class NHProjectFileLanguageService : IProjectFileLanguageService
     {
         public static ProjectFileType NH = new ProjectFileType("NH");
 

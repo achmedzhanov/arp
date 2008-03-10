@@ -1,60 +1,37 @@
-using System.Collections.Generic;
-using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
-using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
+using JetBrains.ReSharper.Psi.Tree;
 
 namespace Arp.Generator.Prototypes.NH.Psi.Impl
 {
-    public partial class ClassMappingElementImpl : BaseTag, IClassMappingElement
+    public partial class ClassMappingElementImpl : IScope
     {
-        private const short ID_MAPPING_ELEMENT_ROLE = 0x1;
-        private const short PROPTIY_ELEMENT_ROLE = 0x2;
-        
-        public ClassMappingElementImpl(CompositeNodeType _type) : base(_type)
+        #region IScope Members
+
+        public IScope GetParentScope()
         {
+            throw new System.NotImplementedException();
         }
 
-        #region IClassMappingElement Members
-
-        public IIdMappingElement Id
+        public void AddGlobalDeclarations(IWritableSymbolTable table, int level)
         {
-            get
-            {
-                return (IIdMappingElement)FindChildByRole(ID_MAPPING_ELEMENT_ROLE);
-            }
+            throw new System.NotImplementedException();
         }
 
-        public IList<IPropertyMappingElement> Propties
+        public void AddDeclarationsBeforeElement(IWritableSymbolTable table, IElement element, int level)
         {
-            get
-            {
-                return new List<IPropertyMappingElement>(
-                    (IPropertyMappingElement[])FindChildrenByRole(PROPTIY_ELEMENT_ROLE, new IPropertyMappingElement[] { })
-                    );
-            }
+            throw new System.NotImplementedException();
         }
 
-        public IBooleanAttribute Lazy
+        public void AddDeclarationsAfterElement(IWritableSymbolTable table, IElement element, int level)
         {
-            get { throw new System.NotImplementedException(); }
+            throw new System.NotImplementedException();
         }
 
-        public IReferenceNameAttribute Name
+        public int LevelDelta
         {
             get { throw new System.NotImplementedException(); }
         }
 
         #endregion
-
-
-        public override short GetChildRole(TreeElement child)
-        {
-
-            if (child is IIdMappingElement && ((XmlTag)child).TagName == "id")
-                return ID_MAPPING_ELEMENT_ROLE;
-            else if (child is IPropertyMappingElement && ((XmlTag)child).TagName == "property")
-                return PROPTIY_ELEMENT_ROLE;
-            else
-                return base.GetChildRole(child);
-        }
     }
 }

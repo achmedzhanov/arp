@@ -6,7 +6,8 @@ namespace Arp.Generator.Prototypes.NH.Psi
     public interface IClassMappingElement : IElement
     {
         IIdMappingElement Id { get;}
-        IList<IPropertyMappingElement> Propties { get;}
+        ICollection<IPropertyMappingElement> Propties { get;}
+        
         IBooleanAttribute Lazy { get;}
         IReferenceNameAttribute Name { get;}
     }

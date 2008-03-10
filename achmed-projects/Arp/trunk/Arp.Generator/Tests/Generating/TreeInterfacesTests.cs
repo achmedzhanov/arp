@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.IO;
 using System.Net.Mime;
 using System.Xml.Schema;
@@ -6,6 +6,7 @@ using Arp.Generator.Generating;
 using Arp.Generator.Names;
 using Arp.Generator.Preprocessing;
 using Arp.Generator.Preprocessing.Impl;
+using log4net.Config;
 using NUnit.Framework;
 
 namespace Arp.Generator.Tests.Generating
@@ -13,6 +14,12 @@ namespace Arp.Generator.Tests.Generating
     [TestFixture]
     public class TreeInterfacesTests : BaseTestFixture
     {
+        [SetUp]
+        public void Setup()
+        {
+            BasicConfigurator.Configure();
+        }
+
         [Test]
         public void GenerateInterface()
         {

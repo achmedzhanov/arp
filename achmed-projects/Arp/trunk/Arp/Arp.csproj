@@ -270,8 +270,10 @@
     <Compile Include="log4net\Services\Refactorings\L4NRename.cs" />
     <Compile Include="log4net\Services\StageDaemon.cs" />
     <Compile Include="log4net\Services\CodeCompletion\DeclaredElementLookupItemCreationContext.cs" />
+    <Compile Include="NH\Psi\NHConpositeElementType.cs" />
     <Compile Include="NH\Psi\NHElementFactory.cs" />
     <Compile Include="NH\Psi\NHLanguageService.cs" />
+    <Compile Include="NH\Psi\NHSupportedByPSIChecker.cs" />
     <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
     <Compile Include="NH\Services\NHProjectFileLanguageService.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
