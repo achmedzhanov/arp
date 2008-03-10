@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -209,6 +210,51 @@ $endif$
   }
 }
 ";
+//                if (name == ""$nn.Name$"")
+//                {
+//                    return new $implName(elementBaseNames.(nn.Name))$();
+//                }
+        public const string ELEMENTS_FACTORY =
+            @"
+using $namespace$.Impl;
+using JetBrains.ReSharper.Psi.Xml.Tree;
+
+namespace $namespace$.Parsing
+{
+    public partial class $elementsFactoryName$
+    {
+        protected IXmlTag CreateTagGenerated(IXmlTagHeaderNode header, IXmlTagContainer parentTag)
+        {
+
+            string name = header.Name.GetText();
+$elements:{e|
+            if(parentTag is $ifcName(elementBaseNames.(e.Name))$)
+            {
+$e.TypeInfo.NestedElementsInfo:{n|
+$if(!n.IsCollection)$
+                if (name == ""$n.Element.Name$"")
+                {
+                    return new $implName(elementBaseNames.(n.Element.Name))$();
+                }
+$else$
+$n.Elements:{nn|
+                if (name == ""$nn.Name$"")
+                {
+                    return new $implName(elementBaseNames.(nn.Name))$();
+                }
+}$
+$endif$
+
+                else
+}$                
+                    return null;
+            }
+            else
+}$
+                return null;
+            }        
+    }
+}";
 
         public const string PROPERTY_DECLARATION =
             @"
@@ -225,10 +271,12 @@ $endif$
         private IPluralProvider pluralProvider;
         private string baseNamespace = "Arp.NH.Psi.Tree";
         private string baseElementType = "NHConpositeElementType";
+        private string elementsFactoryName = "NHElementsFactory";
         
         private readonly StringTemplateGroup group;
         private readonly StringTemplateGroup templateGroup;
         
+
         #region Constructors
 
         public TreeElements()
@@ -240,6 +288,7 @@ $endif$
             templateGroup.DefineTemplate("impl", IMPL_DECLARATION);
             templateGroup.DefineTemplate("elementTypes", ELEMENT_TYPES_DECLARATION);
             templateGroup.DefineTemplate("elementTypeInstances", ELEMENT_TYPE_INSTANCES_DECLARATION);
+            templateGroup.DefineTemplate("elementsFactory", ELEMENTS_FACTORY);
 
         }
 
@@ -278,6 +327,12 @@ $endif$
         {
             get { return baseElementType; }
             set { baseElementType = value; }
+        }
+
+        public string ElementsFactoryName
+        {
+            get { return elementsFactoryName; }
+            set { elementsFactoryName = value; }
         }
 
 
@@ -398,6 +453,34 @@ $endif$
                 stringTemplate.RemoveAttribute("noemptybody");
                 fileWriter.Write(onceGenerateFile, stringTemplate.ToString());
             }
+        }
+
+        public void GenerateElementsFactory(ICollection<IElementInfo> elementInfos)
+        {
+            #region Logging
+
+            if (log.IsWarnEnabled)
+            {
+                log.Info("Generate elements factory");
+            }
+
+            #endregion                                    
+
+            
+            StringTemplate stringTemplate = this.templateGroup.GetInstanceOf("elementsFactory");
+            stringTemplate.SetAttribute("namespace", BaseNamespace);
+            stringTemplate.SetAttribute("elementsFactoryName", ElementsFactoryName);
+
+            Dictionary<string,string> elementBaseNames = new Dictionary<string, string>();
+            foreach (IElementInfo info in elementInfos)
+            {
+                elementBaseNames[info.Name] = this.nameConverter.ConvertTypeName(info.TypeInfo.BaseName);
+            }
+            
+            stringTemplate.SetAttribute("elementBaseNames", elementBaseNames);
+            stringTemplate.SetAttribute("elements", elementInfos);
+
+            fileWriter.Write("Parsing\\" + ElementsFactoryName + ".generated.cs", stringTemplate.ToString());
         }
 
         #endregion

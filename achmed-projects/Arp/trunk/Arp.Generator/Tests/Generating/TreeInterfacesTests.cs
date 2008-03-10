@@ -1,4 +1,4 @@
-    using System;
+                    using System;
 using System.IO;
 using System.Net.Mime;
 using System.Xml.Schema;
@@ -132,7 +132,7 @@ namespace Arp.Generator.Tests.Generating
             treeElements.NameConverter = new CamelNameConverter();
             treeElements.PluralProvider = new DictionaryPluralProvider(); 
             treeElements.GenerateElementInterface(objectsElement.TypeInfo);
-
+                
             // TODO compare file with expected
         }
 

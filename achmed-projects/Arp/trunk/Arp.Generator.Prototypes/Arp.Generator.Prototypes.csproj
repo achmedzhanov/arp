@@ -57,6 +57,8 @@
     <Compile Include="NH\Psi\IRefenceName.cs" />
     <Compile Include="NH\Psi\IReferenceNameAttribute.cs" />
     <Compile Include="NH\Psi\NHConpositeElementType.cs" />
+    <Compile Include="NH\Psi\Parsing\NHElementsFactory.cs" />
+    <Compile Include="NH\Psi\Parsing\NHElementsFactory.generated.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

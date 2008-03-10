@@ -62,6 +62,8 @@ namespace Arp.Generator
 
             treeElements.GenerateCompositeElementTypes(types);
             treeElements.GenerateCompositeElementTypeInstrances(types);
+
+            treeElements.GenerateElementsFactory(elementAcceptor.Elements);
         }
 
         private XmlSchema CreateXmlSchema(string file)
