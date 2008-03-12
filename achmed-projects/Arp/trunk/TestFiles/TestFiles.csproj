@@ -39,7 +39,7 @@
   <ItemGroup>
     <Compile Include="log4net\ClassWithLogger.cs" />
     <Compile Include="Serialization\InheritClasses.cs" />
-    <Compile Include="Serialization\InheritСlassesOtherFile.cs" />
+    <Compile Include="Serialization\InheritClassesOtherFile.cs" />
     <Compile Include="UnusedReferences\DeclaredVariable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
