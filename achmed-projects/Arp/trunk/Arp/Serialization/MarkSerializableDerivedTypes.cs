@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using JetBrains.ActionManagement;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeView.Occurences;

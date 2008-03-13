@@ -1,7 +1,7 @@
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 using JetBrains.ReSharper.Psi;
 
-namespace Arp.log4net.Services.CodeCompletion
+namespace Arp.Common.Psi.Services.CodeCompletion
 {
     public class DeclaredElementFullNameLookupItem : DeclaredElementLookupItem
     {

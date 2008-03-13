@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Arp.NH.Psi.Tree
 {
-    public partial interface ISynchronizeElement : IElement 
+    public partial interface ISynchronizeElement : INHElement 
     {
         #region Attributes
 

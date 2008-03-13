@@ -57,7 +57,7 @@ namespace Arp.Tests
                                        ProjectFileType.CSHARP,
                                        platformInfo.PlatformID);
 
-            Arp.Assertions.Assert.CheckNotNull(platformInfo);
+            Arp.Common.Assertions.Assert.CheckNotNull(platformInfo);
             project.AddAssemblyReference(platformInfo.MscorlibPath.ToString());
             
             if(systemAssemblies != null)

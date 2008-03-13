@@ -1,14 +1,15 @@
 using System.Drawing;
+using Arp.log4net.Services;
 using JetBrains.ReSharper.Daemon;
 
-namespace Arp.log4net.Services
+namespace Arp.Common.Psi.Daemon.References
 {
     [DaemonTooltipProvider(typeof(L4NIdentifierTooltipProvider))]
-    public class L4NIdentifierHighlighting : IHighlighting
+    public class IdentifierHighlighting : IHighlighting
     {
         private readonly string attributeId;
 
-        public L4NIdentifierHighlighting(string attributeId)
+        public IdentifierHighlighting(string attributeId)
         {
             this.attributeId = attributeId;
         }

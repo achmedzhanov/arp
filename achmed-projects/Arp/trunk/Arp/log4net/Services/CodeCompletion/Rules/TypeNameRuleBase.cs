@@ -1,8 +1,10 @@
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
+using Arp.Common.Psi.Services.CodeCompletion;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.ReSharper.CodeView.Occurences;
 using JetBrains.ReSharper.CodeView.Search;
 using JetBrains.ReSharper.Psi;
@@ -14,7 +16,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
 {
     public abstract class TypeNameRuleBase : ICodeCompletionRule
     {
-        public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
+        public void Apply(BaseCodeCompletionContext context, IList<ILookupItem> result)
         {
 //            ITypeElement[] possibleAppenders = PsiManager.GetInstance(context.Solution).GetDeclarationsCache(
 //                DeclarationsCacheScope.SolutionScope(context.Solution, true), true).GetPossibleInheritors("log4net.Appender.IAppender");
@@ -122,9 +124,9 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
         }
 
 
-        protected abstract ITypeElement GetBaseType(CodeCompletionContext context);
+        protected abstract ITypeElement GetBaseType(BaseCodeCompletionContext context);
 
-        protected ITypeElement GetTypeElement(CodeCompletionContext context, string typeName)
+        protected ITypeElement GetTypeElement(XmlCodeCompletionContextBase<IXmlFile> context, string typeName)
         {
             IDeclarationsCache cache =
                 PsiManager.GetInstance(context.Solution).GetDeclarationsCache(
@@ -132,7 +134,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             return cache.GetTypeElementByCLRName(typeName);
         }
 
-        private IList<ITypeElement> GetInheritTypes(IDeclaredElement declaredElement, CodeCompletionContext context)
+        private IList<ITypeElement> GetInheritTypes(IDeclaredElement declaredElement, XmlCodeCompletionContextBase<IXmlFile> context)
         {
             SearchInheritorsRequest request =
                 new SearchInheritorsRequest(declaredElement, SearchScope.SOLUTION_AND_LIBRARIES, context.ProjectFile);
@@ -163,9 +165,9 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             return elements;
         }
 
-        public abstract bool IsApplicable(CodeCompletionContext context);
+        public abstract bool IsApplicable(BaseCodeCompletionContext context);
 
-        protected bool IsAttributeOf<T>(string name, CodeCompletionContext context)
+        protected bool IsAttributeOf<T>(string name, BaseCodeCompletionContext context)
         {
             IXmlAttribute attribute = context.Token.GetContainingElement<IXmlAttribute>(false);
             Assert.CheckNotNull(attribute);
@@ -174,7 +176,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             return attribute.GetContainingElement<IXmlTag>(false) is T;
         }
 
-        protected T GetAttributeTag<T>(CodeCompletionContext context)
+        protected T GetAttributeTag<T>(BaseCodeCompletionContext context)
             where T : class
         {
             IXmlAttribute attribute = context.Token.GetContainingElement<IXmlAttribute>(false);

@@ -1,7 +1,10 @@
 using System.Collections.Generic;
+using Arp.Common.Psi.Services.CodeCompletion;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
 
 namespace Arp.log4net.Services.CodeCompletion.Rules
@@ -10,7 +13,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
     {
         #region ICodeCompletionRule Members
 
-        public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
+        public void Apply(BaseCodeCompletionContext context, IList<ILookupItem> result)
         {
             IParameterDescriptorProvider parameterDescriptorProvider = GetParameterDescriptorProvider(context);
 
@@ -27,7 +30,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             }
         }
 
-        public bool IsApplicable(CodeCompletionContext context)
+        public bool IsApplicable(BaseCodeCompletionContext context)
         {
             if (!context.IsAvalilableTagCompletion)
                 return false;
@@ -43,7 +46,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             return true;
         }
 
-        private IParameterDescriptorProvider GetParameterDescriptorProvider(CodeCompletionContext context)
+        private IParameterDescriptorProvider GetParameterDescriptorProvider(BaseCodeCompletionContext context)
         {
             ITokenNode token = context.Token;
             if (token.GetTokenType() == context.GetTokenTypes().SPACE && 

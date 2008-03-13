@@ -3,7 +3,7 @@ using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi.Resolve;
 
-namespace Arp.log4net.Services
+namespace Arp.Common.Psi.Daemon.References
 {
     public class NotResolvedError:  IHighlighting
     {

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using Arp.log4net.Psi;
 using Arp.log4net.Services.CodeCompletion.Rules;
 using JetBrains.ProjectModel;
@@ -16,9 +16,9 @@ using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.ReSharper.TextControl;
 using JetBrains.Util;
 
-namespace Arp.log4net.Services.CodeCompletion
+namespace Arp.Common.Psi.Services.CodeCompletion
 {
-    public class CodeCompletionContext : XmlCodeCompletionContextBase<IXmlFile>, IL4NCodeCompletionContext
+    public abstract class BaseCodeCompletionContext : XmlCodeCompletionContextBase<IXmlFile>, ICodeCompletionContext
     {
         private ITokenNode token;
         private TextRange prefixRange;
@@ -26,10 +26,9 @@ namespace Arp.log4net.Services.CodeCompletion
         private bool isAvalilableAttributeValueCompletion = false;
         private bool isAvalilableAttributeNameCompletion = false;
         private readonly XmlTokenTypes xmlTokenTypes;
-        private readonly List<ICodeCompletionRule> rules = new List<ICodeCompletionRule>();
-        private const string REFERENCE_SUFFIX = "__";
+        protected readonly List<ICodeCompletionRule> rules = new List<ICodeCompletionRule>();
 
-        public CodeCompletionContext(ISolution solution, ITextControl textControl)
+        public BaseCodeCompletionContext(ISolution solution, ITextControl textControl)
             : base(solution, textControl)
         {
             IXmlFile file = XmlFile;
@@ -44,18 +43,9 @@ namespace Arp.log4net.Services.CodeCompletion
             Initilize();
         }
 
-        private void InitilizeRules()
-        {
-            rules.Add(new AppenderNameRule());
-            rules.Add(new TagBasedParameterNameRule());
-            rules.Add(new ParameterAttributeNameRule());
-            rules.Add(new AppenderTypeNameRule());
-            rules.Add(new ParameterAttributeEnumerableValuesRule());
-            rules.Add(new DeclaredParameterAttributesRule());
-            rules.Add(new DeclaredParameterTypeNameRule());
-            rules.Add(new LoggerNameRule());
-//            rules.Add(new TagBasedParameterNameRule());
-        }
+        private const string REFERENCE_SUFFIX = "__";
+
+        protected abstract void InitilizeRules();
 
         private void Initilize()
         {
@@ -65,7 +55,6 @@ namespace Arp.log4net.Services.CodeCompletion
                 if (!(isAvalilableAttributeValueCompletion = CheckAttributeValueCompletion(currentToken)))
                     isAvalilableAttributeNameCompletion = CheckAttributeNameCompletion(currentToken);
         }
-
 
         public ITokenNode Token
         {
@@ -221,8 +210,6 @@ namespace Arp.log4net.Services.CodeCompletion
             return true;
         }
 
-        #region IL4NCodeCompletionContext Members
-
         public IList<ILookupItem> EvaluateLookupItems()
         {
             List<ILookupItem> result = new List<ILookupItem>();
@@ -237,8 +224,6 @@ namespace Arp.log4net.Services.CodeCompletion
 
             return result;
         }
-
-        #endregion
 
         private ICompleteableReference GetComplatebleReference()
         {

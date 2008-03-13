@@ -1,20 +1,17 @@
 using System;
-using System.Collections.Generic;
+using Arp.Common.Psi.Daemon;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
-using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
 
-namespace Arp.log4net.Services
+namespace Arp.Common.Psi.Daemon
 {
-    public class L4NDaemonStageProcess : IDaemonStageProcess
+    public abstract class BaseProcessorDaemonStageProcess : IDaemonStageProcess
     {
         private readonly IXmlFile file;
         private readonly IDaemonProcess process;
 
-
-        public L4NDaemonStageProcess(IXmlFile file, IDaemonProcess process)
+        public BaseProcessorDaemonStageProcess(IXmlFile file, IDaemonProcess process)
         {
             if (file == null) 
                 throw new ArgumentNullException("file");
@@ -42,7 +39,7 @@ namespace Arp.log4net.Services
         ///
         public DaemonStageProcessResult Execute()
         {
-            L4NProcessor processor = new L4NProcessor();
+            IHighlightingProcessor processor = CreateProcessor();
             file.ProcessDescendants(processor);
             DaemonStageProcessResult result = new DaemonStageProcessResult();
             result.Highlightings = processor.Highlightings;
@@ -52,5 +49,6 @@ namespace Arp.log4net.Services
             return result;
         }
 
+        protected abstract IHighlightingProcessor CreateProcessor();
     }
 }

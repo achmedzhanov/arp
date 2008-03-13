@@ -1,13 +1,16 @@
-using Arp.Assertions;
+using Arp.Common.Assertions;
+using Arp.Common.Psi.Services.CodeCompletion;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Services.CodeCompletion.Rules
 {
     public class DeclaredParameterTypeNameRule : TypeNameRuleBase
     {
-        protected override ITypeElement GetBaseType(CodeCompletionContext context)
+        protected override ITypeElement GetBaseType(BaseCodeCompletionContext context)
         {
             IDeclaredParameter declaredParameter = GetAttributeTag<IDeclaredParameter>(context);
             Assert.CheckNotNull(declaredParameter);
@@ -21,7 +24,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             return null;
         }
 
-        public override bool IsApplicable(CodeCompletionContext context)
+        public override bool IsApplicable(BaseCodeCompletionContext context)
         {
             if (!context.IsAvalilableAttributeValueCompletion)
                 return false;

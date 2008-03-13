@@ -1,9 +1,11 @@
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
+using Arp.Common.Psi.Services.CodeCompletion;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.ReSharper.CodeView.Occurences;
 using JetBrains.ReSharper.CodeView.Search;
 using JetBrains.ReSharper.Psi;
@@ -18,12 +20,12 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
     {
         #region ICodeCompletionRule Members
 
-        protected override ITypeElement GetBaseType(CodeCompletionContext context)
+        protected override ITypeElement GetBaseType(BaseCodeCompletionContext context)
         {
             return GetTypeElement(context, L4NConstants.log4net.IAppender);
         }
 
-        public override bool IsApplicable(CodeCompletionContext context)
+        public override bool IsApplicable(BaseCodeCompletionContext context)
         {
             if(!context.IsAvalilableAttributeValueCompletion)
                 return false;

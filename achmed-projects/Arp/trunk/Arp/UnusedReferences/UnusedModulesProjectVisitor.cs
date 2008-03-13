@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using Arp.UnusedReferences;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;

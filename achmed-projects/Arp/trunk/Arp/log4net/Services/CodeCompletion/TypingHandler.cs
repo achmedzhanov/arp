@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using Arp.log4net.Psi;
 using JetBrains.ActionManagement;
 using JetBrains.ComponentModel;

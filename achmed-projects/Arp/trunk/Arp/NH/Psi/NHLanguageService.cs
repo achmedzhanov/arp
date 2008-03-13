@@ -16,7 +16,7 @@ using JetBrains.Util;
 
 namespace Arp.NH.Psi
 {
-//    [ShellComponentImplementation, LanguageService, ShellComponentInterface(ProgramConfigurations.ALL)]
+    [ShellComponentImplementation, LanguageService, ShellComponentInterface(ProgramConfigurations.ALL)]
     public class NHLanguageService : XmlLanguageServiceBase, IShellComponent
     {
         public const string NH_STRING = "NH";
@@ -73,6 +73,7 @@ namespace Arp.NH.Psi
         public override IParser CreateParser(ILexer lexer, ISolution solution, IProject project,
                                              CheckForInterrupt checkForInterrupt)
         {
+          
             return new NHParser(lexer, checkForInterrupt);
         }
 

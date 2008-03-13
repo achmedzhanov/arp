@@ -1,5 +1,5 @@
 using System;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;

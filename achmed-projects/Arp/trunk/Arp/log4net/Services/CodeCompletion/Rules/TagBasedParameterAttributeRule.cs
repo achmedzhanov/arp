@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using Arp.Common.Psi.Services.CodeCompletion;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
+using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Services.CodeCompletion.Rules
 {
@@ -7,12 +10,12 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
     {
         #region ICodeCompletionRule Members
 
-        public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
+        public void Apply(BaseCodeCompletionContext context, IList<ILookupItem> result)
         {
             throw new System.NotImplementedException();
         }
 
-        public bool IsApplicable(CodeCompletionContext context)
+        public bool IsApplicable(BaseCodeCompletionContext context)
         {
             if(context.IsAvalilableAttributeNameCompletion)
                 return false;

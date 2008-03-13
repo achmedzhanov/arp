@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
+using Arp.Common.Psi.Daemon;
+using Arp.Common.Psi.Daemon.References;
+using Arp.Common.Psi.Utils;
 using Arp.log4net.Psi;
 using Arp.log4net.Psi.Tree;
 using Arp.log4net.Psi.Tree.Impl;
@@ -36,10 +39,8 @@ namespace Arp.log4net.Services
 //NOTE do we need to use DTD instead XSD ? 
 //XSD is better! Try to implement only part
 
-    public class L4NProcessor : IRecursiveElementProcessor
+    public class L4NProcessor : BaseProcessor, IHighlightingProcessor
     {
-        readonly List<HighlightingInfo> highlightings = new List<HighlightingInfo>();
-
         public bool InteriorShouldBeProcessed(IElement element)
         {
 //            IL4NElement l4nElement = element as IL4NElement;
@@ -59,68 +60,15 @@ namespace Arp.log4net.Services
         }
 
 
-        public HighlightingInfo[] Highlightings
-        {
-            get { return highlightings.ToArray(); }
-        }
-
         public void ProcessAfterInterior(IElement element)
         {
-            ProcessSyntaxError(element);
             ProcessElementParametersOwner(element);
             ProcessBackground(element);
             ProcessIdentifiers(element);
-
 //            TODO  use for paratemetrs values OptionConverter
 
         }
-
-        private void ProcessSyntaxError(IElement element)
-        {
-            IErrorElementNode errorNode = element as IErrorElementNode;
-            if(errorNode == null)
-                return;
-
-            DocumentRange range = errorNode.GetDocumentRange();
-            if(!range.IsValid)
-                return;
-
-            if(range.TextRange.Length == 0)
-            {
-                int start = range.TextRange.StartOffset;
-                int end = range.TextRange.EndOffset + 1;
-                ITreeNode nextNode = errorNode.FindNextNode(delegate(ITreeNode treeNode)
-                                                                {
-                                                                    if(treeNode is ITokenNode)
-                                                                        return TreeNodeActionType.ACCEPT;
-                                                                    return TreeNodeActionType.CONTINUE;
-                                                                });
-                if(nextNode != null)
-                {
-                    XmlToken xmlToken = nextNode as XmlToken;
-                    if (xmlToken != null && xmlToken.type == L4NTokenNodeType.QUOTE)
-                        start--;
-                }
-                else
-                {
-                    start--;
-                    end--;
-                }
-
-                int documentLength = range.Document.GetTextLength();
-
-                start = Math.Max(0, start);
-                start = Math.Min(documentLength, start);
-                end = Math.Max(0, end);
-                end = Math.Min(documentLength, end);
-                range = new DocumentRange(range.Document, new TextRange(start, end));
-
-            }
-
-            SyntaxError errorHighlight = new JetBrains.ReSharper.Daemon.Impl.SyntaxError(errorNode.ErrorDescription);
-            highlightings.Add(new HighlightingInfo(range, errorHighlight));
-        }
-
+        
         private void ProcessBackground(IElement element)
         {
             if(element is IL4NSection)
@@ -132,32 +80,6 @@ namespace Arp.log4net.Services
 
         private void ProcessIdentifiers(IElement element)
         {
-            IReference[] references = element.GetReferences();
-            foreach (IReference reference in references)
-            {
-                CheckForResolveProblems(reference);
-                
-                if(!reference.IsValid())
-                {
-                    //ResolveErrorType result = reference.CheckResolveResult();
-                    // TODO hightlight "can not resolve symbol 'blahblah' "
-                    //if( reference.CheckResolveResult() == ResolveErrorType. ...)
-                }
-                else if(reference.ReferenceType == ReferenceType.TEXT
-                    || reference.ReferenceType == ReferenceType.REFERENCE_NAME)
-                {
-                    ResolveResult resolveResult = reference.Resolve();
-                    if(resolveResult.DeclaredElement != null)
-                    {
-                        DocumentRange range = reference.GetDocumentRange();
-                        DocumentRange footerRange = GetFooterTagRange(element, range);
-                        Highlight(range, resolveResult.DeclaredElement);
-                        if (footerRange != DocumentRange.InvalidRange)
-                            Highlight(footerRange, resolveResult.DeclaredElement);
-                    }
-                }
-            }
-
             if (element is IAppenderRef)
             {
                 Highlight(((IXmlTag)element).ToTreeNode().Header.Name, HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE);
@@ -180,34 +102,6 @@ namespace Arp.log4net.Services
             // TODO tooltips for predefined tags appender, appender-ref, logger, level etc
         }
 
-        private void CheckForResolveProblems(IReference reference)
-        {
-            IQualifiableReference qualifiableReference = reference as IQualifiableReference;
-            if (((qualifiableReference == null) || !qualifiableReference.IsQualified) || qualifiableReference.GetQualifier().Resolved)
-            {
-                ResolveErrorType result = reference.CheckResolveResult();
-                if (result != ResolveErrorType.OK)
-                {
-                    NotResolvedError notResolvedError = new NotResolvedError(reference);
-                    highlightings.Add(new HighlightingInfo(notResolvedError.Range, notResolvedError));
-                }
-            }
-        }
-
-        private DocumentRange GetFooterTagRange(IElement element, DocumentRange range)
-        {
-            IXmlTag tag = element as IXmlTag;
-            if (tag == null)
-                return DocumentRange.InvalidRange;
-            if(tag.ToTreeNode().Header.Name.GetDocumentRange().TextRange == range.TextRange)
-            {
-                IXmlTagFooterNode footer = tag.ToTreeNode().Footer;
-                if (footer != null)
-                    return footer.Name.GetDocumentRange();
-            }
-
-            return DocumentRange.InvalidRange;
-        }
 
         private void Highlight(IXmlIdentifierNode node, string attributeId)
         {
@@ -223,41 +117,10 @@ namespace Arp.log4net.Services
             }
         }
 
-        private void Highlight(DocumentRange range, IDeclaredElement declaredElement)
-        {
-            string attribute = GetHighlightAttributeForReference(declaredElement);
-            if (attribute != null)
-            {
-                // TODO highlight closed tag
-                highlightings.Add(new HighlightingInfo(range, new L4NIdentifierHighlighting(attribute)));
-            }
-        }
 
         private void Highlight(DocumentRange range, string attribute)
         {
-            highlightings.Add(new HighlightingInfo(range, new L4NIdentifierHighlighting(attribute)));
-        }
-
-
-        private string GetHighlightAttributeForReference(IDeclaredElement element)
-        {
-            if (element is IProperty)
-                return HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE;
-//                return HighlightingAttributeIds.CONSTANT_IDENTIFIER_ATTRIBUTE;
-            else if(element is IAppender)
-            {
-                return HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE;
-            }
-            else if(element is ITypeElement)
-            {
-                return HighlightingAttributeIds.TYPE_IDENTIFIER_ATTRIBUTE;
-            }
-            else if (element is INamespace)
-            {
-                return HighlightingAttributeIds.NAMESPACE_IDENTIFIER_ATTRIBUTE;
-            }
-            else
-                return null;
+            highlightings.Add(new HighlightingInfo(range, new IdentifierHighlighting(attribute)));
         }
 
 

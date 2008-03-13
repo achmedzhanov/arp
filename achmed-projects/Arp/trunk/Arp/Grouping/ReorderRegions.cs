@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using Arp.Grouping;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;

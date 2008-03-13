@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using Arp.Common.Psi.Utils;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;

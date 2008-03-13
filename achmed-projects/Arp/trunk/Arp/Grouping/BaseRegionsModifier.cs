@@ -5,7 +5,7 @@ using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Shell;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 
 namespace Arp.Grouping
 {

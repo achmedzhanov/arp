@@ -1,11 +1,17 @@
+using Arp.log4net.Psi.Parsing;
 using Arp.log4net.Psi.Tree;
+using Arp.NH.Psi.Tree;
+using Arp.NH.Psi.Tree.Impl;
+using Arp.NH.Psi.Tree.Parsing;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Parsing;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.NH.Psi
 {
-    public class NHElementFactory : XmlElementFactory
+    public class NHElementFactory : NHElementsFactory
     {
 
         public static NHElementFactory instance = new NHElementFactory(NHLanguageService.NH);
@@ -16,11 +22,69 @@ namespace Arp.NH.Psi
             get { return instance; }
         }
 
-        public NHElementFactory(PsiLanguageType languageType)
-            : base(languageType)
+
+        public NHElementFactory(PsiLanguageType languageType) : base(languageType)
         {
+        }
+
+
+        public override IXmlTag CreateTag(IXmlTagHeaderNode header, IXmlTagContainer parentTag)
+        {
+            IXmlTag created = base.CreateTagGenerated(header, parentTag);
+            if (created != null)
+            {
+                HandleCreateTagElement((INHElement)created,header, parentTag);
+                return created;
+            }
+
+            return base.CreateTag(header, parentTag);
+        }
+
+
+        public override IXmlTag CreateRootTag(IXmlTagHeaderNode header)
+        {
+            if (header.Name.GetText() == "hibernate-mapping")
+                return new HibernateMappingElementImpl();
+            
+            return base.CreateRootTag(header);
+        }
+
+        private void HandleCreateTagElement(INHElement element, IXmlTagHeaderNode header, IXmlTagContainer tag)
+        {
+            foreach (IXmlAttribute attribute in header.Attributes)
+            {
+                ProcessAttribute(element, attribute);
+            }
 
         }
+
+        private void ProcessAttribute(INHElement element, IXmlAttribute attribute)
+        {
+            IClassElement classElement = element as IClassElement;
+            if (classElement != null)
+            {
+                if (attribute.XmlName == "name")
+                {
+                    CreateReferenceAttributeValue(classElement, attribute);
+                }
+            }
+        }
+
+
+        private void CreateReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
+        {
+            if (attribute.Value == null)
+                return;
+
+            ReferenceParser parser = new ReferenceParser();
+            IXmlAttributeValue newElement = parser.Parse(attribute.Value);
+            IXmlAttributeValueNode childNode = attribute.Value.ToTreeNode();
+            ITreeNode parent = attribute.ToTreeNode();
+            ((CompositeElement)parent).AddChildAfter(newElement.ToTreeNode(), childNode);
+            ((CompositeElement)parent).DeleteChildRange(childNode, childNode);
+        }
+
+
 
         /*
 

@@ -6,7 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using DevExpress.XtraEditors.Controls;
 using JetBrains.CommonControls;
 using JetBrains.ProjectModel;

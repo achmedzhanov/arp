@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Windows.Forms;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using Arp.UnusedReferences;
 using Arp.UnusedReferences.UI;
 using JetBrains.ActionManagement;

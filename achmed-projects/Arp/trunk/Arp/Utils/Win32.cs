@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using JetBrains.UI.Interop;
 
 namespace Arp.Utils

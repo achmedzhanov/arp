@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Schema;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using Arp.log4net.Psi.Tree.Impl.SchemaSupport;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util;

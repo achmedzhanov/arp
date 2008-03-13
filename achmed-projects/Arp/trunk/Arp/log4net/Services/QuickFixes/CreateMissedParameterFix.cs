@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Daemon;
 using JetBrains.ReSharper.Daemon.CSharp.QuickFixes;

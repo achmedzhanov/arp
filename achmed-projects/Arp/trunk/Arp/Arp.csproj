@@ -166,8 +166,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assertions\Assert.cs" />
-    <Compile Include="Assertions\AssertException.cs" />
+    <Compile Include="Common\Psi\Daemon\IHighlightingProcessor.cs" />
+    <Compile Include="Common\Psi\Daemon\References\ReferencesProcessor.cs" />
+    <Compile Include="Common\Psi\Daemon\ReferenceNameSyntaxErrors\ReferenceNameSyntaxErrorProcessor.cs" />
     <Compile Include="log4net\Psi\L4NConstants.cs" />
     <Compile Include="log4net\Psi\L4NTokenNodeType.cs" />
     <Compile Include="log4net\Psi\Parsing\ReferenceParser.cs" />
@@ -203,7 +204,7 @@
     <Compile Include="log4net\Psi\Tree\Impl\Validators\IPAddressValidator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\Validators\StringValidator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\Validators\ValidatorsManager.cs" />
-    <Compile Include="log4net\Psi\Tree\Impl\XMLPSIUtils.cs" />
+    <Compile Include="Common\Psi\Utils\XMLPSIUtils.cs" />
     <Compile Include="log4net\Psi\Tree\IDeclaredParameter.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderRef.cs" />
     <Compile Include="log4net\Psi\Tree\IL4NSection.cs" />
@@ -228,10 +229,15 @@
     <Compile Include="log4net\Psi\Tree\ITypeNameOrNamespace.cs" />
     <Compile Include="log4net\Psi\Tree\L4NConpositeElementType.cs" />
     <Compile Include="log4net\Psi\Tree\L4NElementType.cs" />
-    <Compile Include="log4net\Services\CodeCompletion\CodeCompletionContext.cs" />
-    <Compile Include="log4net\Services\CodeCompletion\DeclaredElementFullNameLookupItem.cs" />
-    <Compile Include="log4net\Services\CodeCompletion\ICodeCompletionRule.cs" />
-    <Compile Include="log4net\Services\CodeCompletion\IL4NCodeCompletionContext.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\BaseCodeCompletionContext.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\BaseCodeCompletionProvider.cs" />
+    <Compile Include="Common\Psi\Services\CodeInside\BaseCodeInsightService.cs" />
+    <Compile Include="Common\Psi\Daemon\BaseProcessor.cs" />
+    <Compile Include="Common\Psi\Daemon\BaseProcessorDaemonStageProcess.cs" />
+    <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionContext.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\DeclaredElementFullNameLookupItem.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\ICodeCompletionRule.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\ICodeCompletionContext.cs" />
     <Compile Include="log4net\Services\CodeCompletion\Rules\AppenderNameRule.cs" />
     <Compile Include="log4net\Services\CodeCompletion\Rules\BaseParametersRule.cs" />
     <Compile Include="log4net\Services\CodeCompletion\Rules\DeclaredParameterAttributesRule.cs" />
@@ -254,27 +260,33 @@
     <Compile Include="log4net\Services\Highlighters.cs" />
     <Compile Include="log4net\Services\InvalidPropertyHighlighting.cs" />
     <Compile Include="log4net\Services\CodeCompletion\L4NCodeCompletionProvider.cs" />
-    <Compile Include="log4net\Services\L4NDaemonStageProcess.cs" />
+    <Compile Include="Common\Psi\Daemon\ProcessorDaemonStageProcess.cs" />
     <Compile Include="log4net\Psi\L4NElementFactory.cs" />
     <Compile Include="log4net\Psi\L4NLanguageService.cs" />
-    <Compile Include="log4net\Services\L4NIdentifierHighlighting.cs" />
+    <Compile Include="Common\Psi\Daemon\References\IdentifierHighlighting.cs" />
     <Compile Include="log4net\Services\L4NIdentifierTooltipProvider.cs" />
     <Compile Include="log4net\Services\L4NProjectFileLanguageService.cs" />
     <Compile Include="log4net\Services\L4NProcessor.cs" />
     <Compile Include="log4net\Services\CodeCompletion\ParameterLookupItem.cs" />
-    <Compile Include="log4net\Services\NotResolvedError.cs" />
+    <Compile Include="Common\Psi\Daemon\References\NotResolvedError.cs" />
     <Compile Include="log4net\Services\ParametersUtil.cs" />
     <Compile Include="log4net\Services\QuickFixes\CreateMissedParameterFix.cs" />
     <Compile Include="log4net\Services\QuickFixRegistrarComponent.cs" />
     <Compile Include="log4net\Services\Refactorings\L4NNamingStyle.cs" />
     <Compile Include="log4net\Services\Refactorings\L4NRename.cs" />
-    <Compile Include="log4net\Services\StageDaemon.cs" />
-    <Compile Include="log4net\Services\CodeCompletion\DeclaredElementLookupItemCreationContext.cs" />
+    <Compile Include="log4net\Services\L4NDaemonStage.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\DeclaredElementLookupItemCreationContext.cs" />
+    <Compile Include="log4net\Services\ReferenceNameSyntaxErrorDaemonStage.cs" />
+    <Compile Include="log4net\Services\ReferencesDaemonStage.cs" />
     <Compile Include="NH\Psi\NHConpositeElementType.cs" />
     <Compile Include="NH\Psi\NHElementFactory.cs" />
     <Compile Include="NH\Psi\NHLanguageService.cs" />
     <Compile Include="NH\Psi\NHSupportedByPSIChecker.cs" />
     <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
+    <Compile Include="NH\Psi\Tree\INHElement.cs" />
+    <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionContext.cs" />
+    <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionProvider.cs" />
+    <Compile Include="NH\Services\CodeInside\NHCodeInsightService.cs" />
     <Compile Include="NH\Services\NHProjectFileLanguageService.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
@@ -339,8 +351,6 @@
     <EmbeddedResource Include="Resources\NHLogo.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="NH\Generated\" />
     <Folder Include="NH\Psi\Search\" />
     <Folder Include="NH\Psi\Tree\Impl\" />
   </ItemGroup>

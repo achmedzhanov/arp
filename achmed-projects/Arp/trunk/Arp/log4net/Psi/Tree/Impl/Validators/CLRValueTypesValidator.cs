@@ -1,6 +1,6 @@
 using System;
 using System.Reflection;
-using Arp.Assertions;
+using Arp.Common.Assertions;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl.Validators

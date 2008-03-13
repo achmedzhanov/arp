@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Arp.NH.Psi.Tree
 {
-    public partial interface ISqlDeleteAllElement : IElement 
+    public partial interface ISqlDeleteAllElement : INHElement 
     {
         #region Attributes
 

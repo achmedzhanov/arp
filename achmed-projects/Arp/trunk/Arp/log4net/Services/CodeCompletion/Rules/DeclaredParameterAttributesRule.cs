@@ -1,7 +1,9 @@
 using System.Collections.Generic;
-using Arp.Assertions;
+using Arp.Common.Assertions;
+using Arp.Common.Psi.Services.CodeCompletion;
 using Arp.log4net.Psi.Tree;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
@@ -12,7 +14,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
     {
         #region ICodeCompletionRule Members
 
-        public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
+        public void Apply(BaseCodeCompletionContext context, IList<ILookupItem> result)
         {
             IDeclaredParameter declaredParameter = GetDeclaredParameter(context);
             Assert.CheckNotNull(declaredParameter);
@@ -32,7 +34,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             result.Add(item);
         }
 
-        public bool IsApplicable(CodeCompletionContext context)
+        public bool IsApplicable(BaseCodeCompletionContext context)
         {
             if (!context.IsAvalilableAttributeNameCompletion)
                 return false;
@@ -44,7 +46,7 @@ namespace Arp.log4net.Services.CodeCompletion.Rules
             return true;
         }
 
-        private IDeclaredParameter GetDeclaredParameter(CodeCompletionContext context)
+        private IDeclaredParameter GetDeclaredParameter(BaseCodeCompletionContext context)
         {
             return context.GetAttributeTag() as IDeclaredParameter;
         }

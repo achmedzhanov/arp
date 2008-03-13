@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Arp.NH.Psi.Tree
 {
-    public partial interface IIndexManyToManyElement : IElement 
+    public partial interface IIndexManyToManyElement : INHElement 
     {
         #region Attributes
 

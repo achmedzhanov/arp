@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace Arp.NH.Psi.Tree
 {
-    public partial interface ICompositeIdElement : IElement 
+    public partial interface ICompositeIdElement : INHElement 
     {
         #region Attributes
 
