@@ -50,9 +50,9 @@ namespace Arp.log4net.Psi.Tree.Impl
         protected abstract ICollection<IDeclaredElement> GetDeclaredElements();
 
 
-        public override ReferenceType ReferenceType
+        public override JetBrains.ReSharper.Psi.Resolve.ReferenceType ReferenceType
         {
-            get { return ReferenceType.TEXT; }
+            get { return JetBrains.ReSharper.Psi.Resolve.ReferenceType.TEXT; }
         }
 
         public override IAccessContext GetAccessContext()

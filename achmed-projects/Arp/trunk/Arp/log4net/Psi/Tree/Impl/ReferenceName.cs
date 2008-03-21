@@ -195,11 +195,11 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///
         ///</summary>
         ///
-        public ReferenceType ReferenceType
+        public JetBrains.ReSharper.Psi.Resolve.ReferenceType ReferenceType
         {
             get
             {
-                return ReferenceType.REFERENCE_NAME;
+                return JetBrains.ReSharper.Psi.Resolve.ReferenceType.REFERENCE_NAME;
             }
         }
 

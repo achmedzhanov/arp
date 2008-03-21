@@ -87,7 +87,7 @@ namespace Arp.log4net.Psi
                 return;
             
             ReferenceParser parser = new ReferenceParser();
-            IXmlAttributeValue newElement = parser.Parse(attribute.Value);
+            IXmlAttributeValue newElement = parser.ParseReferenceName(attribute.Value);
             IXmlAttributeValueNode childNode = attribute.Value.ToTreeNode();
             ITreeNode parent = attribute.ToTreeNode();
             ((CompositeElement)parent).AddChildAfter(newElement.ToTreeNode(), childNode);

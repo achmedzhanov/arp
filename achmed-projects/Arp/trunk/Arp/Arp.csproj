@@ -169,6 +169,7 @@
     <Compile Include="Common\Psi\Daemon\IHighlightingProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\References\ReferencesProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\ReferenceNameSyntaxErrors\ReferenceNameSyntaxErrorProcessor.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ModuleDeclaredElement.cs" />
     <Compile Include="log4net\Psi\L4NConstants.cs" />
     <Compile Include="log4net\Psi\L4NTokenNodeType.cs" />
     <Compile Include="log4net\Psi\Parsing\ReferenceParser.cs" />
@@ -184,7 +185,9 @@
     <Compile Include="log4net\Psi\Tree\Impl\BaseDeclaredElementReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\EncodingParameterDescriptorDecorator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\IPAddressParameterDescriptorDecorator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ModuleReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ParamPropertyReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceModule.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceNameAttributeValue.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaElementParameterDescriptor.cs" />
@@ -197,6 +200,7 @@
     <Compile Include="log4net\Psi\Tree\Impl\ParameterDescriptorImpl.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ElementParametrInfoImplUtil.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\TypeOrNamespaceReference.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceType.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\Validators\BooleanValidator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\Validators\CLRValueTypesValidator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\Validators\EncodingValidator.cs" />
@@ -291,6 +295,9 @@
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />
+    <Compile Include="Tests\Parsing\BaseParsingTest.cs" />
+    <Compile Include="Tests\Parsing\ModuleNameTests.cs" />
+    <Compile Include="Tests\Parsing\ReferencesNameTests.cs" />
     <Compile Include="Tests\SchemaParameterDescriptorProviderTests.cs" />
     <Compile Include="Tests\UnusedModulesProjectVisitorTests.cs" />
     <Compile Include="Tests\Validation.cs" />

@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace Arp.Tests.Parsing
 {
     [TestFixture]
-    public class ReferencesNameTests
+    public class ReferencesNameTests : BaseParsingTest
     {
         [Test]
         public void ParseReferenceNameSuccess()
@@ -99,26 +99,6 @@ namespace Arp.Tests.Parsing
                                      XmlToken token = (XmlToken)obj;
                                      Assert.AreEqual(".", token.GetText());
                                  });
-        }
-
-
-        protected void AssertChildsList(CompositeElement compositeElement, params Action<IElement> [] actions)
-        {
-            int index = 0;
-            for (TreeElement child = compositeElement.firstChild; 
-                child != compositeElement.lastChild; child = child.nextSibling, index++)
-            {
-                if(index >= actions.Length)
-                {
-                    Assert.Fail("There is child unnecessary with index " + index + " " + child);
-                }
-
-                actions[index](child);
-            }
-
-            if(index < actions.Length - 1)
-                Assert.Fail("There is no element with index  " + index);
-
         }
     }
 }

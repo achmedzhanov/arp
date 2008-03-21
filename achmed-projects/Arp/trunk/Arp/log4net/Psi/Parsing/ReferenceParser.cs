@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Text;
 using Arp.log4net.Psi.Tree;
 using Arp.log4net.Psi.Tree.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Parsing;
@@ -15,7 +17,7 @@ namespace Arp.log4net.Psi.Parsing
     {
         private ILexer lexer = null;
 
-        public IXmlAttributeValue Parse(IXmlAttributeValue xmlAttributeValue)
+        public IXmlAttributeValue ParseReferenceName(IXmlAttributeValue xmlAttributeValue)
         {
             ReferenceNameAttributeValue attributeValue = new ReferenceNameAttributeValue();
 
@@ -49,6 +51,109 @@ namespace Arp.log4net.Psi.Parsing
 
         }
 
+        public ReferenceName ParseReferenceName(string text)
+        {
+            return ParseTypeNameOrAttributeValue(text);
+        }
+
+        public ReferenceModule ParseModule(string text)
+        {
+            lexer = new CSharpLexer(new StringBuffer(text));
+            Start();
+            
+            XmlToken token = null;
+
+            try
+            {
+                token = ParseModuleName();
+            }
+            catch (UnexpectedToken ex)
+            {
+                token = ex.ParsingResult as XmlToken;
+                if(token != null)
+                {
+                    ReferenceModule @ref = CreateReferenceModule(token);
+                    UnexpectedToken th = new UnexpectedToken("Unexpected token");
+                    th.ParsingResult = @ref;
+                    throw th;
+                }
+
+                throw;
+            }
+            
+            return CreateReferenceModule(token);
+        }
+
+        private ReferenceModule CreateReferenceModule(XmlToken token)
+        {
+            ReferenceModule referenceModule = new ReferenceModule();
+            referenceModule.AppendNewChild(token);
+            return referenceModule;
+        }
+
+        private XmlToken ParseModuleName()
+        {
+            StringBuilder tokenTexts = new StringBuilder();
+
+            int start = lexer.TokenStart;
+            int end = lexer.TokenStart;
+
+            bool expectedIdentifier = true;
+
+            while (lexer.TokenType != null)
+            {
+                TokenNodeType tokenType = lexer.TokenType;
+
+                if(expectedIdentifier)
+                {
+                    if (tokenType == CSharpTokenType.IDENTIFIER)
+                    {
+                        tokenTexts.Append(lexer.TokenText);
+                        expectedIdentifier = false;
+                        end = lexer.TokenEnd;
+                    }
+                    else
+                    {
+                        CreateModuleNameToken(start, end, true);
+                    }
+                }
+                else
+                {
+                    if (tokenType == CSharpTokenType.DOT)
+                    {
+                        tokenTexts.Append(lexer.TokenText);
+                        expectedIdentifier = true;
+                        end = lexer.TokenEnd;
+
+                        if (LexerUtil.LookaheadToken(lexer, 1) != CSharpTokenType.IDENTIFIER)
+                            return CreateModuleNameToken(start, end, true);
+
+                    }
+                    else
+                    {
+                        return CreateModuleNameToken(start, end, false);
+                    }                    
+                }
+
+                lexer.Advance();
+            }
+
+            return CreateModuleNameToken(start, end, false);
+        }
+
+        private XmlToken CreateModuleNameToken(int start, int end, bool unexpectedToken)
+        {
+            XmlToken ret = new XmlToken(L4NTokenNodeType.IDENTIFIER, lexer.Buffer, start, end);
+            if(unexpectedToken)
+            {
+                UnexpectedToken ex = new UnexpectedToken("Unexpected token");
+                ex.ParsingResult = ret;
+                throw ex;
+            }
+
+            return ret;
+        }
+
         private CompositeElement handleError(CompositeElement result, SyntaxError syntaxError)
         {
             CompositeElement errorElement = TreeElementFactory.CreateErrorElement(syntaxError.Message);
@@ -57,6 +162,8 @@ namespace Arp.log4net.Psi.Parsing
             result.AppendNewChild(errorElement);
             return result;  
         }
+
+
 
         protected ReferenceName ParseTypeNameOrAttributeValue(string text )
         {

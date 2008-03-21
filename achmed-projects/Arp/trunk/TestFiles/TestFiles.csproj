@@ -38,6 +38,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="log4net\ClassWithLogger.cs" />
+    <Compile Include="log4net\Framework\**\*.cs" />
+    <Compile Include="Parsing\ClassForReferencesTests.cs" />
     <Compile Include="Serialization\InheritClasses.cs" />
     <Compile Include="Serialization\InheritClassesOtherFile1.cs" />
     <Compile Include="UnusedReferences\DeclaredVariable.cs" />
