@@ -17,7 +17,7 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int FilterParam_ROLE_ID = 1;
+        private const int FilterParam_ROLE_ID = 20;
 
         #endregion
 

@@ -39,7 +39,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public DeclaredElementType GetElementType()
         {
-            return new L4NDeclaredElementType(module.Name);
+            return ModuleDeclaredElementType.INSTANCE;
         }
 
         public PsiManager GetManager()

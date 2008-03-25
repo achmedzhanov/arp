@@ -17,9 +17,9 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int ReturnDiscriminator_ROLE_ID = 1;
+        private const int ReturnDiscriminator_ROLE_ID = 20;
 
-        private const int ReturnProperty_ROLE_ID = 2;
+        private const int ReturnProperty_ROLE_ID = 21;
 
         #endregion
 

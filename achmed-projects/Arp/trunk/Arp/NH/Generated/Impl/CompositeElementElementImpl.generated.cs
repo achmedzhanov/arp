@@ -17,13 +17,13 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int Parent_ROLE_ID = 1;
+        private const int Parent_ROLE_ID = 20;
 
-        private const int Properties_ROLE_ID = 2;
+        private const int Properties_ROLE_ID = 21;
 
-        private const int ManyToOnes_ROLE_ID = 3;
+        private const int ManyToOnes_ROLE_ID = 22;
 
-        private const int NestedCompositeElements_ROLE_ID = 4;
+        private const int NestedCompositeElements_ROLE_ID = 23;
 
         #endregion
 

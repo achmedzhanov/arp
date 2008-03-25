@@ -169,6 +169,8 @@
     <Compile Include="Common\Psi\Daemon\IHighlightingProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\References\ReferencesProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\ReferenceNameSyntaxErrors\ReferenceNameSyntaxErrorProcessor.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\BaseReferenceAttributeValue.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\MemeberReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ModuleDeclaredElement.cs" />
     <Compile Include="log4net\Psi\L4NConstants.cs" />
     <Compile Include="log4net\Psi\L4NTokenNodeType.cs" />
@@ -185,11 +187,14 @@
     <Compile Include="log4net\Psi\Tree\Impl\BaseDeclaredElementReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\EncodingParameterDescriptorDecorator.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\IPAddressParameterDescriptorDecorator.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ModuleDeclaredElementType.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ModuleReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ParamPropertyReference.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceModule.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceModuleAttributeValue.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ReferenceNameAttributeValue.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\ReferenceTypeAttributeValue.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaElementParameterDescriptor.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\SchemaSupport\SchemaParameterDescriptorProvider.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\StatisParameters\SimpleParameterOwner.cs" />
@@ -292,6 +297,8 @@
     <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionProvider.cs" />
     <Compile Include="NH\Services\CodeInside\NHCodeInsightService.cs" />
     <Compile Include="NH\Services\NHProjectFileLanguageService.cs" />
+    <Compile Include="NH\Services\References\ModulereferenceProcessor.cs" />
+    <Compile Include="NH\Services\References\ModuleReferencesDaemonStage.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />

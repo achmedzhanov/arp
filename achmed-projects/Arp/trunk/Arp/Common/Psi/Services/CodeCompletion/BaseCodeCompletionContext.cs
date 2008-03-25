@@ -283,8 +283,7 @@ namespace Arp.Common.Psi.Services.CodeCompletion
                 foreach (ISymbolInfo info in table.GetAllSymbolInfos(name))
                 {
                     IDeclaredElement declaredElement = info.GetDeclaredElement();
-                    if ((declaredElement != null) && !declaredElement.IsSynthetic() &&
-                        (declaredElement is ITypeElement || declaredElement is INamespace))
+                    if (IncludeDeclaredElement(declaredElement))
                     {
                         toAdd.Add(declaredElement);
                     }
@@ -301,6 +300,12 @@ namespace Arp.Common.Psi.Services.CodeCompletion
                 item.ReplaceRange = new TextRange(0, /* TODO */ GetPrefix().Length);
                 result.Add(item);
             }
+        }
+
+        protected virtual bool IncludeDeclaredElement(IDeclaredElement declaredElement)
+        {
+            return (declaredElement != null) && !declaredElement.IsSynthetic() &&
+                   (declaredElement is ITypeElement || declaredElement is INamespace);
         }
 
         private static ICompleteableReference FindCompleteableReference(IEnumerable<IReference> references)

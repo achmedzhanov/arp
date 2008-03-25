@@ -529,7 +529,7 @@ $endif$
                 stringTemplate.SetAttribute("attributes.{type,name,xmlName}", "IXmlAttribute", nameConverter.ConvertAttributeName(info.Name), info.Name);
             }
 
-            int childRoleCount = 1;
+            int childRoleCount = 20;
             foreach (INestedElementInfo nestedElementInfo in typeGenerationInfo.NestedElementsInfo)
             {
                 if (!nestedElementInfo.IsCollection)

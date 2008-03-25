@@ -17,61 +17,61 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int Meta_ROLE_ID = 1;
+        private const int Meta_ROLE_ID = 20;
 
-        private const int JcsCache_ROLE_ID = 2;
+        private const int JcsCache_ROLE_ID = 21;
 
-        private const int Cache_ROLE_ID = 3;
+        private const int Cache_ROLE_ID = 22;
 
-        private const int Id_ROLE_ID = 4;
+        private const int Id_ROLE_ID = 23;
 
-        private const int CompositeId_ROLE_ID = 5;
+        private const int CompositeId_ROLE_ID = 24;
 
-        private const int Discriminator_ROLE_ID = 6;
+        private const int Discriminator_ROLE_ID = 25;
 
-        private const int Version_ROLE_ID = 7;
+        private const int Version_ROLE_ID = 26;
 
-        private const int Timestamp_ROLE_ID = 8;
+        private const int Timestamp_ROLE_ID = 27;
 
-        private const int Properties_ROLE_ID = 9;
+        private const int Properties_ROLE_ID = 28;
 
-        private const int ManyToOnes_ROLE_ID = 10;
+        private const int ManyToOnes_ROLE_ID = 29;
 
-        private const int OneToOnes_ROLE_ID = 11;
+        private const int OneToOnes_ROLE_ID = 30;
 
-        private const int Components_ROLE_ID = 12;
+        private const int Components_ROLE_ID = 31;
 
-        private const int DynamicComponents_ROLE_ID = 13;
+        private const int DynamicComponents_ROLE_ID = 32;
 
-        private const int Anys_ROLE_ID = 14;
+        private const int Anys_ROLE_ID = 33;
 
-        private const int Maps_ROLE_ID = 15;
+        private const int Maps_ROLE_ID = 34;
 
-        private const int Sets_ROLE_ID = 16;
+        private const int Sets_ROLE_ID = 35;
 
-        private const int Lists_ROLE_ID = 17;
+        private const int Lists_ROLE_ID = 36;
 
-        private const int Bags_ROLE_ID = 18;
+        private const int Bags_ROLE_ID = 37;
 
-        private const int Idbags_ROLE_ID = 19;
+        private const int Idbags_ROLE_ID = 38;
 
-        private const int Arrays_ROLE_ID = 20;
+        private const int Arrays_ROLE_ID = 39;
 
-        private const int PrimitiveArrays_ROLE_ID = 21;
+        private const int PrimitiveArrays_ROLE_ID = 40;
 
-        private const int Subclasss_ROLE_ID = 22;
+        private const int Subclasss_ROLE_ID = 41;
 
-        private const int JoinedSubclasss_ROLE_ID = 23;
+        private const int JoinedSubclasss_ROLE_ID = 42;
 
-        private const int Filter_ROLE_ID = 24;
+        private const int Filter_ROLE_ID = 43;
 
-        private const int Loader_ROLE_ID = 25;
+        private const int Loader_ROLE_ID = 44;
 
-        private const int SqlInsert_ROLE_ID = 26;
+        private const int SqlInsert_ROLE_ID = 45;
 
-        private const int SqlUpdate_ROLE_ID = 27;
+        private const int SqlUpdate_ROLE_ID = 46;
 
-        private const int SqlDelete_ROLE_ID = 28;
+        private const int SqlDelete_ROLE_ID = 47;
 
         #endregion
 

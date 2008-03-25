@@ -59,7 +59,8 @@ namespace Arp.Common.Psi.Daemon.References
         protected virtual void HighlightReference(IElement element, IReference reference)
         {
             if (reference.ReferenceType == ReferenceType.TEXT
-                || reference.ReferenceType == ReferenceType.REFERENCE_NAME)
+                || reference.ReferenceType == ReferenceType.REFERENCE_NAME
+                || reference.ReferenceType == ReferenceType.LABEL)
             {
                 ResolveResult resolveResult = reference.Resolve();
                 if (resolveResult.DeclaredElement != null)
@@ -108,6 +109,14 @@ namespace Arp.Common.Psi.Daemon.References
             else if (element is INamespace)
             {
                 return HighlightingAttributeIds.NAMESPACE_IDENTIFIER_ATTRIBUTE;
+            }
+            else if (element is IProperty || element is IField)
+            {
+                return HighlightingAttributeIds.FIELD_IDENTIFIER_ATTRIBUTE;
+            }
+            else if (element is IMethod)
+            {
+                return HighlightingAttributeIds.METHOD_IDENTIFIER_ATTRIBUTE;
             }
             else
                 return null;

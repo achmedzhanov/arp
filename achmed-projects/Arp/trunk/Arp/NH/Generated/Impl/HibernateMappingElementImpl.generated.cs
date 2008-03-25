@@ -17,25 +17,25 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int Meta_ROLE_ID = 1;
+        private const int Meta_ROLE_ID = 20;
 
-        private const int Import_ROLE_ID = 2;
+        private const int Import_ROLE_ID = 21;
 
-        private const int Classs_ROLE_ID = 3;
+        private const int Classs_ROLE_ID = 22;
 
-        private const int Subclasss_ROLE_ID = 4;
+        private const int Subclasss_ROLE_ID = 23;
 
-        private const int JoinedSubclasss_ROLE_ID = 5;
+        private const int JoinedSubclasss_ROLE_ID = 24;
 
-        private const int Resultset_ROLE_ID = 6;
+        private const int Resultset_ROLE_ID = 25;
 
-        private const int Querys_ROLE_ID = 7;
+        private const int Querys_ROLE_ID = 26;
 
-        private const int SqlQuerys_ROLE_ID = 8;
+        private const int SqlQuerys_ROLE_ID = 27;
 
-        private const int FilterDef_ROLE_ID = 9;
+        private const int FilterDef_ROLE_ID = 28;
 
-        private const int DatabaseObject_ROLE_ID = 10;
+        private const int DatabaseObject_ROLE_ID = 29;
 
         #endregion
 

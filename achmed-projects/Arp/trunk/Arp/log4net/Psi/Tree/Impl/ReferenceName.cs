@@ -19,6 +19,8 @@ namespace Arp.log4net.Psi.Tree.Impl
     {
         private ResolveInfo resolveInfo;
 
+        private IQualifier qualifier = null;
+
         public ReferenceName(TreeElement identifier)
             : base(L4NElementType.REFERENCE_NAME)
         {
@@ -28,6 +30,18 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public ReferenceName(): base(L4NElementType.REFERENCE_NAME)
         {
+        }
+
+
+        public ReferenceName(IQualifier qualifier) : this()
+        {
+            this.qualifier = qualifier;
+        }
+
+        public ReferenceName(TreeElement identifier, IQualifier qualifier)
+            : this(identifier)
+        {
+            this.qualifier = qualifier;
         }
 
         public XmlToken NameToken
@@ -249,12 +263,15 @@ namespace Arp.log4net.Psi.Tree.Impl
             }
             else if(element is ITypeElement)
             {
-                ISymbolTable table = ResolveUtil.GetQualifierSymbolTableByTypeElement((ITypeElement)element);
-                if (result.Substitution is EmptySubstitution)
-                {
-                    return table;
-                }
-                return new SubstitutedSymbolTable(table, result.Substitution);
+//                ISymbolTable table = ResolveUtil.GetQualifierSymbolTableByTypeElement((ITypeElement)element);
+//                if (result.Substitution is EmptySubstitution)
+//                {
+//                    return table;
+//                }
+//                return new SubstitutedSymbolTable(table, result.Substitution);
+
+                return ResolveUtil.CreateSymbolTableByTypeElement((ITypeElement) element);
+
             }
             else
                 throw new AssertException("Fail " + (element == null ? "'null'" : element.GetType().ToString()) + "");
@@ -313,6 +330,9 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public IQualifier GetQualifier()
         {
+            if (qualifier != null)
+                return qualifier;            
+
             return this.Qualifier;
         }
 
@@ -413,7 +433,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region ICheckedReference Members
 
-        public ISymbolFilter[] GetSymbolFilters(out int mustRun)
+        public virtual ISymbolFilter[] GetSymbolFilters(out int mustRun)
         {
 //            string name = this.GetName();
 //            TypeParameterNumberFilter filter = new TypeParameterNumberFilter(this.TypeArgumentsNumber);

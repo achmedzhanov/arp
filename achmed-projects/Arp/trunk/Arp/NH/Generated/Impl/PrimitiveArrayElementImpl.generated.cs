@@ -17,17 +17,17 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int Meta_ROLE_ID = 1;
+        private const int Meta_ROLE_ID = 20;
 
-        private const int JcsCache_ROLE_ID = 2;
+        private const int JcsCache_ROLE_ID = 21;
 
-        private const int Cache_ROLE_ID = 3;
+        private const int Cache_ROLE_ID = 22;
 
-        private const int Key_ROLE_ID = 4;
+        private const int Key_ROLE_ID = 23;
 
-        private const int Index_ROLE_ID = 5;
+        private const int Index_ROLE_ID = 24;
 
-        private const int Element_ROLE_ID = 6;
+        private const int Element_ROLE_ID = 25;
 
         #endregion
 

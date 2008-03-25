@@ -17,35 +17,35 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int Meta_ROLE_ID = 1;
+        private const int Meta_ROLE_ID = 20;
 
-        private const int JcsCache_ROLE_ID = 2;
+        private const int JcsCache_ROLE_ID = 21;
 
-        private const int Cache_ROLE_ID = 3;
+        private const int Cache_ROLE_ID = 22;
 
-        private const int Key_ROLE_ID = 4;
+        private const int Key_ROLE_ID = 23;
 
-        private const int Element_ROLE_ID = 5;
+        private const int Element_ROLE_ID = 24;
 
-        private const int OneToMany_ROLE_ID = 6;
+        private const int OneToMany_ROLE_ID = 25;
 
-        private const int ManyToMany_ROLE_ID = 7;
+        private const int ManyToMany_ROLE_ID = 26;
 
-        private const int CompositeElement_ROLE_ID = 8;
+        private const int CompositeElement_ROLE_ID = 27;
 
-        private const int ManyToAny_ROLE_ID = 9;
+        private const int ManyToAny_ROLE_ID = 28;
 
-        private const int Filter_ROLE_ID = 10;
+        private const int Filter_ROLE_ID = 29;
 
-        private const int Loader_ROLE_ID = 11;
+        private const int Loader_ROLE_ID = 30;
 
-        private const int SqlInsert_ROLE_ID = 12;
+        private const int SqlInsert_ROLE_ID = 31;
 
-        private const int SqlUpdate_ROLE_ID = 13;
+        private const int SqlUpdate_ROLE_ID = 32;
 
-        private const int SqlDelete_ROLE_ID = 14;
+        private const int SqlDelete_ROLE_ID = 33;
 
-        private const int SqlDeleteAll_ROLE_ID = 15;
+        private const int SqlDeleteAll_ROLE_ID = 34;
 
         #endregion
 

@@ -55,7 +55,8 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             IProject project = myOwner.GetProject();
             ICollection<IModuleReference> references = project.GetModuleReferences();
-            NameSymbolTable symbolTable = new NameSymbolTable(this.GetName(),true);
+//            NameSymbolTable symbolTable = new NameSymbolTable(this.GetName(),true);
+            SymbolTable symbolTable = new SymbolTable(true);
             foreach (IModuleReference reference in references)
             {
                 IModule module = reference.ResolveReferencedModule();

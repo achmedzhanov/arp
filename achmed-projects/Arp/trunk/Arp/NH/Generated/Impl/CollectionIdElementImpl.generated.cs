@@ -17,11 +17,11 @@ namespace Arp.NH.Psi.Tree.Impl
 
         #region Role ids
 
-        private const int Meta_ROLE_ID = 1;
+        private const int Meta_ROLE_ID = 20;
 
-        private const int Column_ROLE_ID = 2;
+        private const int Column_ROLE_ID = 21;
 
-        private const int Generator_ROLE_ID = 3;
+        private const int Generator_ROLE_ID = 22;
 
         #endregion
 

@@ -79,6 +79,8 @@ namespace Arp.log4net.Psi
                 return;
             }
 
+
+
         }
 
         private void CreateReferenceAttributeValue(IL4NElement element, IXmlAttribute attribute)

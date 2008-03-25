@@ -6,13 +6,20 @@ namespace Arp.log4net.Psi.Tree.Impl
     public class L4NDeclaredElementType : DeclaredElementType
     {
         private readonly string name;
-        
+        private readonly Image image;
         public static readonly L4NDeclaredElementType Appender = new L4NDeclaredElementType("appender");
 
 
         public L4NDeclaredElementType(string name) : base(name)
         {
             this.name = name;
+        }
+
+
+        public L4NDeclaredElementType(string baseName, string name, Image image) : base(baseName)
+        {
+            this.name = name;
+            this.image = image;
         }
 
         ///<summary>
@@ -37,7 +44,7 @@ namespace Arp.log4net.Psi.Tree.Impl
             get
             {
                 // TODO appender, logger, layout image
-                return null;
+                return image;
             }
         }
 

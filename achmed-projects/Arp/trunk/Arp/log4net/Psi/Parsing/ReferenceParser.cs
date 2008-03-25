@@ -6,10 +6,12 @@ using Arp.log4net.Psi.Tree.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Parsing;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Parsing;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
+using ReferenceType=Arp.log4net.Psi.Tree.Impl.ReferenceType;
 
 namespace Arp.log4net.Psi.Parsing
 {
@@ -21,13 +23,48 @@ namespace Arp.log4net.Psi.Parsing
         {
             ReferenceNameAttributeValue attributeValue = new ReferenceNameAttributeValue();
 
+            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, ParseTypeNameOrAttributeValue);
+        }
+
+        public IXmlAttributeValue ParseReferenceType(IXmlAttributeValue xmlAttributeValue)
+        {
+            ReferenceTypeAttributeValue attributeValue = new ReferenceTypeAttributeValue();
+
+            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, ParseTypeReference);
+        }
+
+        public IXmlAttributeValue ParseReferenceModule(IXmlAttributeValue xmlAttributeValue)
+        {
+            ReferenceModuleAttributeValue attributeValue = new ReferenceModuleAttributeValue();
+
+            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, ParseModule);
+        }
+
+        public IXmlAttributeValue ParseReferenceIdentifier(IXmlAttributeValue xmlAttributeValue, IQualifier qualifier)
+        {
+            ReferenceModuleAttributeValue attributeValue = new ReferenceModuleAttributeValue();
+
+            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, delegate(string text) {
+                                                                                                          return ParseMemberIdentifier
+                                                                                                              (text,
+                                                                                                               qualifier); });
+        }
+
+
+        private delegate CompositeElement StringParse(string text);
+
+        private IXmlAttributeValue ParseAttributeValueAspect(IXmlAttributeValue xmlAttributeValue, CompositeElement newAttributeValue, StringParse stringParse)
+        {
+            if (xmlAttributeValue == null) throw new ArgumentNullException("xmlAttributeValue");
+            if (newAttributeValue == null) throw new ArgumentNullException("newAttributeValue");
+            if (stringParse == null) throw new ArgumentNullException("stringParse");
             CompositeElement result = null;
 
             string rawValue = xmlAttributeValue.UnquotedValue;
 
             try
             {
-                result = ParseTypeNameOrAttributeValue(rawValue);
+                result = stringParse(rawValue);
             }
             catch (SyntaxError syntaxError)
             {
@@ -35,25 +72,50 @@ namespace Arp.log4net.Psi.Parsing
                 result = handleError(result, syntaxError);
             }
 
-            attributeValue.AddChild(new XmlToken(L4NTokenNodeType.QUOTE, new StringBuffer(new string('\"', 1)), 0, 1));
-            attributeValue.AddChild(result);
+            newAttributeValue.AddChild(new XmlToken(L4NTokenNodeType.QUOTE, new StringBuffer(new string('\"', 1)), 0, 1));
+            newAttributeValue.AddChild(result);
             int resultLegth = result.GetText().Length;
             if(resultLegth < rawValue.Length)
             {
                 string suffix = rawValue.Substring(resultLegth);
                 StringBuffer sb = new StringBuffer(suffix);
                 XmlToken suffixToken = new XmlToken(L4NTokenNodeType.TEXT , sb, 0, suffix.Length);
-                attributeValue.AddChild(suffixToken);
+                newAttributeValue.AddChild(suffixToken);
             }
-            attributeValue.AddChild(new XmlToken(L4NTokenNodeType.QUOTE, new StringBuffer(new string('\"', 1)), 0, 1));
+            newAttributeValue.AddChild(new XmlToken(L4NTokenNodeType.QUOTE, new StringBuffer(new string('\"', 1)), 0, 1));
 
-            return attributeValue;
-
+            return (IXmlAttributeValue)newAttributeValue;
         }
 
         public ReferenceName ParseReferenceName(string text)
         {
             return ParseTypeNameOrAttributeValue(text);
+        }
+
+        public ReferenceType ParseTypeReference(string text)
+        {
+            // it's stub
+            try
+            {
+                ReferenceName referenceName = ParseReferenceName(text);
+                ReferenceType referenceType = new ReferenceType();
+                referenceType.AddChild(referenceName);
+                return referenceType;
+            }
+            catch (UnexpectedToken ex)
+            {
+                ReferenceName referenceName = ex.ParsingResult as ReferenceName;
+                if(referenceName != null)
+                {
+                    ReferenceType referenceType = new ReferenceType();
+                    referenceType.AddChild(referenceName);
+                    UnexpectedToken newEx = new UnexpectedToken("Unexpected token");
+                    newEx.ParsingResult = referenceType;
+                    throw newEx;
+                }
+
+                throw;
+            }
         }
 
         public ReferenceModule ParseModule(string text)
@@ -82,6 +144,22 @@ namespace Arp.log4net.Psi.Parsing
             }
             
             return CreateReferenceModule(token);
+        }
+
+        public ReferenceName ParseMemberIdentifier(string text, IQualifier qualifier)
+        {
+            lexer = new CSharpLexer(new StringBuffer(text));
+            Start();
+            TreeElement firstIdentifier = ParseIdentifier();
+            ReferenceName referenceName = new ReferenceName(firstIdentifier,qualifier);
+            if(lexer.TokenType != null)
+            {
+                UnexpectedToken ex = new UnexpectedToken("Unexpected token");
+                ex.ParsingResult = referenceName;
+                throw ex;
+            }
+
+            return referenceName;
         }
 
         private ReferenceModule CreateReferenceModule(XmlToken token)
@@ -143,6 +221,9 @@ namespace Arp.log4net.Psi.Parsing
 
         private XmlToken CreateModuleNameToken(int start, int end, bool unexpectedToken)
         {
+            if(start == 0 && end == 0)
+                throw new UnexpectedToken("Unexpected token");
+            
             XmlToken ret = new XmlToken(L4NTokenNodeType.IDENTIFIER, lexer.Buffer, start, end);
             if(unexpectedToken)
             {

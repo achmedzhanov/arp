@@ -1,50 +1,27 @@
+using System;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
-    public class ReferenceNameAttributeValue : CompositeElement, IXmlAttributeValue, IXmlAttributeValueNode
+    public class ReferenceNameAttributeValue : BaseReferenceAttributeValue
     {
-        public ReferenceNameAttributeValue(): base(L4NElementType.REFERENCE_NAME_ATTRIBUTE_VALUE)
+        public ReferenceNameAttributeValue()
+            : base(L4NElementType.REFERENCE_NAME_ATTRIBUTE_VALUE)
         {
         }
 
-        #region IXmlAttributeValue Members
-
-        public IXmlAttributeValueNode ToTreeNode()
+        public ReferenceName GetReferenceName()
         {
-            return this;
+            return (ReferenceName)FindChildByRole(0x27);
         }
 
-        public string UnquotedValue
+        public override short GetChildRole(TreeElement child)
         {
-            get
-            {
-                string text = this.GetText();
-                int start = text.StartsWith("\"") ? 1 : 0;
-                int end = text.EndsWith("\"") ? 1 : 0;
-                int unquotedLen = (text.Length - start) - end;
-                if (unquotedLen <= 0)
-                {
-                    return string.Empty;
-                }
-                return text.Substring(start, unquotedLen);
+            if (child is ReferenceName)
+                return 0x27;
 
-            }
+            return base.GetChildRole(child);
         }
-
-        #endregion
-
-        #region IXmlAttributeValueNode Members
-
-        public IXmlValueToken ValueToken
-        {
-            get
-            {
-                return null;
-            }
-        }
-
-        #endregion
     }
 }

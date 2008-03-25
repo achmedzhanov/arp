@@ -5,6 +5,7 @@ using Arp.NH.Psi.Tree.Impl;
 using Arp.NH.Psi.Tree.Parsing;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Parsing;
 using JetBrains.ReSharper.Psi.Xml.Tree;
@@ -44,8 +45,12 @@ namespace Arp.NH.Psi
         public override IXmlTag CreateRootTag(IXmlTagHeaderNode header)
         {
             if (header.Name.GetText() == "hibernate-mapping")
-                return new HibernateMappingElementImpl();
-            
+            {
+                HibernateMappingElementImpl ret = new HibernateMappingElementImpl();
+                HandleCreateTagElement((INHElement)ret, header, null);
+                return ret;
+            }
+
             return base.CreateRootTag(header);
         }
 
@@ -53,37 +58,132 @@ namespace Arp.NH.Psi
         {
             foreach (IXmlAttribute attribute in header.Attributes)
             {
-                ProcessAttribute(element, attribute);
+                ProcessAttribute(element, attribute, tag);
             }
-
         }
 
-        private void ProcessAttribute(INHElement element, IXmlAttribute attribute)
+        private void ProcessAttribute(INHElement element, IXmlAttribute attribute, IXmlTagContainer parent)
         {
             IClassElement classElement = element as IClassElement;
             if (classElement != null)
             {
+                if (attribute.XmlName == "name" || attribute.XmlName == "proxy")
+                {
+                    CreateTypeReferenceAttributeValue(classElement, attribute);
+                }
+                return;
+            }
+
+            IHibernateMappingElement hibernateMappingElement = element as IHibernateMappingElement;
+            if (hibernateMappingElement != null)
+            {
+                if (attribute.XmlName == "assembly")
+                {
+                    CreateModuleReferenceAttributeValue(hibernateMappingElement, attribute);
+                }
+                else if (attribute.XmlName == "namespace")
+                {
+                    CreateNamespaceReferenceAttributeValue(hibernateMappingElement, attribute);
+                }
+
+                return;
+            }
+
+
+            if (element is IAnyElement
+                 || element is IArrayElement
+                 || element is IBagElement
+                 || element is IIdbagElement
+                 || element is IIdElement
+                 || element is IKeyManyToOneElement
+                 || element is IKeyPropertyElement
+                 || element is IListElement
+                 || element is IManyToOneElement
+                 || element is IMapElement
+                 || element is IOneToOneElement
+                 || element is IPrimitiveArrayElement
+                 || element is IPropertyElement
+                 || element is IResultsetElement
+                 || element is IReturnColumnElement
+                 || element is IReturnPropertyElement
+                 || element is ISetElement
+                 || element is ITimestampElement
+                 || element is IVersionElement)
+            {
                 if (attribute.XmlName == "name")
                 {
-                    CreateReferenceAttributeValue(classElement, attribute);
+                    CreateMappingMemberReferenceAttributeValue(element, attribute, parent);
                 }
+                return;
             }
+
+            
+
+
         }
 
 
-        private void CreateReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
+        private void CreateTypeReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
+        {
+            if (attribute.Value == null)
+                return;
+
+            ReferenceParser parser = new ReferenceParser();
+            IXmlAttributeValue newElement = parser.ParseReferenceType(attribute.Value);
+            ReplaceAttributeValue(attribute, newElement);
+        }
+        
+        private void CreateModuleReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
+        {
+            if (attribute.Value == null)
+                return;
+
+            ReferenceParser parser = new ReferenceParser();
+            IXmlAttributeValue newElement = parser.ParseReferenceModule(attribute.Value);
+            ReplaceAttributeValue(attribute, newElement);
+        }
+        
+        private void CreateNamespaceReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
         {
             if (attribute.Value == null)
                 return;
 
             ReferenceParser parser = new ReferenceParser();
             IXmlAttributeValue newElement = parser.ParseReferenceName(attribute.Value);
+            ReplaceAttributeValue(attribute, newElement);
+        }
+
+        private void CreateMappingMemberReferenceAttributeValue(INHElement element, IXmlAttribute attribute, IXmlTagContainer parent)
+        {
+            if (attribute.Value == null)
+                return;
+
+            ReferenceParser parser = new ReferenceParser();
+            IQualifier qualifier = GetElementQualifier(element, parent);
+            IXmlAttributeValue newElement = parser.ParseReferenceIdentifier(attribute.Value, qualifier);
+            ReplaceAttributeValue(attribute, newElement);
+        }
+
+        private IQualifier GetElementQualifier(INHElement element, IXmlTagContainer parent)
+        {
+            ITreeNode node = (ITreeNode)parent;
+            while(node != null)
+            {
+                if (node is IQualifier)
+                    return (IQualifier)node;
+                node = node.Parent;
+            }
+
+            return null;
+        }
+
+        private void ReplaceAttributeValue(IXmlAttribute attribute, IXmlAttributeValue newElement)
+        {
             IXmlAttributeValueNode childNode = attribute.Value.ToTreeNode();
             ITreeNode parent = attribute.ToTreeNode();
             ((CompositeElement)parent).AddChildAfter(newElement.ToTreeNode(), childNode);
             ((CompositeElement)parent).DeleteChildRange(childNode, childNode);
         }
-
 
 
         /*
@@ -114,7 +214,7 @@ namespace Arp.NH.Psi
             {
                 if (attribute.XmlName == L4NConstants.NAME)
                 {
-                    CreateReferenceAttributeValue(element, attribute);
+                    CreateTypeReferenceAttributeValue(element, attribute);
                 }
 
                 return;
@@ -125,7 +225,7 @@ namespace Arp.NH.Psi
             {
                 if (attribute.XmlName == L4NConstants.TYPE)
                 {
-                    CreateReferenceAttributeValue(element, attribute);
+                    CreateTypeReferenceAttributeValue(element, attribute);
                 }
                 return;
             }
@@ -135,14 +235,14 @@ namespace Arp.NH.Psi
             {
                 if (attribute.XmlName == L4NConstants.TYPE)
                 {
-                    CreateReferenceAttributeValue(element, attribute);
+                    CreateTypeReferenceAttributeValue(element, attribute);
                 }
                 return;
             }
 
         }
 
-        private void CreateReferenceAttributeValue(IL4NElement element, IXmlAttribute attribute)
+        private void CreateTypeReferenceAttributeValue(IL4NElement element, IXmlAttribute attribute)
         {
             if(attribute.Value == null)
                 return;
