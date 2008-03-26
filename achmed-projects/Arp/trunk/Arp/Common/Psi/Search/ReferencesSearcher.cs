@@ -8,7 +8,7 @@ using JetBrains.ReSharper.Psi.Search;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.Util;
 
-namespace Arp.log4net.Psi.Search
+namespace Arp.Common.Psi.Search
 {
     public class ReferencesSearcher : ILanguageSpecificSearcher, IReferenceSearchContext
     {

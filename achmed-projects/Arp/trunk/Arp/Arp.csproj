@@ -180,7 +180,7 @@
     <Compile Include="log4net\Psi\Search\L4NSearcherFactory.cs" />
     <Compile Include="log4net\Psi\L4NSupportedByPSIChecker.cs" />
     <Compile Include="log4net\Psi\Parsing\L4NtreeBuilder.cs" />
-    <Compile Include="log4net\Psi\Search\ReferencesSearcher.cs" />
+    <Compile Include="Common\Psi\Search\ReferencesSearcher.cs" />
     <Compile Include="log4net\Psi\Tree\IAppender.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderName.cs" />
     <Compile Include="log4net\Psi\Tree\IAppenderTypeName.cs" />
@@ -294,11 +294,14 @@
     <Compile Include="NH\Psi\NHLanguageService.cs" />
     <Compile Include="NH\Psi\NHSupportedByPSIChecker.cs" />
     <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
+    <Compile Include="NH\Psi\Search\NHSearcherFactory.cs" />
     <Compile Include="NH\Psi\Tree\INHElement.cs" />
     <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionContext.cs" />
     <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionProvider.cs" />
     <Compile Include="NH\Services\CodeInside\NHCodeInsightService.cs" />
     <Compile Include="NH\Services\NHProjectFileLanguageService.cs" />
+    <Compile Include="NH\Services\Refactorings\NHNamingStyle.cs" />
+    <Compile Include="NH\Services\Refactorings\NHRename.cs" />
     <Compile Include="NH\Services\References\ModulereferenceProcessor.cs" />
     <Compile Include="NH\Services\References\ModuleReferencesDaemonStage.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
@@ -367,7 +370,6 @@
     <EmbeddedResource Include="Resources\NHLogo.bmp" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NH\Psi\Search\" />
     <Folder Include="NH\Psi\Tree\Impl\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

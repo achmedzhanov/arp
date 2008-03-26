@@ -1,5 +1,6 @@
 using System.Drawing;
 using Arp.NH.Psi.Parsing;
+using Arp.NH.Psi.Search;
 using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
@@ -101,15 +102,13 @@ namespace Arp.NH.Psi
 
         // TODO
 
-//        public override ILanguageSpecificSearcherFactory LanguageSpecificSearcherFactory
-//        {
-//            get
-//            {
-////                return base.LanguageSpecificSearcherFactory;
-//
-//                return L4NSearcherFactory.Instance;
-//                }
-//        }
+        public override ILanguageSpecificSearcherFactory LanguageSpecificSearcherFactory
+        {
+            get
+            {
+                return NHSearcherFactory.Instance;
+            }
+        }
 
         #endregion
 

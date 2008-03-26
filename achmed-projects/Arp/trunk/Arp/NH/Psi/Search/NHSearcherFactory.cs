@@ -6,18 +6,18 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Search;
 using JetBrains.Shell;
 
-namespace Arp.log4net.Psi.Search
+namespace Arp.NH.Psi.Search
 {
     [ShellComponentImplementation, ShellComponentInterface(ProgramConfigurations.ALL)]
-    public class L4NSearcherFactory : ILanguageSpecificSearcherFactory, IShellComponent
+    public class NHSearcherFactory : ILanguageSpecificSearcherFactory, IShellComponent
     {
-        private static readonly L4NSearcherFactory instance = new L4NSearcherFactory();
+        private static readonly NHSearcherFactory instance = new NHSearcherFactory();
 
         #region IShellComponent
 
         public void Init()
         {
-            
+
         }
 
         ///<summary>
@@ -26,7 +26,7 @@ namespace Arp.log4net.Psi.Search
         ///<filterpriority>2</filterpriority>
         public void Dispose()
         {
-            
+
         }
 
         #endregion
@@ -35,7 +35,7 @@ namespace Arp.log4net.Psi.Search
 
         public ICollection<string> GetAllPossibleAliases(IDeclaredElement element)
         {
-            return new string[] {element.ShortName};
+            return new string[] { element.ShortName };
         }
 
         public bool IsUnnamed(IDeclaredElement element)
@@ -80,7 +80,7 @@ namespace Arp.log4net.Psi.Search
 
         #endregion
 
-        public static L4NSearcherFactory Instance
+        public static NHSearcherFactory Instance
         {
             get { return instance; }
         }

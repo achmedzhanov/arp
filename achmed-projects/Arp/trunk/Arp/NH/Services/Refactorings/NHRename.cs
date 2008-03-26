@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Arp.log4net.Psi;
+using Arp.NH.Psi;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Resolve;
@@ -8,10 +8,10 @@ using JetBrains.ReSharper.Refactorings.Conflicts;
 using JetBrains.ReSharper.Refactorings.Rename;
 using JetBrains.Util;
 
-namespace Arp.log4net.Services.Refactorings
+namespace Arp.NH.Services.Refactorings
 {
-    [LanguageSpecificImplementation(L4NLanguageService.L4N_STRING, typeof(IRename))]
-    public class L4NRename : IRename
+    [LanguageSpecificImplementation(NHLanguageService.NH_STRING, typeof(IRename))]
+    public class NHRename : IRename
     {
         // Methods
         public IList<IConflictSearcher> AdditionalConflictsSearchers(IDeclaredElement element, string newName)
@@ -38,5 +38,4 @@ namespace Arp.log4net.Services.Refactorings
             return element;
         }
     }
-
 }
