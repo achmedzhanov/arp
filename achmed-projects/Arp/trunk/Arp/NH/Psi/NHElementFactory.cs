@@ -70,8 +70,9 @@ namespace Arp.NH.Psi
                 if (attribute.XmlName == "name" || attribute.XmlName == "proxy")
                 {
                     CreateTypeReferenceAttributeValue(classElement, attribute);
+                    return;
                 }
-                return;
+                
             }
 
             IHibernateMappingElement hibernateMappingElement = element as IHibernateMappingElement;
@@ -84,9 +85,10 @@ namespace Arp.NH.Psi
                 else if (attribute.XmlName == "namespace")
                 {
                     CreateNamespaceReferenceAttributeValue(hibernateMappingElement, attribute);
+                    return;
                 }
 
-                return;
+                
             }
 
 
@@ -113,13 +115,32 @@ namespace Arp.NH.Psi
                 if (attribute.XmlName == "name")
                 {
                     CreateMappingMemberReferenceAttributeValue(element, attribute, parent);
+                    return;
                 }
-                return;
+                
             }
-
             
-
-
+             if (element is IComponentElement
+              || element is ICompositeElementElement
+              || element is ICompositeIdElement
+              || element is ICompositeIndexElement
+              || element is IImportElement
+              || element is IIndexManyToManyElement
+              || element is IKeyManyToOneElement
+              || element is IManyToManyElement
+              || element is IManyToOneElement
+              || element is IMetaValueElement
+              || element is INestedCompositeElementElement
+              || element is IOneToManyElement
+              || element is IOneToOneElement
+              || element is IReturnElement)
+             {
+                 if (attribute.XmlName == "class")
+                 {
+                     CreateTypeReferenceAttributeValue(element, attribute);
+                     return;
+                 }                 
+             }
         }
 
 
