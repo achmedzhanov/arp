@@ -3,6 +3,7 @@ using Arp.Common.Assertions;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
+using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
@@ -11,6 +12,7 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
+using JetBrains.Shell;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
@@ -173,8 +175,22 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///
         public IReference BindTo(IDeclaredElement element)
         {
-            // TODO
-            throw new NotImplementedException();
+            using(WriteLockCookie cookie = WriteLockCookie.Create())
+            {
+                XmlToken token = NameToken;
+                Assert.CheckNotNull(token);
+                StringBuffer buffer = new StringBuffer(element.ShortName);
+                XmlToken newToken = new XmlToken(token.GetTokenType(), buffer, 0, buffer.Length);
+                LowLevelModificationUtil.ReplaceChildRange(token, token, new ITreeNode[] { newToken });
+                ResetReferences();
+            }
+            return this;
+        }
+
+        private void ResetReferences()
+        {
+            IReference[] references = this.GetReferences();
+            ResolveResult resolve = references[0].Resolve();
         }
 
         ///<summary>
@@ -189,7 +205,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///
         public IReference BindTo(IDeclaredElement element, ISubstitution substitution)
         {
-            throw new System.NotImplementedException();
+            return BindTo(element);
         }
 
         ///<summary>
