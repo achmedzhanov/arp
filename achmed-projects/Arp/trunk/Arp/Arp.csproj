@@ -169,8 +169,10 @@
     <Compile Include="Common\Psi\Daemon\IHighlightingProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\References\ReferencesProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\ReferenceNameSyntaxErrors\ReferenceNameSyntaxErrorProcessor.cs" />
+    <Compile Include="Common\Psi\Resolve\Filters\PropertyOrFiledFilter.cs" />
+    <Compile Include="Common\Psi\Resolve\Filters\PublicOrProtectedFilter.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\BaseReferenceAttributeValue.cs" />
-    <Compile Include="log4net\Psi\Tree\Impl\MemeberReferenceName.cs" />
+    <Compile Include="log4net\Psi\Tree\Impl\FilteredReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ModuleDeclaredElement.cs" />
     <Compile Include="log4net\Psi\L4NConstants.cs" />
     <Compile Include="log4net\Psi\L4NTokenNodeType.cs" />

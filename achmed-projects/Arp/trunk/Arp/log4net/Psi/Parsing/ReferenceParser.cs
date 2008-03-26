@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Arp.Common.Psi.Resolve.Filters;
 using Arp.log4net.Psi.Tree;
 using Arp.log4net.Psi.Tree.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Parsing;
+using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve.Filters;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Resolve;
@@ -151,7 +153,7 @@ namespace Arp.log4net.Psi.Parsing
             lexer = new CSharpLexer(new StringBuffer(text));
             Start();
             TreeElement firstIdentifier = ParseIdentifier();
-            ReferenceName referenceName = new ReferenceName(firstIdentifier,qualifier);
+            ReferenceName referenceName = CreateMemeberIdentifier(firstIdentifier, qualifier);
             if(lexer.TokenType != null)
             {
                 UnexpectedToken ex = new UnexpectedToken("Unexpected token");
@@ -160,13 +162,6 @@ namespace Arp.log4net.Psi.Parsing
             }
 
             return referenceName;
-        }
-
-        private ReferenceModule CreateReferenceModule(XmlToken token)
-        {
-            ReferenceModule referenceModule = new ReferenceModule();
-            referenceModule.AppendNewChild(token);
-            return referenceModule;
         }
 
         private XmlToken ParseModuleName()
@@ -244,8 +239,6 @@ namespace Arp.log4net.Psi.Parsing
             return result;  
         }
 
-
-
         protected ReferenceName ParseTypeNameOrAttributeValue(string text )
         {
             lexer = new CSharpLexer(new StringBuffer(text));
@@ -292,7 +285,7 @@ namespace Arp.log4net.Psi.Parsing
             TreeElement tempParsingResult = null;
             try
             {
-                result = TreeElementFactory.CreateCompositeElement(L4NElementType.REFERENCE_NAME);
+                result = CreateReferenceName();
                 tempParsingResult = qualifier;
                 result.AppendNewChild(tempParsingResult);
                 TokenNodeType tokenType = lexer.TokenType;
@@ -338,7 +331,7 @@ namespace Arp.log4net.Psi.Parsing
             return result;
 
         }
-
+        
         private TreeElement ParseIdentifier()
         {
             if (lexer.TokenType != CSharpTokenType.IDENTIFIER)
@@ -351,5 +344,26 @@ namespace Arp.log4net.Psi.Parsing
             return result;
 
         }
+        
+
+        
+        protected virtual ReferenceName CreateReferenceName()
+        {
+            return new FilteredReferenceName(new FiltersArray( new ISymbolFilter[] {TypeOrNamespaceFilter.INSTANCE}));
+        }
+
+        protected virtual ReferenceModule CreateReferenceModule(XmlToken token)
+        {
+            ReferenceModule referenceModule = new ReferenceModule();
+            referenceModule.AppendNewChild(token);
+            return referenceModule;
+        }
+
+        private ReferenceName CreateMemeberIdentifier(TreeElement firstIdentifier, IQualifier qualifier)
+        {
+            return new FilteredReferenceName(firstIdentifier, qualifier, new FiltersArray(new ISymbolFilter[] { PropertyOrFiledFilter.INSTANCE, PublicOrProtectedFilter.INSTANCE }));
+        }
+
+
     }
 }

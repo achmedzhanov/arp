@@ -81,9 +81,8 @@ namespace Arp.log4net.Psi.Tree.Impl
         public ISymbolTable GetCompletionSymbolTable()
         {
             ISymbolTable symbolTable = this.GetReferenceSymbolTable(false);
-            // TODO check this code
-            //return CompletionUtil.ApplyReferenceNameFilters(this, symbolTable);
-            return symbolTable;
+            // TODO use AccessUtil AccessContext
+            return ApplyFilters(symbolTable);
         }
 
         #endregion
@@ -270,7 +269,12 @@ namespace Arp.log4net.Psi.Tree.Impl
 //                }
 //                return new SubstitutedSymbolTable(table, result.Substitution);
 
-                return ResolveUtil.CreateSymbolTableByTypeElement((ITypeElement) element);
+//                return ResolveUtil.CreateSymbolTableByTypeElement((ITypeElement)element);
+
+                IWritableSymbolTable table = new SymbolTable(true);
+                ResolveUtil.AddDeclarations(table, (ITypeElement)element, null, 0);
+                return table;
+                
 
             }
             else
@@ -298,13 +302,13 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
+               
                 IDeclaredElement element = this.Reference.Resolve().DeclaredElement;
                 if (element == null)
                 {
                     return false;
                 }
-                return element is INamespace;
-
+                return true;
             }
         }
 
@@ -464,5 +468,13 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             return SharedImplUtil.CreateReferencesArray(this, base.GetInternalReferences());
         }
+
+        private ISymbolTable ApplyFilters(ISymbolTable table)
+        {
+            int mustRun;
+            ISymbolFilter[] filters = GetSymbolFilters(out mustRun);
+            return table.Filter(filters);
+        }
+
     }
 }

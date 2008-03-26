@@ -63,6 +63,10 @@ namespace Arp.Common.Psi.Daemon.References
                 || reference.ReferenceType == ReferenceType.LABEL)
             {
                 ResolveResult resolveResult = reference.Resolve();
+                
+                
+//                TODO resolveResult.DeclaredElement == null property@name !!!
+
                 if (resolveResult.DeclaredElement != null)
                 {
                     DocumentRange range = reference.GetDocumentRange();
