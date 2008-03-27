@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="appender-ref">
+    <xs:complexType>
+      <xs:attribute name="ref" type="xs:IDREF" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="priority">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+      </xs:sequence>
+      <xs:attribute name="value" type="xs:string" use="required" />
+      <xs:attribute name="class" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="root-ref">
+    <xs:complexType />
+  </xs:element>
+  <xs:element name="categoryFactory">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+      </xs:sequence>
+      <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="root">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+        <xs:element ref="level" minOccurs="0" maxOccurs="1"  />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="log4net">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="renderer" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="logger"  />
+        <xs:element minOccurs="0" maxOccurs="1" ref="root" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="categoryFactory" />
+      </xs:sequence>
+      <xs:attribute default="null" name="threshold">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="all" />
+            <xs:enumeration value="debug" />
+            <xs:enumeration value="info" />
+            <xs:enumeration value="warn" />
+            <xs:enumeration value="error" />
+            <xs:enumeration value="fatal" />
+            <xs:enumeration value="off" />
+            <xs:enumeration value="null" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute default="null" name="debug">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="true" />
+            <xs:enumeration value="false" />
+            <xs:enumeration value="null" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="errorHandler">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="root-ref" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="logger-ref" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="appender-ref" />
+      </xs:sequence>
+      <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="filter">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+      </xs:sequence>
+      <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="param">
+    <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required" />
+      <xs:attribute name="value" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="level">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+      </xs:sequence>
+      <xs:attribute name="value" use="required">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="ALL" />
+            <xs:enumeration value="DEBUG" />
+            <xs:enumeration value="INFO" />
+            <xs:enumeration value="WARN" />
+            <xs:enumeration value="ERROR" />
+            <xs:enumeration value="FATAL" />
+            <xs:enumeration value="OFF" />
+            <xs:enumeration value="NULL" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="class" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="logger-ref">
+    <xs:complexType>
+      <xs:attribute name="ref" type="xs:IDREF" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="layout">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+      </xs:sequence>
+      <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="renderer">
+    <xs:complexType>
+      <xs:attribute name="renderingClass" type="xs:string" use="required" />
+      <xs:attribute name="renderedClass" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="logger">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" ref="level" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref" />
+      </xs:sequence>
+      <xs:attribute default="true" name="additivity">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="true" />
+            <xs:enumeration value="false" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="name" type="xs:ID" use="required" />
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="appender">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" ref="errorHandler" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="param" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="layout" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="filter" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="appender-ref" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:ID" use="required" />
+      <xs:attribute name="class" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
