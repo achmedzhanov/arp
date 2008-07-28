@@ -304,6 +304,9 @@
     <Compile Include="NH\Services\Refactorings\NHRename.cs" />
     <Compile Include="NH\Services\References\ModulereferenceProcessor.cs" />
     <Compile Include="NH\Services\References\ModuleReferencesDaemonStage.cs" />
+    <Compile Include="NH\Stages\DuplicateMapping\DiplaceMappingsProcessor.cs" />
+    <Compile Include="NH\Stages\DuplicateMapping\DiplaceMappingsStage.cs" />
+    <Compile Include="NH\Stages\DuplicateMapping\DuplicateMappingHighlighting.cs" />
     <Compile Include="Serialization\MarkSerializableDerivedTypes.cs" />
     <Compile Include="Tests\BaseTest.cs" />
     <Compile Include="Tests\L4NSearch.cs" />

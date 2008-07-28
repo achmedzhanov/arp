@@ -53,12 +53,14 @@
     <Compile Include="NH\Psi\Impl\BaseTag.cs" />
     <Compile Include="NH\Psi\Impl\ClassMappingElementImpl.generated.cs" />
     <Compile Include="NH\Psi\Impl\ClassMappingElementImpl.cs" />
+    <Compile Include="NH\Psi\INHVisitor.cs" />
     <Compile Include="NH\Psi\IPropertyMappingElement.cs" />
     <Compile Include="NH\Psi\IRefenceName.cs" />
     <Compile Include="NH\Psi\IReferenceNameAttribute.cs" />
     <Compile Include="NH\Psi\NHConpositeElementType.cs" />
     <Compile Include="NH\Psi\Parsing\NHElementsFactory.cs" />
     <Compile Include="NH\Psi\Parsing\NHElementsFactory.generated.cs" />
+    <Compile Include="NH\Psi\RecursiveNHVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -19,6 +19,8 @@ namespace Arp.Generator.Generating
 
         #region Templates
 
+        #region BASE
+
         public const string BASE =
             @"
 group common;
@@ -40,7 +42,11 @@ roleRef(e) ::= <<
 <e.name>_ROLE_ID
 >>";
 
+        #endregion
+
         // TODO create reusable template for footer/headers
+
+        #region INTERFACE_DECLARATION
 
         public const string INTERFACE_DECLARATION =
             @"
@@ -85,6 +91,11 @@ $endif$
     }
 }
 ";
+
+        #endregion
+
+        #region IMPL_DECLARATION
+
         public const string IMPL_DECLARATION =
             @"
 /*
@@ -174,6 +185,10 @@ $endif$
 }
 ";
 
+        #endregion
+
+        #region ELEMENT_TYPES_DECLARATION
+
         public const string ELEMENT_TYPES_DECLARATION =
             @"
 /*
@@ -201,6 +216,10 @@ $types:{t |
 }
 ";
 
+        #endregion
+
+        #region ELEMENT_TYPE_INSTANCES_DECLARATION
+
         public const string ELEMENT_TYPE_INSTANCES_DECLARATION =
             @"
 /*
@@ -221,10 +240,16 @@ $endif$
   }
 }
 ";
+
+        #endregion
+
 //                if (name == ""$nn.Name$"")
 //                {
 //                    return new $implName(elementBaseNames.(nn.Name))$();
-//                }
+        //                }
+
+        #region ELEMENTS_FACTORY
+
         public const string ELEMENTS_FACTORY =
             @"
 using $namespace$.Impl;
@@ -267,6 +292,10 @@ $endif$
     }
 }";
 
+        #endregion
+
+        #region PROPERTY_DECLARATION
+
         public const string PROPERTY_DECLARATION =
             @"
         $type$ $name$
@@ -274,6 +303,9 @@ $endif$
             get;
         }
 }";
+
+        #endregion
+
 
         #endregion
 
