@@ -1,0 +1,74 @@
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0A4BABA8-07B1-4D78-ABCE-B658C7A63179}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Arp.Generator.Prototypes</RootNamespace>
+    <AssemblyName>Arp.Generator.Prototypes</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.ReSharper.Psi, Version=3.1.584.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Psi.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.ReSharper.Psi.Xml, Version=3.1.584.3, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.ReSharper.Psi.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Util, Version=3.1.584.3, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\programs\JetBrains\ReSharper\v3.1\vs8.0\Bin\JetBrains.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="NH\Psi\Impl\CompositeElementTypes.generated.cs" />
+    <Compile Include="NH\Psi\Impl\ElementType.generated.cs" />
+    <Compile Include="NH\Psi\IBooleanAttribute.cs" />
+    <Compile Include="NH\Psi\IClassMappingElement.cs" />
+    <Compile Include="NH\Psi\IIdMappingElement.cs" />
+    <Compile Include="NH\Psi\Impl\BaseTag.cs" />
+    <Compile Include="NH\Psi\Impl\ClassMappingElementImpl.generated.cs" />
+    <Compile Include="NH\Psi\Impl\ClassMappingElementImpl.cs" />
+    <Compile Include="NH\Psi\INHVisitor.cs" />
+    <Compile Include="NH\Psi\IPropertyMappingElement.cs" />
+    <Compile Include="NH\Psi\IRefenceName.cs" />
+    <Compile Include="NH\Psi\IReferenceNameAttribute.cs" />
+    <Compile Include="NH\Psi\NHConpositeElementType.cs" />
+    <Compile Include="NH\Psi\Parsing\NHElementsFactory.cs" />
+    <Compile Include="NH\Psi\Parsing\NHElementsFactory.generated.cs" />
+    <Compile Include="NH\Psi\RecursiveNHVisitor.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
