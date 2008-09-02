@@ -1,0 +1,62 @@
+
+
+¬ажно
+
+- QuickFix заменить на Actipon (диалог при запуске Action? ака reformat code)
+- ѕроверить с вролеженными типами (что будет с регионами вложденных типов)
+- ќбощить дл€ раьботы с интерфейсами, структырами
+- ѕоддержка Event Handlers
+- учитывать существующие регионы (например:
+-- если есть region AnyProperties с группированными свойствами, то AnyProperties оказываетс€ внутри региона Properties
+-- в диалоге с опци€ми перед упор€дочиванием пользователь может выбрать какие регионы не трогать)
+- удал€ть опустевшие регионы
+
+∆елательно
+
+- упор€дочивание но без region (! это важно, думаю что будет более часто использоватьс€ чем упор€дочивание с регионами)
+- UI дл€ включени€, отключени€ группировок
+- сортировка полей (в алфовитно графич., умна€: учет префикосв ака Get Set Enable Disable etc )
+- некорректный код неопределенно перемещаетс€ в релионе после группировки
+- шруппировка дл€ Dependency Property
+- сохранение опций упор€дочивани€ дл€ фалов после запуска упор€дочивани€
+
+
+
+ƒругие фичи
+
+- статистика по переопределению методов в иерерхии
+
+- ѕредупреждени€ дл€ [Serializable]
+
+- автоматическое вычисление желаемых замен
+  ѕример
+
+   од
+            Console.Out.WriteLine(string.Format("# total calls: {0}", this.Count));
+            Console.Out.WriteLine(string.Format("# total time: {0}", this.Total));
+            Console.Out.WriteLine(string.Format("# first time: {0}", this.First));
+            Console.Out.WriteLine(string.Format("# max time: {0}", this.Max));
+            Console.Out.WriteLine(string.Format("# min time: {0}", this.Min));
+            Console.Out.WriteLine(string.Format("# avg time: {0}", this.Avg));            
+
+  ѕользователь замен€ет первый 	Console.Out на writer, получетс€ код
+
+            writer.WriteLine(string.Format("# total calls: {0}", this.Count));
+            Console.Out.WriteLine(string.Format("# total time: {0}", this.Total));
+            Console.Out.WriteLine(string.Format("# first time: {0}", this.First));
+            Console.Out.WriteLine(string.Format("# max time: {0}", this.Max));
+            Console.Out.WriteLine(string.Format("# min time: {0}", this.Min));
+            Console.Out.WriteLine(string.Format("# avg time: {0}", this.Avg));            
+  ѕлагин поредел€ет после первой или второй замены, что пользователь хочет помен€ть все Console.Out на writer и предлагает провети замену (в текущ методе или во всем классе лтюбо на выбор либо с автоматическим определением)
+- log4net Helper
+-- предлагать заворачивать конструкции log.Debud(...) в оперетор if(log.IsDebugEnabled)
+-- предлагать создавать регионы #region Logging
+-- провер€ть уровни логировани€ в if, например, в код if(log.IsDebugEnabled)log.Error(....) надо заменить Error<->Debug
+
+- подстановка кода в строковые литералы, например 
+
+Assert.Check(count > 0, "")
+-------------------------^
+ѕодстановка (smart complete)
+Assert.Check(count > 0, "count > 0")
+

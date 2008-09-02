@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns="http://www.springframework.net/remoting"
+          xmlns:objects="http://www.springframework.net" 
+          xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+          xmlns:vs="http://schemas.microsoft.com/Visual-Studio-Intellisense" 
+          targetNamespace="http://www.springframework.net/remoting" 
+          elementFormDefault="qualified" attributeFormDefault="unqualified" 
+          vs:friendlyname="Spring.NET Remoting Framework Configuration" vs:ishtmlschema="false" vs:iscasesensitive="true" vs:requireattributequotes="true" vs:defaultnamespacequalifier="" vs:defaultnsprefix="">
+
+    <xs:import namespace="http://www.springframework.net" schemaLocation="spring-objects.xsd"/>
+
+    <xs:annotation>
+        <xs:documentation>
+            Spring.NET Remoting Framework Config Schema Definition
+            
+            Author: Bruno Baia
+            
+            This file defines a configuration schema for the remoting framework
+            object definitions. Using elements from this schema instead of the
+            standard object definitions can greatly simplify remoting configuration.
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:annotation>
+        <xs:documentation>Defines a SaoExporter type.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="saoExporterType">
+		<xs:attribute name="id" type="xs:ID" use="optional"/>
+        <xs:attribute name="targetName" type="objects:nonNullString" use="required"/>
+        <xs:attribute name="serviceName" type="objects:nonNullString" use="required"/>
+        <xs:attribute name="infinite" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="initialLeaseTime" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="renewOnCallTime" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="sponsorshipTimeout" type="objects:nonNullString" use="optional"/>
+    </xs:complexType>
+    
+    <xs:annotation>
+        <xs:documentation>Defines a CaoExporter type.</xs:documentation>
+    </xs:annotation>
+    <xs:complexType name="caoExporterType">
+		<xs:attribute name="id" type="xs:ID" use="optional"/>
+        <xs:attribute name="targetName" type="objects:nonNullString" use="required"/>
+        <xs:attribute name="infinite" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="initialLeaseTime" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="renewOnCallTime" type="objects:nonNullString" use="optional"/>
+        <xs:attribute name="sponsorshipTimeout" type="objects:nonNullString" use="optional"/>
+    </xs:complexType>
+
+    <xs:element name="saoExporter" type="saoExporterType"/>
+    <xs:element name="caoExporter" type="caoExporterType"/>
+    
+</xs:schema>
