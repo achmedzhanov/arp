@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.Util;

@@ -22,7 +22,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region IDeclaredElement Members
 
-        public IDeclaration[] GetDeclarations()
+        public IList<IDeclaration> GetDeclarations()
         {
             return EmptyArray<IDeclaration>.Instance;
         }
@@ -83,7 +83,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///            
         ///</summary>
         ///
-        public IProjectFile[] GetProjectFiles()
+        public IList<IProjectFile> GetProjectFiles()
         {
             return EmptyArray<IProjectFile>.Instance;
         }

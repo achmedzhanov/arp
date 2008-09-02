@@ -40,9 +40,9 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #endregion
 
-        protected override ITreeReference[] CreateReferences()
+        protected override IReferenceImpl[] CreateReferences()
         {
-            return new ITreeReference[] { new ModuleReference(this) };
+            return new IReferenceImpl[] { new ModuleReference(this) };
         }
 
         public object GetName()

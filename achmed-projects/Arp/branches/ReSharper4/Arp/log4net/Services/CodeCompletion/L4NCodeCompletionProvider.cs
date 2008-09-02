@@ -11,7 +11,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 using JetBrains.Util;
 
 namespace Arp.log4net.Services.CodeCompletion

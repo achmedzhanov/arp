@@ -1,6 +1,6 @@
 using System;
 using Arp.Common.Assertions;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Tree;

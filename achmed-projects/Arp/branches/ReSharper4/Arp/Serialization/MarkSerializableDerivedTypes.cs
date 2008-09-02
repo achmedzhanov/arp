@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Arp.Common.Assertions;
 using JetBrains.ActionManagement;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.CodeInsight.Services.Search;
 using JetBrains.ReSharper.CodeView.Occurences;
 using JetBrains.ReSharper.CodeView.Search;
 using JetBrains.ReSharper.Psi;
@@ -104,7 +105,7 @@ namespace Arp.Serialization
             IMetaInfoTargetDeclarationNode metaInfoTargetDeclarationNode =
                 declaration.ToTreeNode() as IMetaInfoTargetDeclarationNode;
             Assert.CheckNotNull(metaInfoTargetDeclarationNode);
-            CSharpElementFactory elementFactory = CSharpElementFactory.GetInstance(@class.GetManager().Solution);
+            CSharpElementFactory elementFactory = CSharpElementFactory.GetInstance(@class.GetManager(). Solution);
             IAttribute serializableAttribute =
                 elementFactory.CreateTypeMemberDeclaration("[Serializable]void Foo(){}").Attributes[0];
             IAttribute added = metaInfoTargetDeclarationNode.AddAttributeAfter(serializableAttribute, null);

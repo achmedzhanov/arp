@@ -42,8 +42,8 @@ namespace Arp.log4net.Psi.Tree.Impl
             IEnum @enum = typeElement as IEnum;
             if(@enum != null)
             {
-                IField[] members = @enum.EnumMembers;
-                if(members.Length > 0)
+                var members = @enum.EnumMembers;
+                if(members.Count > 0)
                 {
                     isEnumerable = true;
                     List<string> names = new List<string>();

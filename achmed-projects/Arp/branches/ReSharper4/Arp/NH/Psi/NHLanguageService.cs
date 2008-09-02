@@ -85,15 +85,10 @@ namespace Arp.NH.Psi
             {
             }
 
-            public override IFileNode ParseFile()
+            public override IFile ParseFile()
             {
-                IXmlFile file = new NHTreeBuilder(NHElementFactory.Instance, base.myCheckForInterrupt).BuildXml(base.myLexer);
-                if (file == null)
-                {
-                    return null;
-                }
-                return file.ToTreeNode();
-
+                var file = new NHTreeBuilder(NHElementFactory.Instance, base.myCheckForInterrupt).BuildXml(base.myLexer);
+                return file;
             }
         }
 

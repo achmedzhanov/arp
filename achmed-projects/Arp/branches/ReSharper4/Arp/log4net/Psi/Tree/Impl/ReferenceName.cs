@@ -1,7 +1,7 @@
 using System;
 using Arp.Common.Assertions;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
@@ -29,7 +29,6 @@ namespace Arp.log4net.Psi.Tree.Impl
             AppendNewChild(identifier);
         }
 
-
         public ReferenceName(): base(L4NElementType.REFERENCE_NAME)
         {
         }
@@ -45,6 +44,21 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             this.qualifier = qualifier;
         }
+
+        #region ICompleteableReference Members
+
+        ///<summary>
+        ///
+        ///            Checks whether the reference can provide a meaningful symbol table for completion
+        ///            
+        ///</summary>
+        ///
+        public bool CanComplete
+        {
+            get { return true; }
+        }
+
+        #endregion
 
         public XmlToken NameToken
         {
@@ -480,7 +494,9 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #endregion
 
-        public override ITreeReference[] GetInternalReferences()
+
+
+        public override IReferenceImpl[] GetInternalReferences()
         {
             return SharedImplUtil.CreateReferencesArray(this, base.GetInternalReferences());
         }

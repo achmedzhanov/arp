@@ -1,11 +1,11 @@
 using System;
 using System.Xml;
 using Arp.Common.Psi.Utils;
-using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
+using JetBrains.ReSharper.Psi.Impl;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
@@ -80,15 +80,17 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #endregion
 
-        protected override ITreeReference[] CreateReferences()
+
+
+        protected override IReferenceImpl[] CreateReferences()
         {
-            return new ITreeReference[] { new AppenderReference(this) };
+            return new IReferenceImpl[] { new AppenderReference(this) };
 //            return base.CreateReferences();
         }
 
-        public override ITreeReference[] GetInternalReferences()
+        public override IReferenceImpl[] GetInternalReferences()
         {
-            ITreeReference[] baseRet = base.GetInternalReferences();
+            IReferenceImpl[] baseRet = base.GetInternalReferences();
             return baseRet;
         }
 

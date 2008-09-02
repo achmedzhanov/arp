@@ -2,7 +2,7 @@ using Arp.Common.Psi.Services.CodeCompletion;
 using Arp.log4net.Psi.Tree.Impl;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 
 namespace Arp.NH.Services.CodeCompletion
 {

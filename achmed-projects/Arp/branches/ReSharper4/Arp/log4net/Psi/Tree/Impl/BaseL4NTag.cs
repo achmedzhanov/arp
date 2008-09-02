@@ -37,7 +37,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         protected ICollection<T> GetTagsByType<T>()
             where T :class
         {
-            IList<IXmlTag> tags = this.GetTags(delegate(IXmlTag obj)
+            var tags = GetTags(delegate(IXmlTag obj)
                                                    {
                                                        return true;
                                                    });

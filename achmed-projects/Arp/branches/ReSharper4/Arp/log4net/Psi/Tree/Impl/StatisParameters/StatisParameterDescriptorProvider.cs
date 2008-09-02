@@ -20,7 +20,7 @@ namespace Arp.log4net.Psi.Tree.Impl.StatisParameters
         /// <returns></returns>
         public ICollection<IParameterDescriptor> GetParameterDescriptors()
         {
-            return new ReadOnlyCollection<IParameterDescriptor>(descriptors);
+            return new System.Collections.ObjectModel.ReadOnlyCollection<IParameterDescriptor>(descriptors);
         }
 
         public IParameterDescriptor GetParameterDescriptor(string name)

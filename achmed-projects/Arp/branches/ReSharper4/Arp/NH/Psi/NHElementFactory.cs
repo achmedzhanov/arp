@@ -29,7 +29,7 @@ namespace Arp.NH.Psi
         }
 
 
-        public override IXmlTag CreateTag(IXmlTagHeaderNode header, IXmlTagContainer parentTag)
+        public override IXmlTag CreateTag(IXmlTagHeaderNode header, IXmlTag parentTag)
         {
             IXmlTag created = base.CreateTagGenerated(header, parentTag);
             if (created != null)

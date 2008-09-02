@@ -5,7 +5,7 @@ using Arp.Common.Psi.Daemon;
 using Arp.Common.Utils;
 using Arp.NH.Psi.Tree;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;
@@ -160,13 +160,12 @@ namespace Arp.NH.Stages.DuplicateMapping
                 List<List<DuplicatesSearcherItem>> result = new List<List<DuplicatesSearcherItem>>();
                 foreach (DuplicatesSearcherItem item in items)
                 {
-                    IList<DuplicatesSearcherItem> found = CollectionUtil.FindAll(items, delegate(DuplicatesSearcherItem obj)
-                                                                                            {
-                                                                                                return obj.Key.CompareTo(item.Key) == 0 && obj != item;
-                                                                                            });
+                    IList<DuplicatesSearcherItem> found = new List<DuplicatesSearcherItem>(items).FindAll(
+                        obj => obj.Key.CompareTo(item.Key) == 0 && obj != item);
+                    
                     if(found.Count > 0)
                     {
-                        List<DuplicatesSearcherItem> itemDuplicates = new List<DuplicatesSearcherItem>();
+                        var itemDuplicates = new List<DuplicatesSearcherItem>();
                         itemDuplicates.Add(item);
                         itemDuplicates.AddRange(found);
                         result.Add(itemDuplicates);

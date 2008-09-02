@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Arp.NH.Psi;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.Platforms;
 using JetBrains.Shell.Test;
@@ -17,7 +18,7 @@ namespace Arp.Tests
             {
                 try
                 {
-                    new TestShell(typeof (UnusedModulesProcessorTests).Assembly, "Arp.Tests.TestShellConfig.xml");
+                    new TestShell(typeof(NHLanguageService).Assembly, typeof(BaseTest).Assembly, "Arp.Tests.TestShellConfig.xml");
                 }
                 catch (ReflectionTypeLoadException ex)
                 {

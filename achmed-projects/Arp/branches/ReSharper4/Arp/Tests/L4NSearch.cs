@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Arp.log4net.Psi.Tree;
 using Arp.Utils;
 using JetBrains.ProjectModel;
+using JetBrains.ReSharper.CodeInsight.Services.Search;
 using JetBrains.ReSharper.CodeView.Occurences;
 using JetBrains.ReSharper.CodeView.Search;
 using JetBrains.ReSharper.Psi;

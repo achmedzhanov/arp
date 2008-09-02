@@ -1,7 +1,4 @@
-using JetBrains.ReSharper.Editor;
-using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.Psi.Tree;
-using JetBrains.ReSharper.Psi.Xml.Tree;
+using JetBrains.DocumentModel;
 
 namespace Arp.log4net.Psi.Tree
 {

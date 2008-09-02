@@ -42,5 +42,11 @@ namespace Arp.log4net.Psi
         {
             get { return L4NLanguageService.L4N; }
         }
+
+
+        public override bool IsIdentifier
+        {
+            get { return this == IDENTIFIER; }
+        }
     }
 }

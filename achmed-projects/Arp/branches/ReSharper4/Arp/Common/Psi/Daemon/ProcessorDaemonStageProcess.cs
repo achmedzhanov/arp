@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Arp.Common.Psi.Daemon;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.Util;

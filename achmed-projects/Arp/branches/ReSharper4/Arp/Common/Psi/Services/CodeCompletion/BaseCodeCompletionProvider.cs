@@ -4,7 +4,7 @@ using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.CodeCompletion;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 using JetBrains.Util;
 
 namespace Arp.Common.Psi.Services.CodeCompletion
@@ -58,7 +58,7 @@ namespace Arp.Common.Psi.Services.CodeCompletion
             options.CaseSensitive = false;
             options.ShowParameterInfo = LookupOptions.Instance.ShowSummary.Value;
             options.InitialPrefixIsShortest = true;
-            options.AutocompleteCommonPrefix = CodeCompletionSettings.Instance.AutocompleteCommonPrefix.Value;
+            options.AutocompleteCommonPrefix = CodeCompletionSettings.Instance.AutoCompleteCommonPrefix.Value;
             
 
             TextRange prefixRange = context.PrefixRange;

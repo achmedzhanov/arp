@@ -38,10 +38,8 @@ namespace Arp.Tests
 
         protected IParameterDescriptor GetWithCheck(ICollection<IParameterDescriptor> descriptors, string name)
         {
-            IList<IParameterDescriptor> found = CollectionUtil.FindAll(descriptors, delegate(IParameterDescriptor obj)
-                                                                  {
-                                                                      return obj.Name == name;
-                                                                  });
+            IList<IParameterDescriptor> found = new List<IParameterDescriptor>(descriptors).FindAll(
+                                                                       (IParameterDescriptor obj) => obj.Name == name);
             if(found.Count == 0)
                 Assert.Fail(string.Format("descriptor with {0} does not exist", name));
 

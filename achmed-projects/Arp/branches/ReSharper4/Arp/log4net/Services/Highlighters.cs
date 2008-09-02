@@ -1,5 +1,5 @@
 using Arp.log4net.Services;
-using JetBrains.ReSharper.TextControl.Markup;
+using JetBrains.TextControl.Markup;
 
 //[assembly:RegisterHighlighter( 
 //    L4NHighlightingAttributeIds.XML_BACKGROUND,

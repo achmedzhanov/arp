@@ -9,7 +9,7 @@ using Arp.log4net.Psi.Tree;
 using Arp.log4net.Psi.Tree.Impl;
 using Arp.log4net.Psi.Tree.Impl.Validators;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Parsing;

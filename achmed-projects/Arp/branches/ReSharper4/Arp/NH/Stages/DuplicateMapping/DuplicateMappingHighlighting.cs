@@ -1,6 +1,6 @@
 using System.Drawing;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 
 namespace Arp.NH.Stages.DuplicateMapping
 {
@@ -45,14 +45,6 @@ namespace Arp.NH.Stages.DuplicateMapping
             get
             {
                 return 0;
-            }
-        }
-
-        public OverlapResolvePolicy OverlapResolvePolicy
-        {
-            get
-            {
-                return OverlapResolvePolicy.UNRESOLVED_ERROR;
             }
         }
 

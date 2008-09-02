@@ -5,13 +5,14 @@ using Arp.Common.Assertions;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.CSharp.Generate.Util;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Daemon.CSharp.ContextActions.Util;
-using JetBrains.ReSharper.Editor;
+using JetBrains.ReSharper.Intentions.CSharp.ContextActions.Util;
+using JetBrains.DocumentModel;
+using JetBrains.ReSharper.Intentions.CSharp.ContextActions.Util;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Impl;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Tree;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 using JetBrains.Shell;
 using JetBrains.Util;
 

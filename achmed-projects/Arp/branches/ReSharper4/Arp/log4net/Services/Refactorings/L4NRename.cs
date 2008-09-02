@@ -6,36 +6,52 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Refactorings;
 using JetBrains.ReSharper.Refactorings.Conflicts;
 using JetBrains.ReSharper.Refactorings.Rename;
+using JetBrains.ReSharper.Refactorings.RenameModel;
+using JetBrains.ReSharper.Refactorings.Workflow;
 using JetBrains.Util;
 
 namespace Arp.log4net.Services.Refactorings
 {
-    [LanguageSpecificImplementation(L4NLanguageService.L4N_STRING, typeof(IRename))]
-    public class L4NRename : IRename
+    public class L4NRename : RenameBase
     {
+        public L4NRename(RenameWorkflow workflow, ISolution solution, IRefactoringDriver driver) : base(workflow, solution, driver)
+        {
+        }
+
         // Methods
-        public IList<IConflictSearcher> AdditionalConflictsSearchers(IDeclaredElement element, string newName)
+        public override IList<IConflictSearcher> AdditionalConflictsSearchers(IDeclaredElement element, string newName)
         {
             return EmptyArray<IConflictSearcher>.Instance;
         }
 
-        public void AdditionalReferenceProcessing(IDeclaredElement newTarget, IReference reference, ICollection<IReference> newReferences)
+        public override void AdditionalReferenceProcessing(IDeclaredElement newTarget, IReference reference, ICollection<IReference> newReferences)
         {
         }
 
-        public RenameAvailabilityCheckResult CheckAvailability(IDeclaredElement element)
+        public override RenameAvailabilityCheckResult CheckAvailability(IDeclaredElement element)
         {
             return RenameAvailabilityCheckResult.CanBeRenamed;
         }
 
-        public string[] GetPossibleReferenceNames(IDeclaredElement element, string newName)
+        public override string[] GetPossibleReferenceNames(IDeclaredElement element, string newName)
         {
             return new string[] { element.ShortName };
         }
 
-        public IDeclaredElement ReplaceDeclaredElement(IDeclaredElement element)
+
+        public override bool DoNotProcess(IDeclaredElement element)
+        {
+            return false;
+        }
+
+        public override IDeclaredElement GetPrimevalDeclaredElement(IDeclaredElement element)
         {
             return element;
+        }
+
+        public override IReference TransformAnonymousType(IReference reference)
+        {
+            return reference;
         }
     }
 

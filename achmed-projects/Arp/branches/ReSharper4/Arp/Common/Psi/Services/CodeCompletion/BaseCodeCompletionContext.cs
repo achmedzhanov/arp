@@ -5,15 +5,15 @@ using Arp.log4net.Psi;
 using Arp.log4net.Services.CodeCompletion.Rules;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
-using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
+using JetBrains.ReSharper.CodeInsight.Services.Xml.CodeCompletion.Impl;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 using JetBrains.ReSharper.Psi.Xml.Tree;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 using JetBrains.Util;
 
 namespace Arp.Common.Psi.Services.CodeCompletion
@@ -31,12 +31,12 @@ namespace Arp.Common.Psi.Services.CodeCompletion
         public BaseCodeCompletionContext(ISolution solution, ITextControl textControl)
             : base(solution, textControl)
         {
-            IXmlFile file = XmlFile;
+            IXmlFile file = File;
             Logger.Assert(file != null, "file != null");
             int offset = CaretOffset;
             token = (ITokenNode) file.FindTokenAt(offset);
 
-            xmlTokenTypes = XmlTokenTypeFactory.GetTokenTypes(XmlFile.Language);
+            xmlTokenTypes = XmlTokenTypeFactory.GetTokenTypes(File.Language);
 
             InitilizeRules();
 
@@ -141,10 +141,10 @@ namespace Arp.Common.Psi.Services.CodeCompletion
             }
 
             int offset = CaretOffset;
-            token = (ITokenNode) XmlFile.FindTokenAt(offset);
+            token = (ITokenNode) File.FindTokenAt(offset);
             if ((this.token == null) && (offset > 0))
             {
-                this.token = (ITokenNode) XmlFile.FindTokenAt(offset - 1);
+                this.token = (ITokenNode) File.FindTokenAt(offset - 1);
             }
 
             if (token == null)
@@ -228,7 +228,7 @@ namespace Arp.Common.Psi.Services.CodeCompletion
         private ICompleteableReference GetComplatebleReference()
         {
 //            ICompleteableReference reference = FindCompleteableReference(XmlFile.FindReferencesAt(PrefixRange));
-            ICompleteableReference reference = FindCompleteableReference(XmlFile.FindReferencesAt(new TextRange(TextControl.CaretModel.Offset)));
+            ICompleteableReference reference = FindCompleteableReference(File.FindReferencesAt(new TextRange(TextControl.CaretModel.Offset)));
             if (reference != null && reference.GetDocumentRange().IsValid)
                 return reference;
 
@@ -246,7 +246,7 @@ namespace Arp.Common.Psi.Services.CodeCompletion
                 int offset = TextControl.CaretModel.Offset;
                 TextRange reparseRange = new TextRange(offset);
                 TextRange searchRange = new TextRange(reparseRange.StartOffset + 1);
-                IFile unterminatedFile = XmlFile.ReParse(reparseRange, REFERENCE_SUFFIX);
+                IFile unterminatedFile = File.ReParse(reparseRange, REFERENCE_SUFFIX);
                 IFile terminatedFile = unterminatedFile.ReParse(new TextRange(reparseRange.StartOffset, reparseRange.StartOffset + REFERENCE_SUFFIX.Length), REFERENCE_SUFFIX);
 
                 reference = FindCompleteableReference(terminatedFile.FindReferencesAt(searchRange));
@@ -323,7 +323,7 @@ namespace Arp.Common.Psi.Services.CodeCompletion
 
         public XmlTokenTypes GetTokenTypes()
         {
-            return XmlTokenTypeFactory.GetTokenTypes(XmlFile.Language);
+            return XmlTokenTypeFactory.GetTokenTypes(File.Language);
         }
 
         public string GetPrefix()

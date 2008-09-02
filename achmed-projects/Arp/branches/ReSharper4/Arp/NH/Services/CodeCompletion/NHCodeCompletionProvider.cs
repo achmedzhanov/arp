@@ -3,7 +3,7 @@ using Arp.log4net.Services.CodeCompletion;
 using Arp.NH.Services.CodeCompletion;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.CodeCompletion;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 
 namespace Arp.NH.Services
 {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Arp.Common.Assertions;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Resolve;
@@ -25,12 +25,13 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             ICollection<IAppender> appenders = myOwner.Parent.Parent.GetAppenders();
 
-            IList<IAppender> found = CollectionUtil.FindAll(appenders, delegate(IAppender obj) { return (obj.Name == myOwner.Ref); });
+            IList<IAppender> found = new List<IAppender>(appenders).FindAll(obj => (obj.Name == myOwner.Ref));
 
-            ICollection<IDeclaredElement> converted = CollectionUtil.Convert<IDeclaredElement, IAppender>(found, delegate(IAppender input)
-                                                                                       {
-                                                                                           return (IDeclaredElement)input;
-                                                                                       });
+            ICollection<IDeclaredElement> converted = CollectionUtil.Convert(found,
+                                                                                                          input =>
+                                                                                                          (
+                                                                                                          IDeclaredElement
+                                                                                                          ) input);
 
             return converted;
         }

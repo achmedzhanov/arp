@@ -1,7 +1,7 @@
 using Arp.Common.Psi.Daemon.References;
 using Arp.Common.Psi.Utils;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Resolve;

@@ -5,6 +5,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
 using JetBrains.ReSharper.Psi.Search;
 using JetBrains.Shell;
+using JetBrains.Util;
 
 namespace Arp.NH.Psi.Search
 {
@@ -76,6 +77,18 @@ namespace Arp.NH.Psi.Search
                                                                           FindResultConsumer consumer)
         {
             return null;
+        }
+
+
+        public ILanguageSpecificSearcher CreateAnonymousTypeSearcher(IList<Pair<string, IType>> typeDescription,
+                                                                     FindResultConsumer consumer)
+        {
+            return null;
+        }
+
+        public IDeclaredElement GetAnonymousTypeProperty(FindResultAnonymousType findResult, string propertyName)
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

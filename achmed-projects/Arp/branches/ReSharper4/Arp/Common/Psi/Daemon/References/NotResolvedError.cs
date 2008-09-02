@@ -1,6 +1,6 @@
 using System.Drawing;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi.Resolve;
 
 namespace Arp.Common.Psi.Daemon.References
@@ -51,14 +51,6 @@ namespace Arp.Common.Psi.Daemon.References
             }
         }
 
-        public OverlapResolvePolicy OverlapResolvePolicy
-        {
-            get
-            {
-                return OverlapResolvePolicy.UNRESOLVED_ERROR;
-            }
-        }
-
         public DocumentRange Range
         {
             get
@@ -79,7 +71,7 @@ namespace Arp.Common.Psi.Daemon.References
         {
             get
             {
-                return Severity.ERROR;
+                return Severity. ERROR;
             }
         }
 

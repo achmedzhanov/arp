@@ -27,7 +27,8 @@ namespace Arp.log4net.Psi
 
         }
 
-        public override IXmlTag CreateTag(IXmlTagHeaderNode header, IXmlTagContainer parentTag)
+
+        public override IXmlTag CreateTag(IXmlTagHeaderNode header, IXmlTag parentTag)
         {
             IXmlTag tag = CreateTagInternal(parentTag, header);
             IL4NElement element = tag as IL4NElement;
@@ -97,7 +98,7 @@ namespace Arp.log4net.Psi
         }
 
 
-        private IXmlTag CreateTagInternal(IXmlTagContainer parentTag, IXmlTagHeaderNode header)
+        private IXmlTag CreateTagInternal(IXmlTag parentTag, IXmlTagHeaderNode header)
         {
             string parentTagName = ((IXmlTag)parentTag).TagName;
 

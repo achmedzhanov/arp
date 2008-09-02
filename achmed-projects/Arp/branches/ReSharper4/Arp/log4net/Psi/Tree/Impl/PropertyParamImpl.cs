@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Arp.Common.Assertions;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
@@ -66,9 +66,9 @@ namespace Arp.log4net.Psi.Tree.Impl
         }
 
 
-        protected override ITreeReference[] CreateReferences()
+        protected override IReferenceImpl[] CreateReferences()
         {
-            return new ITreeReference[] { new ParamPropertyReference(this) };
+            return new IReferenceImpl[] { new ParamPropertyReference(this) };
         }
 
         public ICollection<IDeclaredParameter> GetParams()
@@ -115,10 +115,8 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public IParameterDescriptor GetParameterDescriptor(string name)
         {
-            IList<IParameterDescriptor> found = CollectionUtil.FindAll(GetParameterDescriptors(), delegate(IParameterDescriptor obj)
-                                                                                {
-                                                                                    return obj.Name == name;
-                                                                                });
+            IList<IParameterDescriptor> found = new List<IParameterDescriptor>(GetParameterDescriptors()).FindAll(
+                obj => obj.Name == name);
 
             Assert.Check(found.Count < 2);
 

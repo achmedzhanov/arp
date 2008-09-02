@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
@@ -13,6 +13,20 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
         }
 
+        #region ICompleteableReference Members
+
+        ///<summary>
+        ///
+        ///            Checks whether the reference can provide a meaningful symbol table for completion
+        ///            
+        ///</summary>
+        ///
+        public bool CanComplete
+        {
+            get { return true; }
+        }
+
+        #endregion
 
         protected override ICollection<IDeclaredElement> GetDeclaredElements()
         {

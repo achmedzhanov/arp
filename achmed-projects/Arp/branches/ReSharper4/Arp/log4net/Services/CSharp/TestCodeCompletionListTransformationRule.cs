@@ -3,6 +3,7 @@ using JetBrains.ReSharper.CodeInsight.Services.CSharp.CodeCompletion;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
+using JetBrains.Shell;
 
 namespace Arp.log4net.Services.CSharp
 {
@@ -22,13 +23,26 @@ namespace Arp.log4net.Services.CSharp
             return true;
         }
 
+
         ///<summary>
         ///
         ///            Applies the rule
         ///            
         ///</summary>
         ///
-        public void Apply(CodeCompletionContext context, IList<ILookupItem> result)
+        public void Apply(CodeCompletionContext context, GroupedItemsCollector result,
+                          CheckForInterrupt checkForInterrupt)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        ///<summary>
+        ///
+        ///            Applies the rule
+        ///            
+        ///</summary>
+        ///
+        public void Apply(CodeCompletionContext context, IList<ILookupItem> result, CheckForInterrupt checkForInterrupt)
         {
             // do nothing
 

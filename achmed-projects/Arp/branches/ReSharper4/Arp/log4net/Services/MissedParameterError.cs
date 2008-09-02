@@ -36,17 +36,6 @@ namespace Arp.log4net.Services
 
         ///<summary>
         ///
-        ///            Get the ovelap resolving policy for this highlighting
-        ///            
-        ///</summary>
-        ///
-        public OverlapResolvePolicy OverlapResolvePolicy
-        {
-            get { return OverlapResolvePolicy.NONE; }
-        }
-
-        ///<summary>
-        ///
         ///            Get the severity of this highlighting
         ///            
         ///</summary>

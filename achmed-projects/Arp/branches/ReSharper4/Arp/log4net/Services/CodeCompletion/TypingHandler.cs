@@ -7,13 +7,14 @@ using Arp.Common.Assertions;
 using Arp.log4net.Psi;
 using JetBrains.ActionManagement;
 using JetBrains.ComponentModel;
+using JetBrains.DocumentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.CodeCompletion;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
-using JetBrains.ReSharper.Editor;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.TextControl;
+using JetBrains.TextControl;
 using JetBrains.Shell;
+using JetBrains.TextControl;
 using JetBrains.UI.Interop;
 
 namespace Arp.log4net.Services.CodeCompletion

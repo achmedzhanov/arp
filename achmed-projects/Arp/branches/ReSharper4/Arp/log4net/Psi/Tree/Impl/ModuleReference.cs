@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Resolve;
@@ -15,6 +15,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         public ModuleReference(ReferenceModule owner) : base(owner)
         {
         }
+
 
 
         public override ISymbolFilter[] GetSymbolFilters(out int mustRun)
@@ -103,6 +104,18 @@ namespace Arp.log4net.Psi.Tree.Impl
         public override JetBrains.ReSharper.Psi.Resolve.ReferenceType ReferenceType
         {
             get { return JetBrains.ReSharper.Psi.Resolve.ReferenceType.TEXT; }
+        }
+
+
+        ///<summary>
+        ///
+        ///            Checks whether the reference can provide a meaningful symbol table for completion
+        ///            
+        ///</summary>
+        ///
+        public bool CanComplete
+        {
+            get { return true; }
         }
     }
 }

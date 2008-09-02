@@ -1,4 +1,4 @@
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.Util;
 
 namespace Arp.Utils

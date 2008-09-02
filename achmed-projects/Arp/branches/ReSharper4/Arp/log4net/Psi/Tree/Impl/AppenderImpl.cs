@@ -6,7 +6,7 @@ using Arp.Common.Psi.Utils;
 using Arp.log4net.Psi.Tree.Impl.StatisParameters;
 using Arp.Utils;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Editor;
+using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Caches;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
@@ -22,7 +22,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 {
     public class AppenderImpl : TypedParametersOwner, IAppender, IDeclaration, IDeclaredElement , /*ITypeOwner,*/ IParameterDescriptorProvider
     {
-        private IDeclaration[] declarations;
+        private List<IDeclaration> declarations;
         private ICollection<IParameterDescriptor> elementParametrInfos = null;
         static readonly StatisParameterDescriptorProvider staticParameters;
 
@@ -100,10 +100,8 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public IParameterDescriptor GetParameterDescriptor(string name)
         {
-            IList<IParameterDescriptor> found = CollectionUtil.FindAll(GetParameterDescriptors(), delegate(IParameterDescriptor obj)
-                                                                                {
-                                                                                    return obj.Name == name;
-                                                                                });
+            IList<IParameterDescriptor> found =  new List<IParameterDescriptor>(GetParameterDescriptors()).FindAll(
+                obj => obj.Name == name);
 
             Assert.Check(found.Count < 2);
 
@@ -189,11 +187,13 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region IDeclaredElement
 
-        public IDeclaration[] GetDeclarations()
+
+
+        public IList<IDeclaration> GetDeclarations()
         {
             if (declarations == null)
             {
-                declarations = new IDeclaration[] { this };
+                declarations = new List<IDeclaration> { this };
             }
             return this.declarations;
         }

@@ -83,14 +83,14 @@ namespace Arp.log4net.Psi
             {
             }
 
-            public override IFileNode ParseFile()
+            public override IFile ParseFile()
             {
                 IXmlFile file = new L4NTreeBuilder(L4NElementFactory.Instance, base.myCheckForInterrupt).BuildXml(base.myLexer);
                 if (file == null)
                 {
                     return null;
                 }
-                return file.ToTreeNode();
+                return file;
 
             }
         }
@@ -111,11 +111,6 @@ namespace Arp.log4net.Psi
         public override string GetTokenReprByTokenType(TokenNodeType token)
         {
             return base.GetTokenReprByTokenType(token);
-        }
-
-        public override string GetCommentText(string commentTokenText)
-        {
-            return base.GetCommentText(commentTokenText);
         }
 
         public override bool IsFilteredNode(ITreeNode node)
@@ -141,12 +136,6 @@ namespace Arp.log4net.Psi
         public override string[] EnumerateParserCapabilities()
         {
             return base.EnumerateParserCapabilities();
-        }
-
-        public override ITreeNode ParseUsingCapability(string text, string capability, ISolution solution,
-                                                       IProject project)
-        {
-            return base.ParseUsingCapability(text, capability, solution, project);
         }
 
         public override PreProcessingDirective[] GetDefines(IProject project)
