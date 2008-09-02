@@ -63,11 +63,11 @@ namespace Arp.NH.Stages.DuplicateMapping
             }
 
 
-            HighlightDuplicates(propertiesSearcher, delegate(string source)
+            HighlightDuplicates(propertiesSearcher,   delegate(IComparable source)
                                                         {
                                                             return string.Format("Member {0} already mapped", source);
                                                         });
-            HighlightDuplicates(columnsSearcher, delegate(string source)
+            HighlightDuplicates(columnsSearcher, delegate(IComparable source)
                                                      {
                                                          return string.Format("Column {0} already mapped", source);
                                                      });
