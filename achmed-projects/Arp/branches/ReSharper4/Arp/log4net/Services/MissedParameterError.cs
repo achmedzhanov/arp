@@ -6,7 +6,8 @@ using JetBrains.ReSharper.Psi.Tree;
 
 namespace Arp.log4net.Services
 {
-    public class MissedParameterError : IHighlighting
+    [StaticSeverityHighlighting(Severity.ERROR, OverlapResolve = OverlapResolveKind.ERROR)]
+    public class MissedParameterError : ICustomAttributeHighlighting
     {
         private readonly IParameterDescriptor descriptor;
         private readonly IElement element;

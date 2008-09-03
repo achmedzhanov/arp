@@ -13,9 +13,10 @@ using JetBrains.Util;
 
 namespace Arp.NH.Services
 {
-    [XmlLanguage, ShellComponentInterface(ProgramConfigurations.ALL), ShellComponentImplementation, ProjectFileLanguageService(new string[] { ".hbm.xml" }, IsDefault = true)]
-    public class NHProjectFileLanguageService : IProjectFileLanguageService, IShellComponent
+    [XmlLanguage, ShellComponentInterface(ProgramConfigurations.ALL), ShellComponentImplementation, ProjectFileLanguageService(new [] { HBM_SUFFIX, ".hbmxml" }, IsDefault = true)]
+    public class NHProjectFileLanguageService : /*IProjectFileLanguageService*/  IDerivedProjectFileLanguageService , IShellComponent
     {
+        public const string HBM_SUFFIX = ".hbm.xml";
         public static ProjectFileType NH = new ProjectFileType("NH");
 
         private static readonly PsiLanguageType[] POSSIBLE_PSI_LANGUAGE_TYPES = new PsiLanguageType[] { NHLanguageService.NH };
@@ -27,7 +28,19 @@ namespace Arp.NH.Services
 
         public void Init()
         {
-            
+        }
+
+        public ProjectFileType GetProjectFileType(IProjectFile file)
+        {
+            if (file == null)
+            {
+                return ProjectFileType.UNKNOWN;
+            }
+
+            if (file.Name.EndsWith(HBM_SUFFIX) || file.Name.EndsWith(".hbmxml"))
+                return NH;
+
+            return null;
         }
 
         public PsiLanguageType GetPsiLanguageType(IProjectFile file)
@@ -38,7 +51,7 @@ namespace Arp.NH.Services
             }
 
             Assert.CheckNotNull(file.Name);
-            if (file.Name.EndsWith(".hbm.xml"))
+            if (file.Name.EndsWith(HBM_SUFFIX))
                 return NHLanguageService.NH;
         
             return GetPsiLanguageType(file.LanguageType);

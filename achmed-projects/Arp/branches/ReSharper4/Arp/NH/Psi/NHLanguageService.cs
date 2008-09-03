@@ -1,6 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using Arp.NH.Psi.Parsing;
 using Arp.NH.Psi.Search;
+using Arp.NH.Services;
 using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
@@ -19,6 +23,7 @@ namespace Arp.NH.Psi
 {
     [ShellComponentImplementation, LanguageService, ShellComponentInterface(ProgramConfigurations.ALL)]
     public class NHLanguageService : XmlLanguageServiceBase, IShellComponent
+
     {
         public const string NH_STRING = "NH";
         
@@ -31,10 +36,11 @@ namespace Arp.NH.Psi
 
         }
 
-
         public void Init()
         {
-            // do nothing
+//            NHProjectFileLanguageService component = (NHProjectFileLanguageService)Shell.Instance.GetComponent(typeof(NHProjectFileLanguageService));
+//            IList<IProjectFileLanguageService> services = ProjectFileLanguageServiceManager.Instance.Services;
+//            services.Insert(0, component);
         }
 
         ///<summary>

@@ -3,7 +3,8 @@ using JetBrains.ReSharper.Daemon;
 
 namespace Arp.log4net.Services
 {
-    public class InvalidPropertyHighlighting : IHighlighting
+    [StaticSeverityHighlighting(Severity.ERROR, OverlapResolve = OverlapResolveKind.ERROR)]
+    public class InvalidPropertyHighlighting : ICustomAttributeHighlighting
     {
         public InvalidPropertyHighlighting()
         {

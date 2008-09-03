@@ -4,7 +4,8 @@ using JetBrains.DocumentModel;
 
 namespace Arp.NH.Stages.DuplicateMapping
 {
-    public class DuplicateMappingHighlighting : IHighlighting
+    [StaticSeverityHighlighting(Severity.ERROR, OverlapResolve = OverlapResolveKind.ERROR)]
+    public class DuplicateMappingHighlighting : ICustomAttributeHighlighting
     {
         // Fields
         private readonly string message;

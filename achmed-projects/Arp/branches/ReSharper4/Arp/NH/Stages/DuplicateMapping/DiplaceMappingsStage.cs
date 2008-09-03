@@ -12,7 +12,7 @@ namespace Arp.NH.Stages.DuplicateMapping
     {
         protected override IDaemonStageProcess CreateProcess(IDaemonProcess process, IXmlFile file)
         {
-            return new ProcessorDaemonStageProcess<ModulereferenceProcessor>(file, process);
+            return new ProcessorDaemonStageProcess<DiplaceMappingsProcessor>(file, process);
         }
 
         ///<summary>

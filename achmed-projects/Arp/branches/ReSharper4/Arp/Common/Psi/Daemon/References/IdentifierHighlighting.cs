@@ -1,3 +1,4 @@
+using System;
 using System.Drawing;
 using Arp.log4net.Services;
 using JetBrains.ReSharper.Daemon;
@@ -5,12 +6,14 @@ using JetBrains.ReSharper.Daemon;
 namespace Arp.Common.Psi.Daemon.References
 {
     [DaemonTooltipProvider(typeof(L4NIdentifierTooltipProvider))]
-    public class IdentifierHighlighting : IHighlighting
+    [StaticSeverityHighlighting(Severity.INFO, OverlapResolve = OverlapResolveKind.NONE)]
+    public class IdentifierHighlighting : ICustomAttributeHighlighting
     {
         private readonly string attributeId;
 
         public IdentifierHighlighting(string attributeId)
         {
+            if (attributeId == null) throw new ArgumentNullException("attributeId");
             this.attributeId = attributeId;
         }
 

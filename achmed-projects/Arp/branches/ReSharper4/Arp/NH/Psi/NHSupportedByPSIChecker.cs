@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using Arp.NH.Services;
+using JetBrains.Application;
 using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
@@ -6,7 +8,7 @@ using JetBrains.ReSharper.Psi;
 namespace Arp.NH.Psi
 {
     [BuildPsiProvider(ProgramConfigurations.ALL)]
-    public class NHSupportedByPSIChecker : ISupportedByPSIChecker
+    public class NHSupportedByPSIChecker : ISupportedByPSIChecker, IShellComponent
     {
         ///<summary>
         ///
@@ -17,12 +19,26 @@ namespace Arp.NH.Psi
         ///
         public BuildPsiResult Check(IProjectFile projectFile)
         {
+            if (projectFile.Name.EndsWith(NHProjectFileLanguageService.HBM_SUFFIX))
+                return BuildPsiResult.DO_BUILD;
+
             if (projectFile.LanguageType != NHProjectFileLanguageService.NH)
             {
                 return BuildPsiResult.UNDEF;
             }
             return BuildPsiResult.DO_BUILD;
 
-        }        
+        }
+
+
+        public void Dispose()
+        {
+            
+        }
+
+        public void Init()
+        {
+
+        }
     }
 }

@@ -5,7 +5,8 @@ using JetBrains.ReSharper.Psi.Resolve;
 
 namespace Arp.Common.Psi.Daemon.References
 {
-    public class NotResolvedError:  IHighlighting
+    [StaticSeverityHighlighting(Severity.ERROR, OverlapResolve = OverlapResolveKind.ERROR)]
+    public class NotResolvedError : ICustomAttributeHighlighting
     {
         // Fields
         private readonly string message;
