@@ -1,6 +1,7 @@
+using JetBrains.Application;
 using JetBrains.ReSharper.Psi.Xml.Parsing;
 using JetBrains.ReSharper.Psi.Xml.Tree;
-using JetBrains.Shell;
+
 
 namespace Arp.NH.Psi.Parsing
 {

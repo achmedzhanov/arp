@@ -12,7 +12,7 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml;
 using JetBrains.ReSharper.Psi.Xml.Tree;
-using JetBrains.Shell;
+using JetBrains.Application;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi
@@ -98,10 +98,6 @@ namespace Arp.log4net.Psi
 
         #region test overrides
 
-        public override IRawLexer CreateLexer(IBuffer buffer)
-        {
-            return base.CreateLexer(buffer);
-        }
 
         public override ILexer CreateFilteringLexer(ILexer lexer)
         {

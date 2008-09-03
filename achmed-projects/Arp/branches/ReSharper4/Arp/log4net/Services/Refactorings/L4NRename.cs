@@ -28,11 +28,6 @@ namespace Arp.log4net.Services.Refactorings
         {
         }
 
-        public override RenameAvailabilityCheckResult CheckAvailability(IDeclaredElement element)
-        {
-            return RenameAvailabilityCheckResult.CanBeRenamed;
-        }
-
         public override string[] GetPossibleReferenceNames(IDeclaredElement element, string newName)
         {
             return new string[] { element.ShortName };
@@ -42,11 +37,6 @@ namespace Arp.log4net.Services.Refactorings
         public override bool DoNotProcess(IDeclaredElement element)
         {
             return false;
-        }
-
-        public override IDeclaredElement GetPrimevalDeclaredElement(IDeclaredElement element)
-        {
-            return element;
         }
 
         public override IReference TransformAnonymousType(IReference reference)

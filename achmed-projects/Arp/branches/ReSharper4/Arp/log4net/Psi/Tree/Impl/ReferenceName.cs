@@ -12,14 +12,14 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Util;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
-using JetBrains.Shell;
+using JetBrains.Application;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
 {
     public class ReferenceName : CompositeElement, ICompleteableReference, IQualifier, IQualifiableReference, IAccessContext, ICheckedReference
     {
-        private ResolveInfo resolveInfo;
+        private IResolveInfo resolveInfo;
 
         private IQualifier qualifier = null;
 
@@ -277,7 +277,9 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region IQualifier Members
 
-        public ISymbolTable GetSymbolTable()
+
+
+        public ISymbolTable GetSymbolTable(params string[] referenceNames)
         {
             ResolveResult result = this.Resolve();
             IDeclaredElement element = result.DeclaredElement;
@@ -351,7 +353,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region IQualifiableReference Members
 
-        public ResolveResult Resolve(ISymbolTable table, IAccessContext context, out ResolveInfo resolveInfo)
+        public ResolveResult Resolve(ISymbolTable table, IAccessContext context, out IResolveInfo resolveInfo)
         {
             // TODO check this code
             if (table == EmptySymbolTable.INSTANCE)
@@ -403,7 +405,7 @@ namespace Arp.log4net.Psi.Tree.Impl
             this.resolveInfo = resolveInfo;
         }
 
-        public ResolveResult ResolveWithoutCache(out ResolveInfo resolveInfo)
+        public ResolveResult ResolveWithoutCache(out IResolveInfo resolveInfo)
         {
             // TODO check this code
             return ResolveUtil.ResolveQualifiableReference(this, this, out resolveInfo);
@@ -479,7 +481,7 @@ namespace Arp.log4net.Psi.Tree.Impl
             return EmptyArray<ISymbolFilter>.Instance;
         }
 
-        public ResolveInfo CurrentResolveInfo
+        public IResolveInfo CurrentResolveInfo
         {
             get
             {
@@ -490,6 +492,11 @@ namespace Arp.log4net.Psi.Tree.Impl
                 this.resolveInfo = value;
             }
 
+        }
+
+        public ResolveResult GetResolveResult(ISymbolTable symbolTable, out IResolveInfo resolveInfo)
+        {
+            return CheckedReferenceImplUtil.GetResolveResult(this, symbolTable, out resolveInfo);
         }
 
         #endregion

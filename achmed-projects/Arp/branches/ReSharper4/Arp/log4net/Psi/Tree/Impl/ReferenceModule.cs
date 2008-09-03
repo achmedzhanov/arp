@@ -17,7 +17,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         #region IQualifier Members
 
-        public ISymbolTable GetSymbolTable()
+        public ISymbolTable GetSymbolTable(params string[] referenceNames)
         {
             throw new System.NotImplementedException();
         }

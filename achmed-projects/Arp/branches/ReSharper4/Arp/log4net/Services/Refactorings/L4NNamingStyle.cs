@@ -28,15 +28,6 @@ namespace Arp.log4net.Services.Refactorings
             return new DefaultNamingStyleSettings();
         }
 
-        // Properties
-        public override PsiLanguageType Language
-        {
-            get
-            {
-                return L4NLanguageService.L4N;
-            }
-        }
-
         protected override IDictionary<string, string> OurNamesMap
         {
             get

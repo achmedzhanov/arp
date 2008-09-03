@@ -2,7 +2,7 @@
 using Arp.log4net.Services.QuickFixes;
 using JetBrains.ComponentModel;
 using JetBrains.ReSharper.Daemon;
-using JetBrains.Shell;
+using JetBrains.Application;
 
 namespace Arp.log4net.Services
 {

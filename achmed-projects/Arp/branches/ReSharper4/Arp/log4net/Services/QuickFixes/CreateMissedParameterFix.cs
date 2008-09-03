@@ -7,7 +7,7 @@ using JetBrains.ReSharper.Daemon.CSharp.QuickFixes;
 using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi.Xml.Tree;
 using JetBrains.TextControl;
-using JetBrains.Shell;
+using JetBrains.Application;
 using JetBrains.Util;
 
 namespace Arp.log4net.Services.QuickFixes

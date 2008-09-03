@@ -28,10 +28,6 @@ namespace Arp.NH.Services.Refactorings
         {
         }
 
-        public override RenameAvailabilityCheckResult CheckAvailability(IDeclaredElement element)
-        {
-            return RenameAvailabilityCheckResult.CanBeRenamed;
-        }
 
         public override string[] GetPossibleReferenceNames(IDeclaredElement element, string newName)
         {
@@ -42,11 +38,6 @@ namespace Arp.NH.Services.Refactorings
         public override bool DoNotProcess(IDeclaredElement element)
         {
             return false;
-        }
-
-        public override IDeclaredElement GetPrimevalDeclaredElement(IDeclaredElement element)
-        {
-            throw new System.NotImplementedException();
         }
 
         public override IReference TransformAnonymousType(IReference reference)

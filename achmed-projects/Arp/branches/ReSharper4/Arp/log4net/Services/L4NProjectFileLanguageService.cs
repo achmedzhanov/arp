@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Arp.log4net.Psi;
+using JetBrains.Application;
+using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Caches2;
@@ -11,13 +13,22 @@ using JetBrains.Util;
 namespace Arp.log4net.Services
 {
 
-    [XmlLanguage, ProjectFileLanguageService(new string[] {".l4n", ".config", ".log4net", ".log4net.xml" }, IsDefault = true)]
-    public class L4NProjectFileLanguageService : IProjectFileLanguageService
+    [XmlLanguage, ShellComponentInterface(ProgramConfigurations.ALL), ShellComponentImplementation, ProjectFileLanguageService(new string[] { ".l4n", ".config", ".log4net", ".log4net.xml" }, IsDefault = true)]
+    public class L4NProjectFileLanguageService : IProjectFileLanguageService, IShellComponent
     {
         public static ProjectFileType L4N = new ProjectFileType("L4N");
 
         private static readonly PsiLanguageType[] POSSIBLE_PSI_LANGUAGE_TYPES = new PsiLanguageType[] { L4NLanguageService.L4N };
 
+        public void Dispose()
+        {
+            
+        }
+
+        public void Init()
+        {
+            
+        }
 
         public PsiLanguageType GetPsiLanguageType(IProjectFile file)
         {

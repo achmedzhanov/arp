@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Arp.log4net.Psi.Tree;
 using Arp.Utils;
+using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.CodeInsight.Services.Search;
 using JetBrains.ReSharper.CodeView.Occurences;
@@ -10,7 +11,6 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Search;
 using JetBrains.ReSharper.Psi.Tree;
-using JetBrains.Shell.Progress;
 using JetBrains.Util;
 using NUnit.Framework;
 

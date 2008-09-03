@@ -28,15 +28,6 @@ namespace Arp.NH.Services.Refactorings
             return new DefaultNamingStyleSettings();
         }
 
-        // Properties
-        public override PsiLanguageType Language
-        {
-            get
-            {
-                return NHLanguageService.NH;
-            }
-        }
-
         protected override IDictionary<string, string> OurNamesMap
         {
             get

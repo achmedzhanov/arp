@@ -34,7 +34,7 @@ namespace Arp.NH.Psi.Tree.Impl
             if (project != null)
             {
                 table.DependencySet.AddNamespaceQualifierDependency("", project);
-                IDeclaredElement[] elementsFromCache = this.GetManager().GetDeclarationsCache(DeclarationsCacheScope.ProjectScope(project, true), true).GetElementsAtQualifiedName(string.Empty);
+                IEnumerable<IDeclaredElement> elementsFromCache = this.GetManager().GetDeclarationsCache(DeclarationsCacheScope.ProjectScope(project, true), true).GetElementsAtQualifiedName(string.Empty);
                 foreach (IDeclaredElement declaredElement in elementsFromCache)
                 {
                     table.AddSymbol(declaredElement, declaredElement.IdSubstitution, this, level);

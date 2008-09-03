@@ -12,7 +12,7 @@ using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Tree;
 using JetBrains.ReSharper.Psi.Xml;
 using JetBrains.ReSharper.Psi.Xml.Tree;
-using JetBrains.Shell;
+using JetBrains.Application;
 using JetBrains.Util;
 
 namespace Arp.NH.Psi

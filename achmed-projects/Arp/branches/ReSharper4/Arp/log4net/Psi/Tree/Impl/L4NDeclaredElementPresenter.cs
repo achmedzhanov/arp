@@ -2,7 +2,7 @@ using System;
 using JetBrains.ComponentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.Resolve;
-using JetBrains.Shell;
+using JetBrains.Application;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Tree.Impl
@@ -89,7 +89,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                return (L4NDeclaredElementPresenter)JetBrains.Shell.Shell.Instance.GetComponent(typeof(L4NDeclaredElementPresenter));
+                return (L4NDeclaredElementPresenter)JetBrains.Application.Shell.Instance.GetComponent(typeof(L4NDeclaredElementPresenter));
             }
         }
 

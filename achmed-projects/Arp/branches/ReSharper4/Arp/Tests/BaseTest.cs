@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Reflection;
 using Arp.NH.Psi;
+using JetBrains.Application.Test;
 using JetBrains.ProjectModel;
 using JetBrains.ProjectModel.Platforms;
-using JetBrains.Shell.Test;
 using JetBrains.Util;
 using NUnit.Framework;
 
@@ -14,7 +14,7 @@ namespace Arp.Tests
     {
         static BaseTest()
         {
-            if (JetBrains.Shell.Shell.Instance == null)
+            if (JetBrains.Application.Shell.Instance == null)
             {
                 try
                 {

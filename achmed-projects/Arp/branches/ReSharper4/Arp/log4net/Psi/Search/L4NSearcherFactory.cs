@@ -1,10 +1,12 @@
+using System;
 using System.Collections.Generic;
 using Arp.Common.Psi.Search;
 using JetBrains.ComponentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI;
+using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Search;
-using JetBrains.Shell;
+using JetBrains.Application;
 using JetBrains.Util;
 
 namespace Arp.log4net.Psi.Search
@@ -96,6 +98,16 @@ namespace Arp.log4net.Psi.Search
         public static L4NSearcherFactory Instance
         {
             get { return instance; }
+        }
+
+        public ICollection<string> GetAllPossibleNames(IDeclaredElement element)
+        {
+            return new string[] { element.ShortName };
+        }
+
+        public Pair<ICollection<IDeclaredElement>, Predicate<IReference>>? GetRelatedDeclaredElements(IDeclaredElement element)
+        {
+            return null;
         }
     }
 }

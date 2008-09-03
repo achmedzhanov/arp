@@ -22,7 +22,7 @@ namespace Arp.NH.Psi.Tree.Impl
     {
         #region IQualifier Members
 
-        public ISymbolTable GetSymbolTable()
+        public ISymbolTable GetSymbolTable(params string[] referenceNames)
         {
             ReferenceName name = GetNameReferenceName();
             if (name != null)

@@ -20,7 +20,8 @@ namespace Arp.log4net.Psi.Tree.Impl
             return EmptyArray<ISymbolFilter>.Instance;
         }
 
-        public override ResolveResult ResolveWithoutCache(out ResolveInfo resolveInfo)
+
+        public override ResolveResult ResolveWithoutCache(out IResolveInfo resolveInfo)
         {
             ISymbolTable table = this.GetReferenceSymbolTable(true);
             IList<ISymbolInfo> infos = table.GetAllSymbolInfos(GetName());
@@ -37,7 +38,7 @@ namespace Arp.log4net.Psi.Tree.Impl
 
 
             WritableSymbolTableBase table = useReferenceName
-                                                ? ((WritableSymbolTableBase) new NameSymbolTable(this.GetName(), true))
+                                                ? ((WritableSymbolTableBase) new MultiNameSymbolTable(this.GetName(), true))
                                                 : ((WritableSymbolTableBase) new SymbolTable(true));
             foreach (IDeclaredElement condidate in candicates)
             {

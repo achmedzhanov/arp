@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using Arp.Common.Assertions;
 using Arp.NH.Psi;
+using JetBrains.Application;
+using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Caches2;
@@ -11,13 +13,22 @@ using JetBrains.Util;
 
 namespace Arp.NH.Services
 {
-    [XmlLanguage, ProjectFileLanguageService(new string[] { ".hbm.xml" }, IsDefault = true)]
-    public class NHProjectFileLanguageService : IProjectFileLanguageService
+    [XmlLanguage, ShellComponentInterface(ProgramConfigurations.ALL), ShellComponentImplementation, ProjectFileLanguageService(new string[] { ".hbm.xml" }, IsDefault = true)]
+    public class NHProjectFileLanguageService : IProjectFileLanguageService, IShellComponent
     {
         public static ProjectFileType NH = new ProjectFileType("NH");
 
         private static readonly PsiLanguageType[] POSSIBLE_PSI_LANGUAGE_TYPES = new PsiLanguageType[] { NHLanguageService.NH };
 
+        public void Dispose()
+        {
+            
+        }
+
+        public void Init()
+        {
+            
+        }
 
         public PsiLanguageType GetPsiLanguageType(IProjectFile file)
         {

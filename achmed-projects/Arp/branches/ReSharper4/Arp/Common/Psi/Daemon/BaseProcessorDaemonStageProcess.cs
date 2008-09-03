@@ -50,5 +50,8 @@ namespace Arp.Common.Psi.Daemon
         }
 
         protected abstract IHighlightingProcessor CreateProcessor();
+
+
+
     }
 }

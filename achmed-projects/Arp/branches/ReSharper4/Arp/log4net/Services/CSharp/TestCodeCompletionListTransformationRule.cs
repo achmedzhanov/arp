@@ -3,7 +3,7 @@ using JetBrains.ReSharper.CodeInsight.Services.CSharp.CodeCompletion;
 using JetBrains.ReSharper.CodeInsight.Services.Lookup;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.Resolve;
-using JetBrains.Shell;
+using JetBrains.Application;
 
 namespace Arp.log4net.Services.CSharp
 {

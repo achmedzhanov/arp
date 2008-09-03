@@ -7,18 +7,14 @@ using JetBrains.ReSharper.Refactorings.Workflow;
 
 namespace Arp.NH.Services
 {
-    [LanguageSpecificImplementation("NH", typeof(RefactoringLanguageService))]
-    public class NHRefactoringLanguageService : RefactoringLanguageService
+    [LanguageSpecificImplementation("NH", typeof(IRefactoringLanguageService))]
+    public class NHRefactoringLanguageService : InternalRefactoringLanguageService
+
     {
 
         public override RenameBase CreateRename(RenameWorkflow workflow, ISolution solution, IRefactoringDriver driver)
         {
             return new NHRename(workflow, solution, driver);
-        }
-
-        public override bool RenameAvailable()
-        {
-            return true;
         }
         
     }
