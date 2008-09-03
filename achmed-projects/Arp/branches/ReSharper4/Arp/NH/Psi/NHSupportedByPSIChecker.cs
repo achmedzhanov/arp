@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using Arp.Common.Assertions;
+using Arp.Common.Utils;
 using Arp.NH.Services;
 using JetBrains.Application;
 using JetBrains.ComponentModel;
@@ -10,6 +12,8 @@ namespace Arp.NH.Psi
     [BuildPsiProvider(ProgramConfigurations.ALL)]
     public class NHSupportedByPSIChecker : ISupportedByPSIChecker, IShellComponent
     {
+        private bool fixedLangServiceOrder;
+
         ///<summary>
         ///
         ///            If any of the registered checked answer 
@@ -19,6 +23,9 @@ namespace Arp.NH.Psi
         ///
         public BuildPsiResult Check(IProjectFile projectFile)
         {
+            FixLangServiceOrder();
+            
+            
             if (projectFile.Name.EndsWith(NHProjectFileLanguageService.HBM_SUFFIX))
                 return BuildPsiResult.DO_BUILD;
 
@@ -28,6 +35,23 @@ namespace Arp.NH.Psi
             }
             return BuildPsiResult.DO_BUILD;
 
+        }
+
+        private void FixLangServiceOrder()
+        {
+            if(fixedLangServiceOrder)
+                return;
+
+            IList<IProjectFileLanguageService> services = ProjectFileLanguageServiceManager.Instance.Services;
+            NHProjectFileLanguageService projectFileLanguageService =
+                (NHProjectFileLanguageService) CollectionsUtils.Find(services, t => t is NHProjectFileLanguageService);
+
+            Assert.CheckNotNull(projectFileLanguageService);
+
+            services.Remove(projectFileLanguageService);
+            services.Insert(0,projectFileLanguageService);
+
+            fixedLangServiceOrder = true;
         }
 
 

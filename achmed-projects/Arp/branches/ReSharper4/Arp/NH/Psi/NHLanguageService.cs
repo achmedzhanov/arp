@@ -38,9 +38,6 @@ namespace Arp.NH.Psi
 
         public void Init()
         {
-//            NHProjectFileLanguageService component = (NHProjectFileLanguageService)Shell.Instance.GetComponent(typeof(NHProjectFileLanguageService));
-//            IList<IProjectFileLanguageService> services = ProjectFileLanguageServiceManager.Instance.Services;
-//            services.Insert(0, component);
         }
 
         ///<summary>
