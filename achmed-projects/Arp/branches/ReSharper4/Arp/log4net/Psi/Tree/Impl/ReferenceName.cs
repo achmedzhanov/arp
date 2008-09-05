@@ -165,7 +165,8 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///
         public ResolveResult Resolve()
         {
-            return ResolveUtil.ResolveWithCache(this);
+            ResolveResult result = ResolveUtil.ResolveWithCache(this);
+            return result;
         }
 
         ///<summary>

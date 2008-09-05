@@ -109,6 +109,21 @@ namespace Arp.Common.Utils
 
         }
 
+        public static T GetElementOrDefault<T>(IEnumerable<T> collection, int at)
+        {
+            int idx = 0;
+            foreach (T obj in collection)
+            {
+                if (idx == at)
+                    return obj;
+                idx++;
+            }
+
+            return default(T);
+
+        }
+
+
         public static ICollection<T> ConvertCollections<T, V>(ICollection<V> values)
             where T : class
         {

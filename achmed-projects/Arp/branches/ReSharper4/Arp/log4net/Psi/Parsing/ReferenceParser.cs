@@ -25,14 +25,14 @@ namespace Arp.log4net.Psi.Parsing
         {
             ReferenceNameAttributeValue attributeValue = new ReferenceNameAttributeValue();
 
-            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, ParseTypeNameOrAttributeValue);
+            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, text =>  ParseTypeNameOrAttributeValue(text, null));
         }
 
-        public IXmlAttributeValue ParseReferenceType(IXmlAttributeValue xmlAttributeValue)
+        public IXmlAttributeValue ParseReferenceType(IXmlAttributeValue xmlAttributeValue, IQualifier qualifier)
         {
             ReferenceTypeAttributeValue attributeValue = new ReferenceTypeAttributeValue();
 
-            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, ParseTypeReference);
+            return ParseAttributeValueAspect(xmlAttributeValue, attributeValue, text => ParseTypeReference(text, qualifier));
         }
 
         public IXmlAttributeValue ParseReferenceModule(IXmlAttributeValue xmlAttributeValue)
@@ -89,17 +89,18 @@ namespace Arp.log4net.Psi.Parsing
             return (IXmlAttributeValue)newAttributeValue;
         }
 
-        public ReferenceName ParseReferenceName(string text)
+        public ReferenceName ParseReferenceName(string text, IQualifier qualifier)
         {
-            return ParseTypeNameOrAttributeValue(text);
+            return ParseTypeNameOrAttributeValue(text, qualifier);
         }
 
-        public ReferenceType ParseTypeReference(string text)
+
+        public ReferenceType ParseTypeReference(string text, IQualifier qualifier)
         {
             // it's stub
             try
             {
-                ReferenceName referenceName = ParseReferenceName(text);
+                ReferenceName referenceName = ParseReferenceName(text, qualifier);
                 ReferenceType referenceType = new ReferenceType();
                 referenceType.AddChild(referenceName);
                 return referenceType;
@@ -239,12 +240,12 @@ namespace Arp.log4net.Psi.Parsing
             return result;  
         }
 
-        protected ReferenceName ParseTypeNameOrAttributeValue(string text )
+        protected ReferenceName ParseTypeNameOrAttributeValue(string text, IQualifier qualifier)
         {
             lexer = new CSharpLexer(new StringBuffer(text));
             Start();
             TreeElement firstIdentifier = ParseIdentifier();
-            TreeElement result = ParseReferencedName(firstIdentifier);
+            TreeElement result = ParseReferencedName(firstIdentifier, qualifier);
             return (ReferenceName)result;
         }
 
@@ -254,14 +255,14 @@ namespace Arp.log4net.Psi.Parsing
 //            this.myTokens.Add(new TokenEntry(this.myLexer));
         }
 
-        private TreeElement ParseReferencedName(TreeElement id)
+        private TreeElement ParseReferencedName(TreeElement id, IQualifier qualifier)
         {
             TreeElement result = id;
             TokenNodeType tokenType = lexer.TokenType;
             XmlToken xmlToken = id as XmlToken;
             if (xmlToken != null && xmlToken.type == L4NTokenNodeType.IDENTIFIER)
             {
-                result = new ReferenceName(id);
+                result = new ReferenceName(id, qualifier);
                 // TODO parse argument list
             }
 

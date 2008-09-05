@@ -315,6 +315,7 @@
     <Compile Include="log4net\Services\ReferencesDaemonStage.cs" />
     <Compile Include="NH\Psi\NHConpositeElementType.cs" />
     <Compile Include="NH\Psi\NHElementFactory.cs" />
+    <Compile Include="NH\Psi\NHGlobalQualifier.cs" />
     <Compile Include="NH\Psi\NHLanguageService.cs" />
     <Compile Include="NH\Psi\NHSupportedByPSIChecker.cs" />
     <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
@@ -390,7 +391,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
   <Target Name="AfterBuild">
     <Message Condition=" '$(CreatePackage)' == 'true' " Text="Deleting old build files" />
     <CreateItem Condition=" '$(CreatePackage)' == 'true' " Include="..\build\**\*.*">
@@ -401,9 +401,6 @@
       <Output ItemName="BinFiles" TaskParameter="Include" />
     </CreateItem>
     <Copy Condition=" '$(CreatePackage)' == 'true' " SourceFiles="@(BinFiles)" DestinationFolder="..\build\" />
-
     <MSBuild Condition=" '$(CreatePackage)' == 'true' " Projects="..\Arp.Setup\Arp.Setup.proj" Properties="Configuration=$(Configuration)" />
-
   </Target>
-
 </Project>

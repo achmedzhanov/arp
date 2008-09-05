@@ -119,8 +119,18 @@ namespace Arp.NH.Psi
                 }
                 
             }
-            
-             if (element is IComponentElement
+
+            if (element is IPropertyElement)
+            {
+                if (attribute.XmlName == "type")
+                {
+                    CreateTypeWithNHAliasReferenceAttributeValue(element, attribute);
+                    return;
+                }                
+            }
+
+
+            if (element is IComponentElement
               || element is ICompositeElementElement
               || element is ICompositeIdElement
               || element is ICompositeIndexElement
@@ -150,7 +160,17 @@ namespace Arp.NH.Psi
                 return;
 
             ReferenceParser parser = new ReferenceParser();
-            IXmlAttributeValue newElement = parser.ParseReferenceType(attribute.Value);
+            IXmlAttributeValue newElement = parser.ParseReferenceType(attribute.Value, null);
+            ReplaceAttributeValue(attribute, newElement);
+        }
+
+        private void CreateTypeWithNHAliasReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
+        {
+            if (attribute.Value == null)
+                return;
+
+            var parser = new ReferenceParser();
+            var newElement = parser.ParseReferenceType(attribute.Value, new NHGlobalQualifier(element));
             ReplaceAttributeValue(attribute, newElement);
         }
         

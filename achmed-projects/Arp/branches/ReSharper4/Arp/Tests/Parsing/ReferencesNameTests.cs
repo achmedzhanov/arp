@@ -17,7 +17,7 @@ namespace Arp.Tests.Parsing
         public void ParseReferenceNameSuccess()
         {
             ReferenceParser parser = new ReferenceParser();
-            log4net.Psi.Tree.Impl.ReferenceName referenceName = parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests");
+            log4net.Psi.Tree.Impl.ReferenceName referenceName = parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests", null);
             
             Check(referenceName);
         }
@@ -51,10 +51,10 @@ namespace Arp.Tests.Parsing
         public void ParseReferenceNameWithUnnecessaryEnd()
         {
             ReferenceParser parser = new ReferenceParser();
-            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests ")); 
-            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests;")); 
-            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests\"")); 
-            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests&%"));
+            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests ", null));
+            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests;", null));
+            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests\"", null));
+            Check(parser.ParseReferenceName("TestFiles.Parsing.ClassForReferencesTests&%", null));
         }
 
         [Test]
@@ -70,8 +70,8 @@ namespace Arp.Tests.Parsing
         {
             try
             {
-                
-                parser.ParseReferenceName(text);
+
+                parser.ParseReferenceName(text, null);
             }
             catch (UnexpectedToken ex)
             {
