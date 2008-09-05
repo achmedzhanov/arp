@@ -390,4 +390,20 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+  <Target Name="AfterBuild">
+    <Message Condition=" '$(CreatePackage)' == 'true' " Text="Deleting old build files" />
+    <CreateItem Condition=" '$(CreatePackage)' == 'true' " Include="..\build\**\*.*">
+      <Output ItemName="ClearZipFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Delete Condition=" '$(CreatePackage)' == 'true' " Files="@(ClearZipFiles)" />
+    <CreateItem Condition=" '$(CreatePackage)' == 'true' " Include="$(OutputPath)\Arp*.dll" Exclude="?svn">
+      <Output ItemName="BinFiles" TaskParameter="Include" />
+    </CreateItem>
+    <Copy Condition=" '$(CreatePackage)' == 'true' " SourceFiles="@(BinFiles)" DestinationFolder="..\build\" />
+
+    <MSBuild Condition=" '$(CreatePackage)' == 'true' " Projects="..\Arp.Setup\Arp.Setup.proj" Properties="Configuration=$(Configuration)" />
+
+  </Target>
+
 </Project>

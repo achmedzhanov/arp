@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Reflection;
 using Arp.Common.Assertions;
 using Arp.NH.Psi;
 using JetBrains.Application;
@@ -9,6 +10,7 @@ using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Caches2;
 using JetBrains.ReSharper.Psi.Parsing;
 using JetBrains.ReSharper.Psi.Xml;
+using JetBrains.UI;
 using JetBrains.Util;
 
 namespace Arp.NH.Services
@@ -92,7 +94,10 @@ namespace Arp.NH.Services
 
         public Image Icon
         {
-            get { return null; }
+            get
+            {
+                return ImageLoader.GetImage("NHLogo", new Assembly[0]);
+            }
         }
 
         public ICollection<PsiLanguageType> PossiblePsiLanguageTypes

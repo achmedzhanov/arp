@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+
+<Include>
+
+
+<?define DynProductGuid        = "6B60E68A-97E9-429d-B433-0B436FBF06DB" ?>
+<?define DynProductName        = "ARP" ?>
+<?define DynProductVersion        = "0.5.1" ?>
+<?define DynProductHomePage        = "http://code.google.com/p/arp/" ?>
+<?define DynCompanyName        = "Achmedzhanov Nail" ?>
+<?define DynUpgradeCode        = "CAC7B281-1D4B-4255-8762-01B2B0283B61" ?>
+<?define DynVsVersion        = "10" ?>
+<?define DynReSharperVersion2        = "4.1" ?>
+<?define DynMsiComponentGuid00        = "DCAA6F17-FEA7-4e4d-8DA6-DB29781E2B8C" ?>
+<?define DynMsiComponentGuid01        = "A2679B3C-C0C5-4129-A45E-02623A852099" ?>
+
+
+</Include>
+
