@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Arp.Common.Assertions;
 using JetBrains.ProjectModel;
 using JetBrains.DocumentModel;
@@ -363,11 +364,17 @@ namespace Arp.log4net.Psi.Tree.Impl
                 return ResolveResult.EMPTY;
             }
 
+
+            #region Filtered table FIX: if filter set is empty it work incorrect
+
             int mustRun = 0;
             ISymbolFilter[] filters = GetSymbolFilters(out mustRun);
 
             if (mustRun == 0 && (filters == null || filters.Length == 0))
                 return GetResolveResult(table, out resolveInfo);
+
+            #endregion
+
 
             return CheckedReferenceImplUtil.Resolve(this, table, out resolveInfo);
         }
@@ -504,10 +511,14 @@ namespace Arp.log4net.Psi.Tree.Impl
 
         public ResolveResult GetResolveResult(ISymbolTable symbolTable, out IResolveInfo resolveInfo)
         {
-            return CheckedReferenceImplUtil.GetResolveResult(this, symbolTable, out resolveInfo);
+            ResolveResult result = CheckedReferenceImplUtil.GetResolveResult(this, symbolTable, out resolveInfo);
+            return result;
         }
 
         #endregion
+
+
+
 
 
 

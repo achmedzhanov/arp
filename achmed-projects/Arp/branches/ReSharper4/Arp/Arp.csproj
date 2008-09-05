@@ -196,6 +196,7 @@
     <Compile Include="Common\Psi\Daemon\ReferenceNameSyntaxErrors\ReferenceNameSyntaxErrorProcessor.cs" />
     <Compile Include="Common\Psi\Resolve\Filters\PropertyOrFiledFilter.cs" />
     <Compile Include="Common\Psi\Resolve\Filters\PublicOrProtectedFilter.cs" />
+    <Compile Include="Common\Psi\Services\CodeCompletion\DeclaredElementWithAliasLookupItem.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\BaseReferenceAttributeValue.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\FilteredReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ModuleDeclaredElement.cs" />

@@ -95,7 +95,8 @@ namespace Arp.NH.Psi
                 aliasesTable.AddSymbol(pair.Key, pair.Value, EmptySubstitution.INSTANCE, null, 0);
             }
 
-            return new MergedTable(tableFromGlobal, aliasesTable);
+            var table = new MergedTable(tableFromGlobal, aliasesTable);
+            return table;
         }
 
         protected Dictionary<string, IDeclaredElement> GetAliases()

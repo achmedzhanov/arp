@@ -277,7 +277,7 @@ namespace Arp.Common.Psi.Services.CodeCompletion
             ISymbolTable table = reference.GetCompletionSymbolTable();
             //          TODO
             string[] names = table.Names("", true, delegate { return false; });
-            List<IDeclaredElement> toAdd = new List<IDeclaredElement>();
+            List<Pair<string,IDeclaredElement>> toAdd = new List<Pair<string, IDeclaredElement>>();
             foreach (string name in names)
             {
                 foreach (ISymbolInfo info in table.GetAllSymbolInfos(name))
@@ -285,15 +285,15 @@ namespace Arp.Common.Psi.Services.CodeCompletion
                     IDeclaredElement declaredElement = info.GetDeclaredElement();
                     if (IncludeDeclaredElement(declaredElement))
                     {
-                        toAdd.Add(declaredElement);
+                        toAdd.Add(new Pair<string, IDeclaredElement>(name, declaredElement));
                     }
                 }
             }
 
-            foreach (IDeclaredElement element in toAdd)
+            foreach (var pair in toAdd)
             {
-                DeclaredElementLookupItem item =
-                    new DeclaredElementLookupItem(new DeclaredElementInstance(element),
+                var item =
+                    new DeclaredElementWithAliasLookupItem(pair.First, new DeclaredElementInstance(pair.Second),
                                                   new DeclaredElementLookupItemCreationContext(ProjectFile),
                                                   L4NLanguageService.L4N);
                 item.InsertRange = new TextRange(0);
