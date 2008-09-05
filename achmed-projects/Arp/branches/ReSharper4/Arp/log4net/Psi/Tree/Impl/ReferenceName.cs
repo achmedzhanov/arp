@@ -362,6 +362,13 @@ namespace Arp.log4net.Psi.Tree.Impl
                 resolveInfo = ResolveErrorType.NOT_RESOLVED;
                 return ResolveResult.EMPTY;
             }
+
+            int mustRun = 0;
+            ISymbolFilter[] filters = GetSymbolFilters(out mustRun);
+
+            if (mustRun == 0 && (filters == null || filters.Length == 0))
+                return GetResolveResult(table, out resolveInfo);
+
             return CheckedReferenceImplUtil.Resolve(this, table, out resolveInfo);
         }
 

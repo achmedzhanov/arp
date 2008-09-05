@@ -180,7 +180,7 @@ namespace Arp.log4net.Psi.Parsing
 
                 if(expectedIdentifier)
                 {
-                    if (tokenType == CSharpTokenType.IDENTIFIER)
+                    if (IsIdentifier(tokenType))
                     {
                         tokenTexts.Append(lexer.TokenText);
                         expectedIdentifier = false;
@@ -199,7 +199,7 @@ namespace Arp.log4net.Psi.Parsing
                         expectedIdentifier = true;
                         end = lexer.TokenEnd;
 
-                        if (LexerUtil.LookaheadToken(lexer, 1) != CSharpTokenType.IDENTIFIER)
+                        if (!IsIdentifier(LexerUtil.LookaheadToken(lexer, 1)))
                             return CreateModuleNameToken(start, end, true);
 
                     }
@@ -213,6 +213,11 @@ namespace Arp.log4net.Psi.Parsing
             }
 
             return CreateModuleNameToken(start, end, false);
+        }
+
+        private bool IsIdentifier(TokenNodeType tokenType)
+        {
+            return tokenType == CSharpTokenType.IDENTIFIER || CSharpTokenType.KEYWORDS.Exists(type => type == tokenType);
         }
 
         private XmlToken CreateModuleNameToken(int start, int end, bool unexpectedToken)
@@ -335,7 +340,7 @@ namespace Arp.log4net.Psi.Parsing
         
         private TreeElement ParseIdentifier()
         {
-            if (lexer.TokenType != CSharpTokenType.IDENTIFIER)
+            if (!IsIdentifier(lexer.TokenType))
             {
                 throw new UnexpectedToken("Expected identifier");
             }

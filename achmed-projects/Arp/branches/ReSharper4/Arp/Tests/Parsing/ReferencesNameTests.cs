@@ -22,6 +22,17 @@ namespace Arp.Tests.Parsing
             Check(referenceName);
         }
 
+        [Test]
+        public void ParseKeyword()
+        {
+            ReferenceParser parser = new ReferenceParser();
+            log4net.Psi.Tree.Impl.ReferenceName referenceName = parser.ParseReferenceName("int", null);
+
+            Assert.AreEqual("int", referenceName.GetName());
+        }
+
+
+
         private void Check(ReferenceName referenceName)
         {
             Assert.AreEqual("ClassForReferencesTests", referenceName.GetName());

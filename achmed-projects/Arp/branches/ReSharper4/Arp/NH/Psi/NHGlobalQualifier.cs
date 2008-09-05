@@ -96,7 +96,6 @@ namespace Arp.NH.Psi
             }
 
             return new MergedTable(tableFromGlobal, aliasesTable);
-            
         }
 
         protected Dictionary<string, IDeclaredElement> GetAliases()
