@@ -54,7 +54,10 @@ namespace Arp.NH.Psi.Tree
 
         private ISymbolTable CreateCompletionSymboltavble()
         {
-            IDatabase database = DatabaseManager.Instance().GetDatabaseForSolution(myOwner.GetProject().GetSolution());
+            IDatabase database = DatabaseManager.GetInstance(myOwner.GetProject().GetSolution()).GetDatabaseForSolution();
+
+            if (database == null)
+                return EmptySymbolTable.INSTANCE;
 
             var symbolTable = new SymbolTable(database.CaseSensitive);
             var tableLikeObjects = new List<ITableLike>();

@@ -2,41 +2,71 @@ using System;
 using System.Collections.Generic;
 using Arp.Databases.Meta;
 using Arp.Databases.Meta.Impl.Stub;
+using Arp.Databases.Meta.Providers.MSSQL2005;
+using JetBrains.ComponentModel;
 using JetBrains.ProjectModel;
+using JetBrains.Util;
 
 namespace Arp.Databases
 {
-    public class DatabaseManager
+    [SolutionComponentImplementation(ProgramConfigurations.ALL), SolutionComponentInterface(ProgramConfigurations.ALL)]
+    public class DatabaseManager : ISolutionComponent
     {
+        private Database database;
 
-        #region Singletone implementation
-
-        private static DatabaseManager _instance;
-
-        public static DatabaseManager Instance()
+        public static DatabaseManager GetInstance(ISolution solution)
         {
-            if (_instance == null)
-            {
-                lock (typeof (DatabaseManager))
-                {
-                    if (_instance == null)
-                    {
-                        _instance = new DatabaseManager();
-                    }
-                }
-            }
-
-            return _instance;
+            return solution.GetComponent<DatabaseManager>();
         }
 
-        #endregion
-
-
-        public IDatabase GetDatabaseForSolution(ISolution solution)
+        public string ConnectionString
         {
-            StubDatabase database = new StubDatabase();
-//            database.Tables = new List<ITable> { new StubTable { ShortName = "roles", QualifiedName = "dbo.roles" }, new StubTable { ShortName = "users", QualifiedName = "dbo.users" } };
+            get; set;
+        }
+
+        public bool Enabled
+        {
+            get; set;
+        }
+
+        public IDatabase GetDatabaseForSolution()
+        {
+            if (!Enabled)
+                return null;
+
+            // TODO implement ITypeLoadHandler to collect metadata providers
+            
+            if(database == null)
+            {
+                database = new Database(ConnectionString);
+            }
+
             return database;
+        }
+
+        public void Dispose()
+        {
+            
+        }
+
+        public void Init()
+        {
+            
+        }
+
+        public void AfterSolutionOpened()
+        {
+            
+        }
+
+        public void BeforeSolutionClosed()
+        {
+            
+        }
+
+        public void Refresh()
+        {
+            database = null;
         }
     }
 }

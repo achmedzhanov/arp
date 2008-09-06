@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="UI\ARPPage.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Common\Psi\Daemon\IHighlightingProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\References\ReferencesProcessor.cs" />
@@ -370,6 +371,10 @@
     <ProjectReference Include="..\Arp.Common\Arp.Common.csproj">
       <Project>{F6C8C383-15F0-4DB5-8188-2904BA9775DE}</Project>
       <Name>Arp.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Arp.Databases.Meta.Providers.MSSQL2005\Arp.Databases.Meta.Providers.MSSQL2005.csproj">
+      <Project>{1EE1458C-952D-4D43-B4EB-61D2EB9A266E}</Project>
+      <Name>Arp.Databases.Meta.Providers.MSSQL2005</Name>
     </ProjectReference>
     <ProjectReference Include="..\Arp.Databases.Meta\Arp.Databases.Meta.csproj">
       <Project>{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}</Project>
