@@ -2,7 +2,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.50727</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -40,9 +40,9 @@
   <ItemGroup>
     <Compile Include="IColumn.cs" />
     <Compile Include="IDatabase.cs" />
-    <Compile Include="Impl\BaseColumn.cs" />
-    <Compile Include="Impl\BaseDatabase.cs" />
-    <Compile Include="Impl\BaseTable.cs" />
+    <Compile Include="Impl\Stub\StubColumnt.cs" />
+    <Compile Include="Impl\Stub\StubDatabase.cs" />
+    <Compile Include="Impl\Stub\StubTable.cs" />
     <Compile Include="ITable.cs" />
     <Compile Include="ITableLike.cs" />
     <Compile Include="IView.cs" />

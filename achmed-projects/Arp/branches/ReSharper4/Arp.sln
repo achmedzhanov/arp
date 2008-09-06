@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arp.Databases.Meta.Provider
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arp.Databases.Meta.Tests", "Arp.Databases.Meta.Tests\Arp.Databases.Meta.Tests.csproj", "{A0F4977F-B574-4E7A-8178-E004FA8BC511}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Arp.Databases.Meta.Providers.MSSQL2005", "Arp.Databases.Meta.Providers.MSSQL2005\Arp.Databases.Meta.Providers.MSSQL2005.csproj", "{1EE1458C-952D-4D43-B4EB-61D2EB9A266E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,7 @@ Global
 		{0A4BABA8-07B1-4D78-ABCE-B658C7A63179}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A4BABA8-07B1-4D78-ABCE-B658C7A63179}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B9094039-974E-4783-B3B0-FFF620552A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -52,6 +55,10 @@ Global
 		{A0F4977F-B574-4E7A-8178-E004FA8BC511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A0F4977F-B574-4E7A-8178-E004FA8BC511}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0F4977F-B574-4E7A-8178-E004FA8BC511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EE1458C-952D-4D43-B4EB-61D2EB9A266E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EE1458C-952D-4D43-B4EB-61D2EB9A266E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EE1458C-952D-4D43-B4EB-61D2EB9A266E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EE1458C-952D-4D43-B4EB-61D2EB9A266E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -10,5 +10,8 @@ namespace Arp.Databases.Meta
         uint Precission { get;}
         uint Scale { get;}
         bool Nullable { get;}
+        bool IsPrimaryKey { get; }
+        bool IsForeignKey { get; }
+        string ForeignKeyReferenceTable { get; }
     }
 }

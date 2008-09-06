@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="INFORMATION_SCHEMA.Tables" Member="Tables">
+    <Type Name="Tables">
+      <Column Name="TABLE_CATALOG" Member="TableCatalog" Type="System.String" CanBeNull="false" />
+      <Column Name="Table_Schema" Member="TableSchema" Type="System.String" CanBeNull="false" />
+      <Column Name="Table_Name" Member="TableName" Type="System.String" CanBeNull="false" />
+      <Column Name="Table_Type" Member="TableType" Type="System.String" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

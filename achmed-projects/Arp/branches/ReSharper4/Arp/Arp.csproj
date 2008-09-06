@@ -197,6 +197,7 @@
     <Compile Include="Common\Psi\Resolve\Filters\PropertyOrFiledFilter.cs" />
     <Compile Include="Common\Psi\Resolve\Filters\PublicOrProtectedFilter.cs" />
     <Compile Include="Common\Psi\Services\CodeCompletion\DeclaredElementWithAliasLookupItem.cs" />
+    <Compile Include="Databases\DatabaseManager.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\BaseReferenceAttributeValue.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\FilteredReferenceName.cs" />
     <Compile Include="log4net\Psi\Tree\Impl\ModuleDeclaredElement.cs" />
@@ -321,7 +322,14 @@
     <Compile Include="NH\Psi\NHSupportedByPSIChecker.cs" />
     <Compile Include="NH\Psi\Parsing\NHTreeBuilder.cs" />
     <Compile Include="NH\Psi\Search\NHSearcherFactory.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\IDatabaseObjectDeclaredElement.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\ReferenceTableAttributeValue.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\RefrenceTable_ELEMENT_TYPE.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\TableDeclaredElement.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\TableDeclaredElementType.cs" />
     <Compile Include="NH\Psi\Tree\INHElement.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\ReferenceTable.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\TableReference.cs" />
     <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionContext.cs" />
     <Compile Include="NH\Services\CodeCompletion\NHCodeCompletionProvider.cs" />
     <Compile Include="NH\Services\CodeInside\NHCodeInsightService.cs" />
@@ -329,6 +337,8 @@
     <Compile Include="NH\Services\NHRefactoringLanguageService.cs" />
     <Compile Include="NH\Services\Refactorings\NHNamingStyle.cs" />
     <Compile Include="NH\Services\Refactorings\NHRename.cs" />
+    <Compile Include="NH\Services\References\DatabaseObjectsReferenceProcessor.cs" />
+    <Compile Include="NH\Services\References\DatabaseObjectsReferencesDaemonStage.cs" />
     <Compile Include="NH\Services\References\ModulereferenceProcessor.cs" />
     <Compile Include="NH\Services\References\ModuleReferencesDaemonStage.cs" />
     <Compile Include="NH\Stages\DuplicateMapping\DiplaceMappingsProcessor.cs" />
@@ -359,6 +369,10 @@
       <Project>{F6C8C383-15F0-4DB5-8188-2904BA9775DE}</Project>
       <Name>Arp.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Arp.Databases.Meta\Arp.Databases.Meta.csproj">
+      <Project>{46106B1C-A4E7-43A1-BF04-C7B1E8C0CE1C}</Project>
+      <Name>Arp.Databases.Meta</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\NHLogo.bmp" />
@@ -381,7 +395,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="NH\Psi\Tree\Impl\" />
+    <EmbeddedResource Include="Resources\table.ico" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="Serialization\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

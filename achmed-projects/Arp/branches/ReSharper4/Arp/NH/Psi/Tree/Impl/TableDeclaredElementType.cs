@@ -1,17 +1,17 @@
 using System.Drawing;
 using System.Reflection;
-using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.UI;
 
-namespace Arp.log4net.Psi.Tree.Impl
+namespace Arp.NH.Psi.Tree
 {
-    public class ModuleDeclaredElementType : DeclaredElementType
+    public class TableDeclaredElementType : DeclaredElementType
     {
-        public static readonly ModuleDeclaredElementType INSTANCE = new ModuleDeclaredElementType();
+        public static readonly TableDeclaredElementType INSTANCE = new TableDeclaredElementType();
 
 
-        public ModuleDeclaredElementType() : base("")
+        public TableDeclaredElementType()
+            : base("")
         {
         }
 
@@ -23,7 +23,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///
         public override string PresentableName
         {
-            get { return ""; }
+            get { return "Table"; }
         }
 
         ///<summary>
@@ -36,7 +36,8 @@ namespace Arp.log4net.Psi.Tree.Impl
         {
             get
             {
-                return ProjectModelIconManager.Instance.GetAssemblyImage();
+                Bitmap image = ImageLoader.GetImage("table.ico", new Assembly[0]);
+                return image;
             }
         }
 
@@ -48,7 +49,10 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///
         protected override IDeclaredElementPresenter DefaultPresenter
         {
-            get { return L4NDeclaredElementPresenter.Instance; }
+            get
+            {
+                return null;
+            }
         }
     }
 }

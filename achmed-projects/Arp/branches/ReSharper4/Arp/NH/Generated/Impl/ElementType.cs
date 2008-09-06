@@ -8,6 +8,7 @@ namespace Arp.NH.Psi.Tree.Impl
 {
   public partial class ElementType
   {
-    
+      public static readonly CompositeNodeType RefrenceTable_ELEMENT_TYPE =
+          new RefrenceTable_ELEMENT_TYPE("ElementType.RefrenceTable_ELEMENT_TYPE");            
   }
 }

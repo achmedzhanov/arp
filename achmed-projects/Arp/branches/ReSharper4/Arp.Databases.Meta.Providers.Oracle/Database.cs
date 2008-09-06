@@ -83,7 +83,7 @@ namespace Arp.Databases.Meta.Providers.Oracle
 						and cols.column_name = cmts.column_name
 						order by column_id",
             table.Owner,
-            table.Name);
+            table.ShortName);
 
         cmd.CommandText = sql;
 

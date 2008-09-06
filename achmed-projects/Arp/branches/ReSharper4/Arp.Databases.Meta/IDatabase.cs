@@ -4,7 +4,12 @@ namespace Arp.Databases.Meta
 {
     public interface IDatabase
     {
-        ICollection<ITable> Tables {get;}
-        ICollection<IView> Views {get;}
+        ITable GetTable(string name);
+        ITable GetView(string name);
+        ICollection<ITable> GetTables();
+        ICollection<IView> GetViews();
+
+        bool CaseSensitive { get; }
+
     }
 }

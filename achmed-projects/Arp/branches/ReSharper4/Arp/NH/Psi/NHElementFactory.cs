@@ -130,6 +130,14 @@ namespace Arp.NH.Psi
             }
 
 
+            if (attribute.XmlName == "table")
+            {
+                CreateTableReferenceAttributeValue(element, attribute);
+                return;
+            }
+
+
+
             if (element is IComponentElement
               || element is ICompositeElementElement
               || element is ICompositeIdElement
@@ -171,6 +179,16 @@ namespace Arp.NH.Psi
 
             var parser = new ReferenceParser();
             var newElement = parser.ParseReferenceType(attribute.Value, new NHGlobalQualifier(element));
+            ReplaceAttributeValue(attribute, newElement);
+        }
+
+        private void CreateTableReferenceAttributeValue(INHElement element, IXmlAttribute attribute)
+        {
+            if (attribute.Value == null)
+                return;
+
+            var parser = new NHReferenceParser();
+            var newElement = parser.ParseReferenceTable(attribute.Value);
             ReplaceAttributeValue(attribute, newElement);
         }
         
@@ -301,7 +319,7 @@ namespace Arp.NH.Psi
         {
             string parentTagName = ((IXmlTag)parentTag).TagName;
 
-            string name = header.Name.GetText();
+            string name = header.ShortName.GetText();
 
             if (name == L4NConstants.LOG4NET)
             {

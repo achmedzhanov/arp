@@ -99,7 +99,7 @@ namespace Arp.log4net.Psi.Tree.Impl
         ///<filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format("[Name:{0},Type:{1}]", Name, Type);
+            return string.Format("[ShortName:{0},Type:{1}]", Name, Type);
         }
 
         #region IParameterDescriptor Members

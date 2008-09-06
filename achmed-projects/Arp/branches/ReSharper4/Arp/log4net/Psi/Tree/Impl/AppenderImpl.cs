@@ -93,7 +93,7 @@ namespace Arp.log4net.Psi.Tree.Impl
                 elementParametrInfos = EmptyArray<IParameterDescriptor>.Instance;
 
             if (((IParameterDescriptorProvider)this).IsAvailable)
-                parametersFromType = ElementParametrInfoImplUtil.GetParameters(appenderCLRType, "Name", "ErrorHandler");
+                parametersFromType = ElementParametrInfoImplUtil.GetParameters(appenderCLRType, "ShortName", "ErrorHandler");
             return parametersFromType;
         }
 

@@ -12,33 +12,26 @@ namespace Arp.Databases.Meta.Impl
 
         #region IDatabase Members
 
-        public virtual ICollection<ITable> Tables
+        public virtual ICollection<ITable> GetTables()
         {
-            get
-            {
-                return InvokeDBMethodAspect<ITable>(delegate
-                                        {
-                                            if (tables == null)
+            return InvokeDBMethodAspect<ITable>(delegate
+                                                    {
+                                                        if (tables == null)
 
-                                                tables = QueryTables();
-                                            return tables;
-                                        });
-            }
+                                                            tables = QueryTables();
+                                                        return tables;
+                                                    });
         }
 
-        public virtual ICollection<IView> Views
+        public virtual ICollection<IView> GetViews()
         {
-            get
-            {
+            return InvokeDBMethodAspect<IView>(delegate
+                                                   {
+                                                       if (views == null)
 
-                    return InvokeDBMethodAspect<IView>(delegate
-                                                            {
-                                                                                if (views == null)
-                
-                                                                views =  QueryViews();
-                                                                                    return views;                
-                                                            });
-            }
+                                                           views = QueryViews();
+                                                       return views;
+                                                   });
         }
 
         #endregion

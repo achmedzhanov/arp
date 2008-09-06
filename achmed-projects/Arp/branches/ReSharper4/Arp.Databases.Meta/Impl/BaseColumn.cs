@@ -9,6 +9,8 @@ namespace Arp.Databases.Meta.Impl
             this.name = name;
         }
 
+
+
         #region IColumn Members
 
         public string Name

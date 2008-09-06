@@ -19,7 +19,7 @@ namespace Arp.log4net.Psi.Parsing
 {
     public class ReferenceParser
     {
-        private ILexer lexer = null;
+        protected ILexer lexer = null;
 
         public IXmlAttributeValue ParseReferenceName(IXmlAttributeValue xmlAttributeValue)
         {
@@ -53,9 +53,9 @@ namespace Arp.log4net.Psi.Parsing
         }
 
 
-        private delegate CompositeElement StringParse(string text);
+        protected delegate CompositeElement StringParse(string text);
 
-        private IXmlAttributeValue ParseAttributeValueAspect(IXmlAttributeValue xmlAttributeValue, CompositeElement newAttributeValue, StringParse stringParse)
+        protected IXmlAttributeValue ParseAttributeValueAspect(IXmlAttributeValue xmlAttributeValue, CompositeElement newAttributeValue, StringParse stringParse)
         {
             if (xmlAttributeValue == null) throw new ArgumentNullException("xmlAttributeValue");
             if (newAttributeValue == null) throw new ArgumentNullException("newAttributeValue");
@@ -254,7 +254,7 @@ namespace Arp.log4net.Psi.Parsing
             return (ReferenceName)result;
         }
 
-        private void Start()
+        protected void Start()
         {
             lexer.Start();
 //            this.myTokens.Add(new TokenEntry(this.myLexer));
@@ -338,7 +338,7 @@ namespace Arp.log4net.Psi.Parsing
 
         }
         
-        private TreeElement ParseIdentifier()
+        protected TreeElement ParseIdentifier()
         {
             if (!IsIdentifier(lexer.TokenType))
             {
