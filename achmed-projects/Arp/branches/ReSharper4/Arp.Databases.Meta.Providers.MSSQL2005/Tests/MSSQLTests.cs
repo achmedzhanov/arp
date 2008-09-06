@@ -11,9 +11,9 @@ namespace Arp.Databases.Meta.Tests
         [Test]
         public void TablesList()
         {
-            var database = new Database("User ID=Izhevsk2; Password=123; Server=localhost;initial catalog=ReportServer;timeout=1000");
+            var database = new Database("User ID=report_test_user; Password=report_test_user; Server=localhost;initial catalog=ReportServer;timeout=1000");
             var tables = database.GetTables();
-            Assert.AreEqual(27,tables.Count);
+                    Assert.AreEqual(27,tables.Count);
             Assert.IsTrue(CollectionUtil.FindAll(tables, table => table.ShortName == "Event").Count > 0);
         }
     }

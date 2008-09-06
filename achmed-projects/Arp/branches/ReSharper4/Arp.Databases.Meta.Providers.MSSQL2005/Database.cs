@@ -4,6 +4,7 @@ using System.Data.Linq;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Caching;
 using Arp.Databases.Meta.Impl.Stub;
 using JetBrains.Util;
@@ -12,15 +13,17 @@ namespace Arp.Databases.Meta.Providers.MSSQL2005
 {
     public class Database : IDatabase
     {
-        private const string TABLES_KEY = "TABLES";
+        private const string TABLES_KEY = "Arp.Databases.Meta.Providers.MSSQL2005.TABLES";
         
-        private readonly Cache cache = new Cache();
+        private readonly Cache cache = HttpRuntime.Cache;
         
         private readonly string connectionString;
         private const int TABLES_LIST_EXPIRATION = 60;
 
+
         public Database(string connectionString)
         {
+            new HttpRuntime();
             this.connectionString = connectionString;
         }
 
@@ -58,8 +61,8 @@ namespace Arp.Databases.Meta.Providers.MSSQL2005
 
         public ICollection<ITable> GetTables()
         {
-            // TODO user reader writer lock ?
             var tables = (ICollection<ITable>)cache.Get(TABLES_KEY);
+            
             if(tables == null)
             {
                 tables = LoadTables();

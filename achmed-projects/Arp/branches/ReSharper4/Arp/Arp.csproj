@@ -191,6 +191,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UI\ARPPage.cs">
+    </Compile>
     <Compile Include="Common\Psi\Daemon\IHighlightingProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\References\ReferencesProcessor.cs" />
     <Compile Include="Common\Psi\Daemon\ReferenceNameSyntaxErrors\ReferenceNameSyntaxErrorProcessor.cs" />
