@@ -191,6 +191,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NH\Psi\Tree\Impl\ClassLikeElementImplUtils.cs" />
     <Compile Include="UI\ARPPage.cs">
       <SubType>Component</SubType>
     </Compile>

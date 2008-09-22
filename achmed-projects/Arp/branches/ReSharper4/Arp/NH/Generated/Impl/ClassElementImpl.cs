@@ -24,33 +24,14 @@ namespace Arp.NH.Psi.Tree.Impl
 
         public ISymbolTable GetSymbolTable(params string[] referenceNames)
         {
-            ReferenceName name = GetNameReferenceName();
-            if (name != null)
-                return name.GetSymbolTable();
-            else
-                return EmptySymbolTable.INSTANCE;
+            return ClassLikeElementImplUtils.GetSymbolTable(this, referenceNames);
         }
 
         public QualifierKind GetKind()
         {
-            return QualifierKind.TYPE;
+            return ClassLikeElementImplUtils.GetKind(this);
         }
 
-        protected ReferenceName GetNameReferenceName()
-        {
-            if(NameAttribute == null)
-                return null;
-
-            ReferenceTypeAttributeValue attributeValue = (ReferenceTypeAttributeValue)NameAttribute.Value;
-            if (attributeValue == null)
-                return null;
-
-            ReferenceType referenceType = attributeValue.GetReferenceType();
-            if (referenceType == null)
-                return null;
-
-            return referenceType.ReferenceName;
-        }
 
         ///<summary>
         ///
@@ -62,11 +43,7 @@ namespace Arp.NH.Psi.Tree.Impl
         {
             get
             {
-                ReferenceName name = GetNameReferenceName();
-                if (name != null)
-                    return name.Resolved;
-                else
-                    return false;
+                return ClassLikeElementImplUtils.Resolved(this);
             }
         }
 

@@ -64,15 +64,22 @@ namespace Arp.NH.Psi
 
         private void ProcessAttribute(INHElement element, IXmlAttribute attribute, IXmlTagContainer parent)
         {
-            IClassElement classElement = element as IClassElement;
-            if (classElement != null)
+            if (element is IClassElement)
             {
                 if (attribute.XmlName == "name" || attribute.XmlName == "proxy")
                 {
-                    CreateTypeReferenceAttributeValue(classElement, attribute);
+                    CreateTypeReferenceAttributeValue(element, attribute);
                     return;
                 }
-                
+            }
+
+            if(element is ISubclassElement)
+            {
+                if (attribute.XmlName == "name" || attribute.XmlName == "proxy")
+                {
+                    CreateTypeReferenceAttributeValue(element, attribute);
+                    return;
+                }                
             }
 
             IHibernateMappingElement hibernateMappingElement = element as IHibernateMappingElement;
@@ -120,7 +127,7 @@ namespace Arp.NH.Psi
                 
             }
 
-            if (element is IPropertyElement)
+            if (element is IPropertyElement || element is IIdElement)
             {
                 if (attribute.XmlName == "type")
                 {
