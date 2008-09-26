@@ -39,10 +39,15 @@ namespace Arp.NH.Services
                 return ProjectFileType.UNKNOWN;
             }
 
-            if (file.Name.EndsWith(HBM_SUFFIX) || file.Name.EndsWith(".hbmxml"))
+            if (IsNHFile(file))
                 return NH;
 
             return null;
+        }
+
+        public static bool IsNHFile(IProjectFile file)
+        {
+            return file.Name.EndsWith(HBM_SUFFIX);
         }
 
         public PsiLanguageType GetPsiLanguageType(IProjectFile file)

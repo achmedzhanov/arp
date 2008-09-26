@@ -19,9 +19,12 @@ namespace Arp.Databases
             return solution.GetComponent<DatabaseManager>();
         }
 
+        private string connectionString = string.Empty;
+
         public string ConnectionString
         {
-            get; set;
+            get { return connectionString; }
+            set { connectionString = value; }
         }
 
         public bool Enabled

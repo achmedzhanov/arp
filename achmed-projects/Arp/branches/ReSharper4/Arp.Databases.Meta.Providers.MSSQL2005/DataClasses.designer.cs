@@ -144,5 +144,69 @@ namespace Arp.Databases.Meta.Providers.MSSQL2005
 			}
 		}
 	}
+
+    [Table(Name = "INFORMATION_SCHEMA.Views")]
+    public partial class Views
+    {
+
+        private string _TableCatalog;
+
+        private string _TableSchema;
+
+        private string _TableName;
+
+
+        public Views()
+        {
+        }
+
+        [Column(Name = "TABLE_CATALOG", Storage = "_TableCatalog", CanBeNull = false)]
+        public string TableCatalog
+        {
+            get
+            {
+                return this._TableCatalog;
+            }
+            set
+            {
+                if ((this._TableCatalog != value))
+                {
+                    this._TableCatalog = value;
+                }
+            }
+        }
+
+        [Column(Name = "Table_Schema", Storage = "_TableSchema", CanBeNull = false)]
+        public string TableSchema
+        {
+            get
+            {
+                return this._TableSchema;
+            }
+            set
+            {
+                if ((this._TableSchema != value))
+                {
+                    this._TableSchema = value;
+                }
+            }
+        }
+
+        [Column(Name = "Table_Name", Storage = "_TableName", CanBeNull = false)]
+        public string TableName
+        {
+            get
+            {
+                return this._TableName;
+            }
+            set
+            {
+                if ((this._TableName != value))
+                {
+                    this._TableName = value;
+                }
+            }
+        }
+    }
 }
 #pragma warning restore 1591

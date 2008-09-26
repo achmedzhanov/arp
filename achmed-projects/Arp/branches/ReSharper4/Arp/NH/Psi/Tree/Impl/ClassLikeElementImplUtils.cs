@@ -1,4 +1,6 @@
+using System;
 using Arp.log4net.Psi.Tree.Impl;
+using Arp.NH.Psi.Tree.Impl;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Xml.Tree;
@@ -9,6 +11,20 @@ namespace Arp.NH.Psi.Tree
 {
     public static class ClassLikeElementImplUtils
     {
+        public static IQualifier GetQualifier(INHElement @this, QualifierType qualifierType)
+        {
+            if (qualifierType == QualifierType.Type)
+                return (IQualifier)@this;
+            
+            if(qualifierType == QualifierType.Table)
+            {
+                var table = GetNameReferenceTable(@this);
+                return table;
+            }
+
+            throw new NotImplementedException();
+        }
+
         public static ISymbolTable GetSymbolTable(INHElement @this, params string[] referenceNames)
         {
             ReferenceName name = GetNameReferenceName(@this);
@@ -50,6 +66,22 @@ namespace Arp.NH.Psi.Tree
                 return null;
 
             return referenceType.ReferenceName;
+        }
+
+        private static ReferenceTable GetNameReferenceTable(INHElement @this)
+        {
+            var tag = @this as IXmlTag;
+            var xmlAttribute = tag.GetAttribute(attribute => attribute.AttributeName == "table");
+
+            if (xmlAttribute == null)
+                return null;
+
+            ReferenceTableAttributeValue attributeValue = (ReferenceTableAttributeValue)xmlAttribute.Value;
+            if (attributeValue == null)
+                return null;
+
+            ReferenceTable referenceType = attributeValue.GetReferenceTable();
+            return referenceType;
         }
     }
 }

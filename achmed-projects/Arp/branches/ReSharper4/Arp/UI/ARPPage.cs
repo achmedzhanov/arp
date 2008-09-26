@@ -15,7 +15,7 @@ using JetBrains.UI.Options.Helpers;
 namespace Arp.UI
 {
 
-    [OptionsPage("ARP", "ARP", "optionsPage", ParentId = "Tools", Sequence = 1.0)]
+    [OptionsPage("ARP", "ARP", null, ParentId = "Tools", Sequence = 1.0)]
     class ARPPage : AStackPanelOptionsPage
     {
 // Fields

@@ -14,8 +14,13 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 
 namespace Arp.NH.Psi.Tree.Impl
 {
-    public partial class SubclassElementImpl : XmlTag, ISubclassElement, IQualifier
+    public partial class SubclassElementImpl : XmlTag, ISubclassElement, IQualifier, IQualifierOwner
     {
+        public IQualifier GetQualifier(QualifierType qualifierType)
+        {
+            return ClassLikeElementImplUtils.GetQualifier(this, qualifierType);
+        }
+
         #region IQualifier Members
 
         public ISymbolTable GetSymbolTable(params string[] referenceNames)

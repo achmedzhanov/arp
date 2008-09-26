@@ -12,7 +12,8 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 
 namespace Arp.NH.Psi.Tree.Impl
 {
-    public partial class CompositeIdElementImpl : XmlTag,  ICompositeIdElement
+    public partial class CompositeIdElementImpl : XmlTag, ICompositeIdElement, IQualifierOwner
     {
+
     }
 }

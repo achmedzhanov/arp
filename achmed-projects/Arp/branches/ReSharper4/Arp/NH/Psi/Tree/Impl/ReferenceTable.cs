@@ -3,7 +3,7 @@ using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;
 using JetBrains.ReSharper.Psi.Resolve;
 using JetBrains.ReSharper.Psi.Xml.Impl.Tree;
 
-namespace Arp.NH.Psi.Tree
+namespace Arp.NH.Psi.Tree.Impl
 {
     public class ReferenceTable : XmlCompositeElement, IQualifier
     {
@@ -17,7 +17,12 @@ namespace Arp.NH.Psi.Tree
 
         public ISymbolTable GetSymbolTable(params string[] referenceNames)
         {
-            throw new System.NotImplementedException();
+            // TODO get columns set here
+            
+            IReference[] references = this.GetReferences();
+            if (references.Length > 0)
+                return ResolveUtil.GetSymbolTableByReference((IQualifiableReference)references[0], true);
+            return EmptySymbolTable.INSTANCE;
         }
 
         public QualifierKind GetKind()

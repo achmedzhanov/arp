@@ -73,6 +73,29 @@ namespace Arp.NH.Psi
                 }
             }
 
+            if (element is IComponentElement
+                || element is ICompositeElementElement 
+                || element is ICompositeIdElement 
+                || element is ICompositeIndexElement 
+                || element is IIndexManyToManyElement 
+                || element is IKeyManyToOneElement 
+                || element is IManyToManyElement 
+                || element is IManyToOneElement 
+                || element is IMetaValueElement 
+                || element is INestedCompositeElementElement 
+                || element is IOneToManyElement 
+                || element is IOneToOneElement 
+                || element is IReturnElement)
+            {
+                if (attribute.XmlName == "class")
+                {
+                    CreateTypeReferenceAttributeValue(element, attribute);
+                    return;
+                }
+            }
+
+
+
             if(element is ISubclassElement)
             {
                 if (attribute.XmlName == "name" || attribute.XmlName == "proxy")
@@ -117,7 +140,8 @@ namespace Arp.NH.Psi
                  || element is IReturnPropertyElement
                  || element is ISetElement
                  || element is ITimestampElement
-                 || element is IVersionElement)
+                 || element is IVersionElement
+                || element is ICompositeIdElement)
             {
                 if (attribute.XmlName == "name")
                 {
@@ -127,7 +151,17 @@ namespace Arp.NH.Psi
                 
             }
 
-            if (element is IPropertyElement || element is IIdElement)
+            if (element is IPropertyElement 
+                || element is IIdElement 
+                || element is IKeyPropertyElement  
+                || element is  IElementElement  
+                || element is  IDiscriminatorElement  
+                || element is  ICollectionIdElement
+                || element is  IVersionElement
+                || element is IReturnScalarElement 
+                || element is IIndexElement 
+                || element is IFilterParamElement
+            )
             {
                 if (attribute.XmlName == "type")
                 {
@@ -235,8 +269,13 @@ namespace Arp.NH.Psi
             ITreeNode node = (ITreeNode)parent;
             while(node != null)
             {
-                if (node is IQualifier)
-                    return (IQualifier)node;
+                if (node is IQualifierOwner)
+                {
+                    var qualifierOwner = (IQualifierOwner)node;
+                    var qualifier = qualifierOwner.GetQualifier(QualifierType.Type);
+                    if (qualifier != null)
+                        return qualifier;
+                }
                 node = node.Parent;
             }
 

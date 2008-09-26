@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Arp.Common.Assertions;
 using Arp.Databases;
 using Arp.Databases.Meta;
+using Arp.NH.Psi.Tree.Impl;
 using JetBrains.DocumentModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Resolve;

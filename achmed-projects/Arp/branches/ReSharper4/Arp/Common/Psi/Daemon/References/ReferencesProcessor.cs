@@ -35,12 +35,20 @@ namespace Arp.Common.Psi.Daemon.References
 
         #endregion
 
+        protected virtual bool CheckElement(IElement element)
+        {
+            return true;
+        }
+
         protected void ProcessReferences(IElement element)
         {
+            if(!CheckElement(element))
+                return;
+            
             IReference[] references = element.GetReferences();
             foreach (IReference reference in references)
             {
-                CheckForResolveProblems(reference);
+                CheckForResolveProblems(reference, element);
 
                 if (!reference.IsValid())
                 {
@@ -78,8 +86,11 @@ namespace Arp.Common.Psi.Daemon.References
             }
         }
 
-        protected virtual void CheckForResolveProblems(IReference reference)
+        protected virtual void CheckForResolveProblems(IReference reference, IElement element)
         {
+            if (!CheckResolve(reference, element))
+                return;
+            
             IQualifiableReference qualifiableReference = reference as IQualifiableReference;
             if (((qualifiableReference == null) || !qualifiableReference.IsQualified) || qualifiableReference.GetQualifier().Resolved)
             {
@@ -90,6 +101,11 @@ namespace Arp.Common.Psi.Daemon.References
                     highlightings.Add(new HighlightingInfo(notResolvedError.Range, notResolvedError));
                 }
             }
+        }
+
+        protected virtual bool CheckResolve(IReference reference, IElement element)
+        {
+            return true;
         }
 
         private void Highlight(DocumentRange range, IDeclaredElement declaredElement)

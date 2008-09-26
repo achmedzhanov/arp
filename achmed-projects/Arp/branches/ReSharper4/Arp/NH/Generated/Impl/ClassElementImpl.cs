@@ -18,8 +18,13 @@ using ReferenceType=Arp.log4net.Psi.Tree.Impl.ReferenceType;
 
 namespace Arp.NH.Psi.Tree.Impl
 {
-    public partial class ClassElementImpl : XmlTag,  IClassElement, IQualifier
+    public partial class ClassElementImpl : XmlTag, IClassElement, IQualifier, IQualifierOwner
     {
+        public IQualifier GetQualifier(QualifierType qualifierType)
+        {
+            return ClassLikeElementImplUtils.GetQualifier(this, qualifierType);
+        }
+
         #region IQualifier Members
 
         public ISymbolTable GetSymbolTable(params string[] referenceNames)

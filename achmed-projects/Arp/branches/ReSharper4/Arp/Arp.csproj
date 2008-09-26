@@ -191,7 +191,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="log4net\Services\L4NReferencesProcessor.cs" />
     <Compile Include="NH\Psi\Tree\Impl\ClassLikeElementImplUtils.cs" />
+    <Compile Include="NH\Psi\Tree\Impl\CompositeElementLikeImplUtils.cs" />
+    <Compile Include="NH\Psi\Tree\IQualifierOwner.cs" />
+    <Compile Include="NH\Services\ReferencesDaemonStage.cs" />
+    <Compile Include="NH\Services\References\NHReferencesProcessor.cs" />
     <Compile Include="UI\ARPPage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -294,7 +299,6 @@
     <Compile Include="log4net\Services\CodeCompletion\Rules\TypeNameRuleBase.cs" />
     <Compile Include="log4net\Services\CodeCompletion\StaticParameterLookupItem.cs" />
     <Compile Include="log4net\Services\CSharp\ContextActions\CheckLogLevel.cs" />
-    <Compile Include="log4net\Services\CSharp\TestCodeCompletionListTransformationRule.cs" />
     <Compile Include="log4net\Services\InvalidValue.cs" />
     <Compile Include="log4net\Services\L4NCodeInsightService.cs" />
     <Compile Include="log4net\Services\MissedParameterError.cs" />
